@@ -1,0 +1,27 @@
+{
+  "name": "eyeze-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "start": "node index.js",
+    "seed": "node scripts/seed-supabase.js",
+    "create-optometrist": "node scripts/create-optometrist.js",
+    "pregenerate-tts": "node scripts/pregenerate-tts.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1168.0",
+    "@aws-sdk/s3-presigned-post": "^3.1168.0",
+    "@aws-sdk/s3-request-presigner": "^3.1168.0",
+    "@supabase/supabase-js": "^2.119.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^4.22.3",
+    "express-rate-limit": "^8.7.4",
+    "helmet": "^8.3.0",
+    "multer": "^2.5.0"
+  }
+}

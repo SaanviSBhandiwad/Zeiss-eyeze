@@ -1,0 +1,47 @@
+# Render Blueprint. Push this folder as its own Git repo, then in Render: New > Blueprint.
+# The API needs the whole repo (it imports client/src/shared), so it builds from the repo root.
+services:
+  - type: web
+    name: eyeze-api
+    runtime: node
+    region: singapore          # closest Render region to India
+    plan: free
+    buildCommand: cd server && npm ci
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: CLIENT_ORIGIN       # e.g. https://eyeze.onrender.com
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: AWS_REGION
+        value: ap-south-1
+      - key: S3_BUCKET
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: DEMO_SECRET
+        generateValue: true
+
+  - type: web
+    name: eyeze
+    runtime: static
+    buildCommand: cd client && npm ci && npm run build
+    staticPublishPath: client/dist
+    envVars:
+      - key: VITE_API_URL       # e.g. https://eyeze-api.onrender.com
+        sync: false
+    routes:
+      - type: rewrite            # React Router: /optometrist etc. serve index.html
+        source: /*
+        destination: /index.html

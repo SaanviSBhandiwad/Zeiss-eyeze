@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eyeze — eye care from home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Baloo+Tamma+2:wght@500;600;700&family=Mukta:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#f2f6f4;--surface:#ffffff;--surface-2:#edf2ef;--ink:#13233a;--ink-2:#566373;--ink-3:#8b96a3;--line:#dce4df;
+ --teal:#0f766e;--teal-h:#0b5e57;--teal-soft:#d6f1ec;
+ --indigo:#4f46e5;--indigo-soft:#e4e3fc;
+ --coral:#e2553f;--coral-soft:#fde3dc;
+ --gold:#f59e0b;--gold-ink:#8a5300;--gold-soft:#fdf0d3;
+ --sky:#0284c7;--sky-soft:#dcedfa;
+ --leaf:#15803d;--leaf-soft:#daf3e1;
+ --red:#c2341f;--red-soft:#fde2dc;
+ --on:#ffffff;
+ --shadow:0 1px 2px rgba(19,35,58,.05),0 10px 30px -14px rgba(19,35,58,.18);
+ --fd:'Baloo 2','Baloo Tamma 2',system-ui,-apple-system,'Segoe UI',sans-serif;
+ --fb:'Mukta','Noto Sans Kannada','Baloo Tamma 2',system-ui,-apple-system,'Segoe UI',sans-serif;
+ color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#0d1714;--surface:#14211d;--surface-2:#1b2b26;--ink:#e8f0ec;--ink-2:#a5b3ad;--ink-3:#77867f;--line:#273a33;
+ --teal:#2dd4bf;--teal-h:#5eead4;--teal-soft:#123a34;--indigo:#a5b4fc;--indigo-soft:#232657;--coral:#fb8a74;--coral-soft:#3d1d17;
+ --gold:#fbbf24;--gold-ink:#fde68a;--gold-soft:#3a2c0b;--sky:#7dd3fc;--sky-soft:#10314a;--leaf:#4ade80;--leaf-soft:#133520;--red:#ff8a73;--red-soft:#401a13;
+ --on:#0d1714;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0d1714;--surface:#14211d;--surface-2:#1b2b26;--ink:#e8f0ec;--ink-2:#a5b3ad;--ink-3:#77867f;--line:#273a33;
+ --teal:#2dd4bf;--teal-h:#5eead4;--teal-soft:#123a34;--indigo:#a5b4fc;--indigo-soft:#232657;--coral:#fb8a74;--coral-soft:#3d1d17;
+ --gold:#fbbf24;--gold-ink:#fde68a;--gold-soft:#3a2c0b;--sky:#7dd3fc;--sky-soft:#10314a;--leaf:#4ade80;--leaf-soft:#133520;--red:#ff8a73;--red-soft:#401a13;
+ --on:#0d1714;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.7);color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+#app{height:100%;display:flex;flex-direction:column}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+h1,h2,h3{margin:0;font-family:var(--fd);line-height:1.15;font-weight:700}
+p{margin:0}
+svg{flex:none}
+.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.i.s{width:18px;height:18px}
+.i.l{width:34px;height:34px;stroke-width:1.6}
+.i.xl{width:44px;height:44px;stroke-width:1.5}
+.muted{color:var(--ink-2)}
+.small{font-size:15px}.xs{font-size:13px}
+.row{display:flex;gap:12px;align-items:center}
+.wr{flex-wrap:wrap}
+
+/* header */
+.hdr{flex:none;background:var(--surface);border-bottom:1px solid var(--line)}
+.hdr-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:10px 20px;min-height:64px}
+.logo{display:flex;align-items:center;gap:10px;border:0;background:none;padding:0;font-family:var(--fd);font-weight:800;font-size:22px;color:var(--teal)}
+.hdr-r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.lchips{display:flex;background:var(--surface-2);border-radius:999px;padding:3px}
+.lchips button{border:0;background:none;border-radius:999px;padding:4px 12px;font-weight:600;font-size:15px;color:var(--ink-2)}
+.lchips button[aria-pressed="true"]{background:var(--surface);color:var(--teal);box-shadow:var(--shadow)}
+.ib{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:0;position:relative;color:var(--ink)}
+.dot{position:absolute;top:7px;right:7px;width:10px;height:10px;border-radius:50%;background:var(--coral);border:2px solid var(--surface)}
+.offpill{display:inline-flex;align-items:center;gap:6px;background:var(--coral-soft);color:var(--coral);font-weight:700;font-size:14px;padding:4px 12px;border-radius:999px}
+
+.main{flex:1;min-height:0;overflow:auto}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 120px}
+.wrap.n{max-width:760px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 24px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-weight:700;font-size:17px;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ink-3)}
+.btn.p{background:var(--teal);border-color:var(--teal);color:var(--on)}
+.btn.p:hover{background:var(--teal-h);border-color:var(--teal-h)}
+.btn.g{background:var(--gold);border-color:var(--gold);color:#3a2400}
+.btn.d{background:var(--red);border-color:var(--red);color:#fff}
+.btn.o{border-color:var(--teal);color:var(--teal)}
+.btn.sm{min-height:40px;padding:0 16px;font-size:15px;border-radius:12px}
+.btn.big{min-height:64px;font-size:20px;padding:0 34px;border-radius:20px}
+.btn.w{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.lnk{border:0;background:none;color:var(--teal);font-weight:700;padding:0;display:inline-flex;gap:6px;align-items:center}
+
+/* mascot */
+.mascot{width:var(--s,56px);height:var(--s,56px);flex:none;position:relative;display:grid;place-items:center}
+.mascot svg{width:100%;height:100%}
+.mascot .pup{transition:transform .25s}
+.mascot.speaking .pup{animation:look 2.2s ease-in-out infinite}
+.mascot.speaking::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:3px solid var(--gold);animation:pulse 1.3s ease-out infinite}
+@keyframes pulse{from{transform:scale(.92);opacity:1}to{transform:scale(1.3);opacity:0}}
+@keyframes look{0%,100%{transform:translateX(0)}35%{transform:translateX(-3px)}70%{transform:translateX(3px)}}
+
+/* home */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:24px 0 10px}
+.hero h1{font-size:clamp(38px,5vw,60px);color:var(--ink);letter-spacing:-.01em;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p{font-size:20px;color:var(--ink-2);margin-top:12px}
+.hero .row{margin-top:26px}
+.heroart{width:100%;max-width:420px;justify-self:center}
+.bigcards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.bc{border:0;border-radius:26px;padding:22px;text-align:left;display:flex;flex-direction:column;gap:12px;min-height:200px;color:var(--ink);position:relative;overflow:hidden}
+.bc .ico{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;background:var(--surface)}
+.bc b{font-family:var(--fd);font-size:24px;line-height:1.15}
+.bc span{font-size:15px;color:var(--ink-2);margin-top:auto;display:flex;gap:6px;align-items:center}
+.bc.t1{background:var(--teal);color:var(--on)}.bc.t1 span{color:var(--on);opacity:.85}.bc.t1 .ico{color:var(--teal)}
+.bc.t2{background:var(--indigo-soft)}.bc.t2 .ico{color:var(--indigo)}
+.bc.t3{background:var(--gold-soft)}.bc.t3 .ico{color:var(--gold-ink)}
+.bc::after{content:"";position:absolute;right:-30px;bottom:-30px;width:120px;height:120px;border-radius:50%;background:currentColor;opacity:.06}
+.how{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:34px}
+.how div{background:var(--surface);border-radius:20px;padding:16px;text-align:center;border:1px solid var(--line)}
+.how .ico{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;margin:0 auto 8px}
+.how b{display:block;font-family:var(--fd);font-size:17px;line-height:1.2}
+.how span{font-size:13px;color:var(--ink-2)}
+.c-teal{background:var(--teal-soft);color:var(--teal)}.c-indigo{background:var(--indigo-soft);color:var(--indigo)}.c-gold{background:var(--gold-soft);color:var(--gold-ink)}.c-coral{background:var(--coral-soft);color:var(--coral)}.c-sky{background:var(--sky-soft);color:var(--sky)}.c-leaf{background:var(--leaf-soft);color:var(--leaf)}
+.foot{text-align:center;font-size:13px;color:var(--ink-3);margin-top:40px}
+.foot button{border:0;background:none;color:var(--ink-3);text-decoration:underline;font-size:13px;padding:0}
+
+/* cards */
+.card{background:var(--surface);border-radius:26px;padding:26px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.h2{font-size:28px;margin-bottom:6px}
+.center{text-align:center}
+
+/* interview */
+.path{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+.path span{display:inline-flex;align-items:center;gap:7px;padding:6px 14px 6px 8px;border-radius:999px;font-weight:600;font-size:15px;background:var(--surface);color:var(--ink-3);border:1px solid var(--line)}
+.path span i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2)}
+.path span.on{border-color:transparent}
+.path span.done{color:var(--leaf)}
+.path span.done i{background:var(--leaf-soft)}
+.prog{height:8px;border-radius:99px;background:var(--surface);overflow:hidden;margin:0 auto 22px;max-width:520px;border:1px solid var(--line)}
+.prog i{display:block;height:100%;border-radius:99px;transition:width .45s ease}
+.talk{display:flex;gap:14px;align-items:flex-start;margin-bottom:22px}
+.bubble{background:var(--surface);border-radius:6px 26px 26px 26px;padding:16px 20px;box-shadow:var(--shadow);border:1px solid var(--line);flex:1;position:relative}
+.bubble .lead{font-size:15px;color:var(--ink-2);display:flex;gap:6px;align-items:center;margin-bottom:2px}
+.bubble h2{font-size:clamp(24px,3vw,32px);font-weight:700}
+.bubble .spk{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:12px;border:0;background:var(--surface-2);display:grid;place-items:center;color:var(--teal)}
+.bubble .ack{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--leaf);font-size:15px;animation:pop .35s ease-out}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tiles.c2{grid-template-columns:repeat(2,1fr)}
+.tile{border:2px solid var(--line);background:var(--surface);border-radius:22px;padding:16px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-weight:600;font-size:17px;line-height:1.2;position:relative;transition:transform .12s,border-color .15s,background .15s;min-height:138px;justify-content:center}
+.tile:hover{transform:translateY(-2px);border-color:var(--ink-3)}
+.tile .blob{width:72px;height:72px;border-radius:24px;display:grid;place-items:center}
+.tile .blob .i{width:38px;height:38px;stroke-width:1.6}
+.tile[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-soft);transform:scale(1.02)}
+.tile .tick{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:var(--teal);color:var(--on);display:none;place-items:center}
+.tile[aria-pressed="true"] .tick{display:grid;animation:pop .25s ease-out}
+.tile .tick .i{width:16px;height:16px;stroke-width:3}
+.qfoot{display:flex;align-items:center;gap:14px;margin-top:22px;justify-content:space-between}
+.mic{width:72px;height:72px;border-radius:50%;border:0;background:var(--gold);color:#3a2400;display:grid;place-items:center;flex:none;position:relative;box-shadow:0 8px 20px -8px rgba(245,158,11,.7)}
+.mic .i{width:32px;height:32px}
+.mic.on{background:var(--coral);color:#fff}
+.mic.on::before,.mic.on::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--coral);animation:pulse 1.2s ease-out infinite}
+.mic.on::after{animation-delay:.6s}
+.micwrap{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:13px;color:var(--ink-2);font-weight:600}
+.heard{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:14px;font-size:16px}
+.heard span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.wave{display:inline-flex;gap:4px;align-items:center;height:26px}
+.wave i{width:5px;border-radius:3px;background:var(--coral);animation:wave 1s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.12s}.wave i:nth-child(3){animation-delay:.24s}.wave i:nth-child(4){animation-delay:.36s}.wave i:nth-child(5){animation-delay:.48s}
+@keyframes wave{0%,100%{height:6px}50%{height:24px}}
+/* slider activity */
+.dial2{background:var(--surface);border-radius:26px;padding:24px;border:1px solid var(--line);text-align:center}
+.bignum{font-family:var(--fd);font-size:84px;font-weight:800;line-height:1;color:var(--teal)}
+.bignum small{font-size:24px;font-weight:600;color:var(--ink-2);margin-left:6px}
+.suns{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;margin:18px auto 6px;max-width:520px}
+.suns i{height:34px;border-radius:9px;background:var(--surface-2);display:grid;place-items:center;transition:background .2s}
+.suns i.on{background:var(--gold)}
+.suns i.on.ph{background:var(--sky)}
+.suns i svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.dlbl{display:flex;justify-content:space-between;max-width:520px;margin:0 auto;font-size:13px;color:var(--ink-3)}
+input[type=range]{width:100%;max-width:520px;accent-color:var(--teal);height:34px}
+.stepper{display:flex;align-items:center;justify-content:center;gap:22px;margin:6px 0}
+.stepper button{width:64px;height:64px;border-radius:50%;border:2px solid var(--line);background:var(--surface);font-size:30px;font-weight:700;color:var(--teal);display:grid;place-items:center}
+.chipsrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.chipsrow button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 16px;font-weight:600}
+/* scene activity */
+.scene{display:grid;grid-template-columns:70px repeat(3,1fr);gap:10px;align-items:stretch}
+.scene .me{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--ink-2);font-size:13px;font-weight:600}
+.zcol{border-radius:22px;padding:12px 10px;display:flex;flex-direction:column;gap:10px}
+.zcol h3{font-size:17px;text-align:center}
+.zcol .dst{font-size:12px;text-align:center;color:var(--ink-2);margin-top:-8px}
+.zcol.near{background:var(--indigo-soft)}.zcol.mid{background:var(--teal-soft)}.zcol.far{background:var(--gold-soft)}
+.sitem{border:2px solid transparent;background:var(--surface);border-radius:18px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:600;font-size:15px;position:relative}
+.sitem .i{width:40px;height:40px;stroke-width:1.5;transition:filter .3s}
+.sitem[aria-pressed="true"]{border-color:var(--coral)}
+.sitem[aria-pressed="true"] .i{filter:blur(2.2px)}
+.sitem .bl{position:absolute;top:-8px;right:-4px;background:var(--coral);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px;display:none}
+.sitem[aria-pressed="true"] .bl{display:block}
+
+/* tests */
+.tsteps{display:flex;gap:6px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+.tsteps span{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--ink-3)}
+.tsteps span.cur{background:var(--teal);color:var(--on);border-color:var(--teal)}
+.tsteps span.done{background:var(--leaf-soft);color:var(--leaf);border-color:transparent}
+.tsteps .i{width:20px;height:20px}
+.tgrid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:24px;align-items:start}
+.tinfo h2{font-size:30px;margin:10px 0 6px}
+.instr{display:flex;gap:12px;align-items:center;margin-top:14px;padding:14px 16px;border-radius:18px;background:var(--gold-soft);font-weight:600;font-size:18px;line-height:1.3}
+.instr .i{color:var(--gold-ink);width:30px;height:30px}
+.ok{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--leaf);background:var(--leaf-soft);padding:4px 12px;border-radius:999px;margin-top:12px}
+.tcard{background:#ffffff;color:#000;border-radius:20px;border:1px solid #e3e8e5;min-height:260px;display:grid;place-items:center;position:relative;padding:18px;overflow:hidden}
+.tcard .lv{position:absolute;top:10px;right:14px;font-size:13px;font-weight:700;color:#6b7680}
+.tq{text-align:center;font-weight:700;font-size:19px;margin:16px 0 4px;font-family:var(--fd)}
+.pad{display:grid;grid-template-columns:repeat(3,70px);grid-template-rows:repeat(3,62px);gap:8px;justify-content:center;margin-top:10px}
+.pad button{border:2px solid var(--line);background:var(--surface);border-radius:18px;display:grid;place-items:center;color:var(--ink)}
+.pad button:hover{border-color:var(--teal);color:var(--teal)}
+.pad .mic{width:62px;height:62px;justify-self:center;border:0;color:#3a2400}
+.pad .c{visibility:hidden}
+.readtxt{font-family:Georgia,'Noto Serif','Noto Sans Kannada',serif;color:#000;text-align:center;line-height:1.35}
+.gauge{text-align:center}.gauge .k{font-size:13px;color:#6b7680}
+.gauge b{display:block;font-family:var(--fd);font-size:60px;font-weight:800;color:#0f766e;line-height:1.1}
+.gauge .trk{width:240px;height:8px;border-radius:4px;background:#e7ece9;margin:10px auto;position:relative;overflow:hidden}
+.gauge .trk i{position:absolute;left:0;top:0;bottom:0;background:#0f766e}
+.plate{width:240px;height:240px;border-radius:50%;display:block}
+.cnums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.cnums button{height:64px;border:2px solid var(--line);border-radius:18px;background:var(--surface);font-family:var(--fd);font-size:30px;font-weight:700}
+.amsler{width:100%;max-width:300px;aspect-ratio:1;display:grid;grid-template-columns:repeat(14,1fr);border:2px solid #000;position:relative;background:#fff}
+.amsler button{border:0;border-right:1px solid #000;border-bottom:1px solid #000;background:#fff;padding:0;min-width:0}
+.amsler button[aria-pressed="true"]{background:#fcd34d}
+.amsler::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#000;pointer-events:none}
+.dial g{cursor:pointer}.dial line.v{stroke:#000}.dial g:hover line.v{stroke:#0f766e}
+.dial text{font:700 13px Mukta,system-ui,sans-serif;fill:#3a4252}
+.cam{position:relative;width:100%;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#0a1712}
+.cam video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none}
+.cam.live video{display:block}.cam.live .mesh rect{display:none}.cam.live .mesh{opacity:.6}
+.mesh{position:absolute;inset:0;width:100%;height:100%}
+.cam .tg{position:absolute;top:10px;left:10px;font-size:12px;font-weight:700;color:#fff;background:rgba(5,15,12,.7);padding:3px 10px;border-radius:999px;display:flex;gap:6px;align-items:center}
+.cam .tg::before{content:"";width:7px;height:7px;border-radius:50%;background:#4ade80}
+.cam .ov{position:absolute;left:10px;right:10px;bottom:10px;display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.cam .ov span{background:rgba(5,15,12,.75);color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:10px}
+.scan{position:absolute;left:0;right:0;height:3px;background:#fbbf24;box-shadow:0 0 14px #fbbf24;animation:scan 1.6s linear infinite}
+@keyframes scan{from{top:6%}to{top:94%}}
+.cardbox{height:150px;border-radius:12px;border:2.5px dashed #0f766e;background:linear-gradient(135deg,#e3f6f2,#c8ebe4);position:relative;margin:0 auto}
+.cardbox::before{content:"";position:absolute;left:16px;top:44px;width:40px;height:30px;border-radius:5px;background:#e3bf5a}
+.cardbox::after{content:"85.6 mm";position:absolute;right:12px;bottom:8px;font-size:12px;font-weight:700;color:#0f766e}
+.tlist{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tlist button{width:100%;border:2px solid var(--line);background:var(--surface);border-radius:20px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:600;font-size:15px;position:relative}
+.tlist button.done{border-color:var(--leaf);background:var(--leaf-soft)}
+.tlist .blob{width:52px;height:52px;border-radius:18px;display:grid;place-items:center}
+
+/* report */
+.rep-h{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.rep-h h1{font-size:34px}
+.rep-h .meta{color:var(--ink-2);font-size:15px;margin-top:4px}
+.tri{display:inline-flex;align-items:center;gap:7px;padding:4px 12px;border-radius:999px;font-weight:700;font-size:14px;white-space:nowrap}
+.tri::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.tri.green{background:var(--leaf-soft);color:var(--leaf)}.tri.amber{background:var(--gold-soft);color:var(--gold-ink)}.tri.red{background:var(--red-soft);color:var(--red)}
+.signal{display:flex;gap:20px;align-items:center;border-radius:26px;padding:22px}
+.signal.green{background:var(--leaf-soft)}.signal.amber{background:var(--gold-soft)}.signal.red{background:var(--red-soft)}
+.lights{display:flex;flex-direction:column;gap:7px;background:#14211d;border-radius:20px;padding:10px;flex:none}
+.lights i{width:30px;height:30px;border-radius:50%;background:#2c3a35}
+.lights i.r.on{background:#ff6b57;box-shadow:0 0 16px #ff6b57}.lights i.a.on{background:#fbbf24;box-shadow:0 0 16px #fbbf24}.lights i.g.on{background:#4ade80;box-shadow:0 0 16px #4ade80}
+.signal b{font-family:var(--fd);font-size:30px;display:block;line-height:1.1}
+.signal p{font-size:17px;margin-top:4px}
+.rgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;margin-top:20px;align-items:start}
+.sec{margin-bottom:20px}
+.sec>h2{font-size:22px;margin-bottom:12px}
+.use{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.use div{border-radius:22px;padding:16px 10px;text-align:center;position:relative}
+.use .pc{font-family:var(--fd);font-size:34px;font-weight:800;line-height:1}
+.use b{display:block;font-size:16px}
+.use span{font-size:13px;color:var(--ink-2)}
+.use .icw{display:grid;place-items:center;margin:0 auto 8px}
+.use div.dom{outline:3px solid currentColor;outline-offset:-3px}
+.use .star{position:absolute;top:8px;right:8px}
+.rtiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rt{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:12px;text-align:center;position:relative}
+.rt .i{width:30px;height:30px;color:var(--ink-2)}
+.rt b{display:block;font-family:var(--fd);font-size:18px;line-height:1.2;margin-top:4px}
+.rt span{font-size:13px;color:var(--ink-2);line-height:1.2;display:block}
+.rt::after{content:"";position:absolute;top:10px;right:10px;width:12px;height:12px;border-radius:50%;background:var(--line)}
+.rt.good::after{background:var(--leaf)}.rt.warn::after{background:var(--gold)}
+.rt.warn{background:var(--gold-soft);border-color:transparent}
+.tipg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tip{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:12px 14px;font-size:15px;line-height:1.35}
+.tip .blob{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;flex:none}
+.lensc{display:flex;gap:16px;align-items:center;background:var(--indigo-soft);border-radius:22px;padding:18px}
+.lensc .blob{width:64px;height:64px;border-radius:20px;background:var(--surface);display:grid;place-items:center;color:var(--indigo);flex:none}
+.lensc b{font-family:var(--fd);font-size:21px;display:block;line-height:1.2}
+.lensc p{font-size:15px;color:var(--ink-2)}
+.feat{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.feat span{background:var(--surface);border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600}
+.sendc{background:var(--teal);color:var(--on);border-radius:26px;padding:24px;position:sticky;top:16px}
+.sendc h2{font-size:24px}
+.sendc p{opacity:.9;margin-top:6px;font-size:16px}
+.sendc .btn{background:var(--surface);color:var(--teal);border-color:var(--surface);margin-top:18px}
+.tl{list-style:none;margin:14px 0 0;padding:0}
+.tl li{display:flex;gap:12px;padding-bottom:14px;position:relative;font-weight:600}
+.tl li::before{content:"";width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.5);margin-top:4px;flex:none;z-index:1;background:var(--teal)}
+.tl li.done::before{background:#fff;border-color:#fff}
+.tl li.now::before{background:var(--gold);border-color:var(--gold)}
+.tl li:not(:last-child)::after{content:"";position:absolute;left:7px;top:22px;bottom:0;width:2px;background:rgba(255,255,255,.35)}
+.tl li span{display:block;font-weight:400;font-size:13px;opacity:.85}
+.disc{font-size:13px;color:var(--ink-3);margin-top:14px}
+.sendc .disc{color:var(--on);opacity:.75}
+
+/* messages */
+.msgc{background:var(--surface);border-radius:26px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:18px}
+.msgc .mh{display:flex;gap:14px;align-items:center;padding:18px 20px;background:var(--teal-soft)}
+.msgc.vid .mh{background:var(--indigo-soft)}
+.av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--teal);color:var(--on);flex:none;font-family:var(--fd);font-size:18px}
+.msgc .mb{padding:8px 20px 20px}
+.kv{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.kv:last-child{border-bottom:0}
+.kv .blob{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;flex:none}
+.kv .k{font-size:13px;color:var(--ink-2)}
+.kv .v{font-weight:700;font-size:17px;line-height:1.3}
+.sms{max-width:380px;background:var(--surface-2);border-radius:20px 20px 20px 6px;padding:12px 16px;font-size:15px;margin-top:8px}
+
+/* sheet / modal */
+.mbg{position:fixed;inset:0;background:rgba(8,18,15,.55);display:grid;place-items:center;z-index:60;padding:18px}
+.sheet{background:var(--surface);border-radius:28px;max-width:460px;width:100%;padding:28px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);max-height:94vh;overflow:auto}
+.sheet.red{border-top:8px solid var(--red)}
+.sheet .h2{font-size:26px}
+.fld{display:block;margin-bottom:14px;border:0;padding:0}
+.fld>span,.fld legend{display:block;font-weight:600;font-size:15px;margin-bottom:6px;padding:0}
+.fld input,.fld select,.fld textarea{width:100%;min-height:54px;padding:0 16px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface-2);font-size:18px}
+.fld textarea{min-height:90px;padding:12px 16px;font-size:15px}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+.phonef{display:flex;gap:8px}.phonef span{display:grid;place-items:center;padding:0 14px;border-radius:16px;background:var(--surface-2);font-weight:700;border:1.5px solid var(--line)}
+.otp{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.otp input{width:58px;height:66px;text-align:center;font-size:30px;font-family:var(--fd);font-weight:700;border-radius:16px;border:2px solid var(--line);background:var(--surface-2)}
+.hint{background:var(--gold-soft);color:var(--gold-ink);border-radius:12px;padding:8px 12px;font-size:14px;font-weight:600;text-align:center}
+.check{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:var(--surface-2);font-size:15px;margin:6px 0 14px}
+.check input{width:22px;height:22px;accent-color:var(--teal);margin-top:2px}
+.consent{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+.consent div{border-radius:22px;padding:16px 10px;text-align:center;font-weight:600;font-size:15px;line-height:1.25}
+.consent .i{width:36px;height:36px;display:block;margin:0 auto 8px}
+
+/* demo dock */
+.dock{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:80;width:310px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 40px -16px rgba(0,0,0,.35);font-size:14px}
+.dock.min{width:auto}
+.dock .dh{display:flex;align-items:center;gap:8px;padding:10px 14px;border:0;background:none;width:100%;font-weight:700;text-align:left}
+.dock .lv{width:9px;height:9px;border-radius:50%;background:var(--ink-3)}.dock .lv.on{background:var(--leaf);box-shadow:0 0 0 3px var(--leaf-soft)}
+.dock .db{padding:2px 14px 14px;border-top:1px solid var(--line)}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border:0;background:none;width:100%;text-align:left}
+.tog small{display:block;color:var(--ink-3);font-size:12.5px;line-height:1.3}
+.tog i{width:38px;height:22px;border-radius:999px;background:var(--surface-2);position:relative;flex:none;border:1px solid var(--line)}
+.tog i::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--ink-3);transition:transform .2s}
+.tog[aria-pressed="true"] i{background:var(--teal);border-color:var(--teal)}
+.tog[aria-pressed="true"] i::after{transform:translateX(16px);background:#fff}
+.dlog{list-style:none;margin:8px 0 0;padding:8px 0 0;border-top:1px solid var(--line);max-height:190px;overflow:auto}
+.dlog li{font-size:12.5px;line-height:1.35;padding:4px 0 4px 10px;border-left:3px solid var(--line);margin-bottom:3px;color:var(--ink-2)}
+.dlog li.rule{border-color:var(--indigo)}.dlog li.alert{border-color:var(--red)}.dlog li.net{border-color:var(--leaf)}.dlog li.voice{border-color:var(--gold)}
+.dlog time{display:block;font-size:11px;color:var(--ink-3)}
+.dock code{font-size:12px;background:var(--surface-2);padding:2px 6px;border-radius:6px;word-break:break-all}
+#toasts{position:fixed;left:50%;top:78px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:90;align-items:center;pointer-events:none}
+.toast{background:var(--ink);color:var(--surface);padding:12px 20px;border-radius:16px;font-weight:600;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);max-width:min(92vw,560px);text-align:center;animation:pop .25s ease-out}
+
+/* optometrist portal */
+.portal{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100%;container-type:inline-size;background:var(--bg)}
+.pside{background:#0f2e2a;color:#d6ece6;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.pside .brand{display:flex;gap:10px;align-items:center;font-family:var(--fd);font-weight:800;font-size:20px;color:#fff;padding:0 8px 18px}
+.pside .who{display:flex;gap:10px;align-items:center;padding:14px 8px;border-top:1px solid rgba(255,255,255,.1);margin-top:auto}
+.pside .who b{display:block;color:#fff;font-size:14px}
+.pside .who span{font-size:12px;opacity:.7}
+.pside .nv{display:flex;align-items:center;gap:10px;border:0;background:none;padding:11px 12px;border-radius:12px;font-weight:600;color:#bcd9d1;text-align:left}
+.pside .nv[aria-current="true"]{background:rgba(255,255,255,.1);color:#fff}
+.pside .cnt{margin-left:auto;background:var(--gold);color:#3a2400;border-radius:999px;padding:0 8px;font-size:12px;font-weight:700}
+.pmain{padding:26px 30px 90px;min-width:0}
+.pmain h1{font-size:30px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.stat{background:var(--surface);border-radius:20px;padding:16px 18px;border:1px solid var(--line)}
+.stat b{display:block;font-family:var(--fd);font-size:34px;line-height:1.05}
+.stat span{font-size:14px;color:var(--ink-2)}
+.stat.r b{color:var(--red)}.stat.a b{color:var(--gold-ink)}.stat.g b{color:var(--leaf)}
+.fbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tabs{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:3px}
+.tabs button{border:0;background:none;padding:6px 14px;border-radius:11px;font-weight:600;font-size:15px;color:var(--ink-2)}
+.tabs button[aria-pressed="true"]{background:var(--teal);color:var(--on)}
+.search{min-height:42px;border:1px solid var(--line);border-radius:14px;padding:0 14px;background:var(--surface);min-width:220px}
+.tw{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:20px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;font-size:13px;font-weight:600;color:var(--ink-2);padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tr.rw{cursor:pointer}tr.rw:hover td{background:var(--surface-2)}
+tr.rw.live td{background:var(--gold-soft)}
+.nm b{display:block}.nm span{font-size:13px;color:var(--ink-2)}
+.st{font-size:13px;font-weight:700}.st.new{color:var(--indigo)}.st.review{color:var(--gold-ink)}.st.replied{color:var(--leaf)}
+.newtag{font-size:11px;font-weight:800;background:var(--gold);color:#3a2400;border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.pgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:20px;align-items:start}
+@container (max-width:900px){.pgrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.d3{grid-template-columns:1fr!important}}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px 20px;margin-bottom:16px}
+.box h3{font-size:19px;margin-bottom:10px}
+.box.r{border-left:6px solid var(--red)}.box.a{border-left:6px solid var(--gold)}.box.g{border-left:6px solid var(--leaf)}
+.reasons{margin:0;padding-left:18px;font-size:15px}.reasons li{margin:4px 0}
+.hb .r{display:grid;grid-template-columns:110px 1fr 48px;gap:10px;align-items:center;margin:8px 0;font-size:14px}
+.hb .tr{height:12px;border-radius:6px;background:var(--surface-2);overflow:hidden}
+.hb .tr i{display:block;height:100%;background:var(--ink-3);border-radius:6px}
+.hb .r.dom .tr i{background:var(--teal)}
+.hb .r b{text-align:right}
+.chip{display:inline-flex;font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.chip.good{background:var(--leaf-soft);color:var(--leaf)}.chip.warn{background:var(--gold-soft);color:var(--gold-ink)}.chip.na{background:var(--surface-2);color:var(--ink-3)}
+.conf{display:inline-block;width:52px;height:6px;border-radius:3px;background:var(--surface-2);vertical-align:middle;margin-right:6px;overflow:hidden}.conf i{display:block;height:100%;background:var(--leaf)}
+.qa{list-style:none;margin:0;padding:0;max-height:380px;overflow:auto}
+.qa li{padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.qa .q{color:var(--ink-2)}.qa .a{font-weight:700;display:flex;gap:6px;align-items:center}
+.fuq{font-size:11.5px;font-weight:700;color:var(--indigo);margin-left:6px}
+.sugg{background:var(--teal-soft);border-radius:16px;padding:14px 16px;margin-bottom:14px;font-size:14.5px}
+.sugg ul{margin:6px 0 4px;padding-left:18px}
+.cbx{display:flex;gap:10px;align-items:center;padding:4px 0;font-size:15px}.cbx input{width:18px;height:18px;accent-color:var(--teal)}
+.preview{background:var(--surface-2);border-radius:14px;padding:12px 14px;font-size:14.5px;margin:4px 0 14px}
+.preview .k{display:block;font-size:12.5px;font-weight:700;color:var(--ink-2);margin-bottom:4px}
+.stk{position:sticky;top:16px}
+.portal .fld input,.portal .fld select{min-height:46px;font-size:16px;border-radius:12px}
+.portal .btn{min-height:46px;font-size:16px;border-radius:14px}
+.login{min-height:100%;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,#0f2e2a,#0f766e)}
+.login .sheet{max-width:420px}
+.meetbox{background:var(--indigo-soft);border-radius:16px;padding:14px 16px;margin:12px 0;font-size:14.5px}
+.meetbox ol{margin:6px 0 0;padding-left:18px}
+
+@media (max-width:900px){
+ .hero{grid-template-columns:1fr}.heroart{max-width:240px;order:-1}
+ .bigcards{grid-template-columns:1fr}.how{grid-template-columns:repeat(2,1fr)}
+ .tgrid,.rgrid{grid-template-columns:1fr}
+ .rtiles{grid-template-columns:repeat(2,1fr)}
+ .tlist{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+ body{font-size:16px}
+ .hdr-in{padding:8px 12px;gap:8px}.logo span{display:none}
+ .wrap{padding:18px 14px 120px}
+ .tiles{grid-template-columns:repeat(2,1fr)}
+ .tile{min-height:124px;font-size:16px}
+ .scene{grid-template-columns:repeat(3,1fr)}.scene .me{display:none}
+ .tipg,.consent{grid-template-columns:1fr}
+ .portal{grid-template-columns:1fr}.pside{flex-direction:row;overflow-x:auto;padding:8px}.pside .brand,.pside .who{display:none}
+ .pmain{padding:18px 14px 90px}
+ .dock{left:12px;right:12px;width:auto}
+ .bubble .spk{position:static;margin-top:8px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toasts" aria-live="polite"></div>
+<script>
+'use strict';
+const LANGS={en:{label:'English',tts:'en-IN',name:'English'},hi:{label:'हिन्दी',tts:'hi-IN',name:'Hindi'},kn:{label:'ಕನ್ನಡ',tts:'kn-IN',name:'Kannada'}};
+const LI={en:0,hi:1,kn:2};
+const T={
+appName:['Eyeze','आईज़ी','ಐಝಿ'],
+appTag:['Your eyes, checked from home, in your language.','आपकी आँखों की जाँच, घर बैठे, आपकी भाषा में।','ನಿಮ್ಮ ಕಣ್ಣಿನ ತಪಾಸಣೆ, ಮನೆಯಿಂದಲೇ, ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ.'],
+chooseLang:['Choose your language','अपनी भाषा चुनें','ನಿಮ್ಮ ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ'],
+moreLangs:['More languages coming','और भाषाएँ जल्द','ಇನ್ನಷ್ಟು ಭಾಷೆಗಳು ಶೀಘ್ರದಲ್ಲಿ'],
+consentTitle:['Before we begin','शुरू करने से पहले','ಪ್ರಾರಂಭಿಸುವ ಮೊದಲು'],
+consentBody:['I will ask you some questions about your daily life and your eyes, and do a few simple vision checks on this phone. Your answers go only to a qualified optometrist. This is a screening, not a full eye exam.','मैं आपसे आपकी दिनचर्या और आँखों के बारे में कुछ सवाल पूछूँगी, और इस फ़ोन पर कुछ आसान जाँच करूँगी। आपके जवाब सिर्फ़ एक योग्य ऑप्टोमेट्रिस्ट को भेजे जाएँगे। यह शुरुआती जाँच है, आँखों की पूरी जाँच नहीं।','ನಾನು ನಿಮ್ಮ ದಿನಚರಿ ಮತ್ತು ಕಣ್ಣುಗಳ ಬಗ್ಗೆ ಕೆಲವು ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳುತ್ತೇನೆ, ಮತ್ತು ಈ ಫೋನಿನಲ್ಲಿ ಕೆಲವು ಸರಳ ಪರೀಕ್ಷೆಗಳನ್ನು ಮಾಡುತ್ತೇನೆ. ನಿಮ್ಮ ಉತ್ತರಗಳು ಅರ್ಹ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ಗೆ ಮಾತ್ರ ಹೋಗುತ್ತವೆ. ಇದು ಪ್ರಾಥಮಿಕ ತಪಾಸಣೆ, ಪೂರ್ಣ ಕಣ್ಣಿನ ಪರೀಕ್ಷೆಯಲ್ಲ.'],
+assisted:['I am helping someone else (health worker or family)','मैं किसी और की मदद कर रहा/रही हूँ (स्वास्थ्य कार्यकर्ता या परिवार)','ನಾನು ಬೇರೆಯವರಿಗೆ ಸಹಾಯ ಮಾಡುತ್ತಿದ್ದೇನೆ (ಆರೋಗ್ಯ ಕಾರ್ಯಕರ್ತೆ ಅಥವಾ ಕುಟುಂಬ)'],
+agree:['I agree','मैं सहमत हूँ','ನಾನು ಒಪ್ಪುತ್ತೇನೆ'],
+hello:['Namaste','नमस्ते','ನಮಸ್ಕಾರ'],
+homeSub:['What would you like to do today?','आज आप क्या करना चाहेंगे?','ಇಂದು ನೀವು ಏನು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ?'],
+fullCheck:['Full eye check','पूरी आँख जाँच','ಪೂರ್ಣ ಕಣ್ಣಿನ ತಪಾಸಣೆ'],
+fullCheckSub:['Questions and vision tests, about 12 minutes','सवाल और दृष्टि जाँच, लगभग 12 मिनट','ಪ್ರಶ್ನೆಗಳು ಮತ್ತು ದೃಷ್ಟಿ ಪರೀಕ್ಷೆ, ಸುಮಾರು 12 ನಿಮಿಷ'],
+recommended:['Recommended','सुझाया गया','ಶಿಫಾರಸು'],
+profileOnly:['My vision profile','मेरी विज़न प्रोफ़ाइल','ನನ್ನ ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್'],
+profileOnlySub:['Talk with Drishti about your daily life, 5 minutes','दृष्टि से अपनी दिनचर्या के बारे में बात करें, 5 मिनट','ನಿಮ್ಮ ದಿನಚರಿ ಬಗ್ಗೆ ದೃಷ್ಟಿಯೊಂದಿಗೆ ಮಾತನಾಡಿ, 5 ನಿಮಿಷ'],
+precheck:['Vision pre-check','दृष्टि प्री-चेक','ದೃಷ್ಟಿ ಪೂರ್ವ ತಪಾಸಣೆ'],
+precheckSub:['Simple tests on this phone, 7 minutes','इस फ़ोन पर आसान जाँच, 7 मिनट','ಈ ಫೋನಿನಲ್ಲಿ ಸರಳ ಪರೀಕ್ಷೆಗಳು, 7 ನಿಮಿಷ'],
+messages:['Messages from optometrist','ऑप्टोमेट्रिस्ट के संदेश','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಸಂದೇಶಗಳು'],
+myResults:['My results','मेरे नतीजे','ನನ್ನ ಫಲಿತಾಂಶಗಳು'],
+helped:['People I helped','जिनकी मैंने मदद की','ನಾನು ಸಹಾಯ ಮಾಡಿದವರು'],
+aboutYou:['Tell me about you','अपने बारे में बताइए','ನಿಮ್ಮ ಬಗ್ಗೆ ಹೇಳಿ'],
+aboutThem:['Tell me about the person','उस व्यक्ति के बारे में बताइए','ಆ ವ್ಯಕ್ತಿಯ ಬಗ್ಗೆ ಹೇಳಿ'],
+name:['Name','नाम','ಹೆಸರು'],
+age:['Age','उम्र','ವಯಸ್ಸು'],
+gender:['Gender','लिंग','ಲಿಂಗ'],
+male:['Male','पुरुष','ಪುರುಷ'],female:['Female','महिला','ಮಹಿಳೆ'],other:['Other','अन्य','ಇತರ'],
+village:['Village or town','गाँव या कस्बा','ಗ್ರಾಮ ಅಥವಾ ಊರು'],
+phone:['Phone number, for the reply','फ़ोन नंबर, जवाब के लिए','ಫೋನ್ ಸಂಖ್ಯೆ, ಉತ್ತರಕ್ಕಾಗಿ'],
+continue:['Continue','आगे बढ़ें','ಮುಂದುವರಿಸಿ'],
+needDetails:['Please add a name and age to continue.','आगे बढ़ने के लिए नाम और उम्र भरें।','ಮುಂದುವರಿಸಲು ಹೆಸರು ಮತ್ತು ವಯಸ್ಸು ಸೇರಿಸಿ.'],
+intro:['Hello {name}! I’m Drishti. I’ll ask a few questions about how you use your eyes. You can speak or tap.','नमस्ते {name}! मैं दृष्टि हूँ। मैं आपसे कुछ सवाल पूछूँगी कि आप अपनी आँखों का इस्तेमाल कैसे करते हैं। आप बोल सकते हैं या टैप कर सकते हैं।','ನಮಸ್ಕಾರ {name}! ನಾನು ದೃಷ್ಟಿ. ನೀವು ಕಣ್ಣುಗಳನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ ಎಂಬುದರ ಬಗ್ಗೆ ಕೆಲವು ಪ್ರಶ್ನೆ ಕೇಳುತ್ತೇನೆ. ನೀವು ಮಾತನಾಡಬಹುದು ಅಥವಾ ಟ್ಯಾಪ್ ಮಾಡಬಹುದು.'],
+tapOrSpeak:['Tap a picture, or press the mic and speak','तस्वीर पर टैप करें, या माइक दबाकर बोलें','ಚಿತ್ರದ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ, ಅಥವಾ ಮೈಕ್ ಒತ್ತಿ ಮಾತನಾಡಿ'],
+chooseAll:['Choose all that apply','जितने लागू हों, सब चुनें','ಅನ್ವಯಿಸುವ ಎಲ್ಲವನ್ನೂ ಆರಿಸಿ'],
+next:['Next','आगे','ಮುಂದೆ'],
+back:['Back','पीछे','ಹಿಂದೆ'],
+listening:['Listening…','सुन रही हूँ…','ಕೇಳುತ್ತಿದ್ದೇನೆ…'],
+spoken:['Spoken','बोला गया','ಮಾತಿನಲ್ಲಿ'],
+notUnderstood:['I didn’t catch that. Please tap your answer.','मैं समझ नहीं पाई। कृपया जवाब पर टैप करें।','ನನಗೆ ಅರ್ಥವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಉತ್ತರದ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ.'],
+voiceFail:['Voice input isn’t available in this browser. Please tap your answer.','इस ब्राउज़र में आवाज़ से जवाब उपलब्ध नहीं है। कृपया टैप करें।','ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಇನ್‌ಪುಟ್ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಟ್ಯಾಪ್ ಮಾಡಿ.'],
+profileDone:['Thank you! Your vision profile is ready.','धन्यवाद! आपकी विज़न प्रोफ़ाइल तैयार है।','ಧನ್ಯವಾದಗಳು! ನಿಮ್ಮ ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್ ಸಿದ್ಧವಾಗಿದೆ.'],
+urgentTitle:['Please see an eye doctor today','कृपया आज ही आँखों के डॉक्टर को दिखाएँ','ದಯವಿಟ್ಟು ಇಂದೇ ಕಣ್ಣಿನ ವೈದ್ಯರನ್ನು ಭೇಟಿ ಮಾಡಿ'],
+urgentBody:['What you described can be a sign of a serious eye problem. It needs a doctor quickly, not just glasses.','आपने जो बताया वह आँख की गंभीर समस्या का संकेत हो सकता है। इसके लिए जल्दी डॉक्टर को दिखाना ज़रूरी है, सिर्फ़ चश्मा काफ़ी नहीं।','ನೀವು ಹೇಳಿದ್ದು ಗಂಭೀರ ಕಣ್ಣಿನ ಸಮಸ್ಯೆಯ ಲಕ್ಷಣವಾಗಿರಬಹುದು. ಇದಕ್ಕೆ ಬೇಗ ವೈದ್ಯರ ಭೇಟಿ ಅಗತ್ಯ, ಕೇವಲ ಕನ್ನಡಕ ಸಾಕಾಗುವುದಿಲ್ಲ.'],
+nearestHosp:['Nearest eye hospital','सबसे पास का आँखों का अस्पताल','ಹತ್ತಿರದ ಕಣ್ಣಿನ ಆಸ್ಪತ್ರೆ'],
+callHosp:['Call the hospital','अस्पताल को कॉल करें','ಆಸ್ಪತ್ರೆಗೆ ಕರೆ ಮಾಡಿ'],
+continueCheck:['Continue the check','जाँच जारी रखें','ತಪಾಸಣೆ ಮುಂದುವರಿಸಿ'],
+calling:['Calling the hospital (demo)','अस्पताल को कॉल किया जा रहा है (डेमो)','ಆಸ್ಪತ್ರೆಗೆ ಕರೆ ಮಾಡಲಾಗುತ್ತಿದೆ (ಡೆಮೊ)'],
+testsIntro:['Now a few simple vision tests','अब कुछ आसान दृष्टि जाँच','ಈಗ ಕೆಲವು ಸರಳ ದೃಷ್ಟಿ ಪರೀಕ್ಷೆಗಳು'],
+testsSub:['Sit in good light. If you wear glasses for distance, keep them on.','अच्छी रोशनी में बैठें। अगर दूर का चश्मा पहनते हैं, तो पहने रहें।','ಒಳ್ಳೆಯ ಬೆಳಕಿನಲ್ಲಿ ಕುಳಿತುಕೊಳ್ಳಿ. ದೂರದ ಕನ್ನಡಕ ಧರಿಸುತ್ತಿದ್ದರೆ, ಅದನ್ನು ಹಾಕಿಕೊಳ್ಳಿ.'],
+startTests:['Start tests','जाँच शुरू करें','ಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಿ'],
+resumeTests:['Continue tests','जाँच जारी रखें','ಪರೀಕ್ಷೆ ಮುಂದುವರಿಸಿ'],
+t_setup:['Screen and distance setup','स्क्रीन और दूरी सेटअप','ಪರದೆ ಮತ್ತು ದೂರ ಹೊಂದಿಕೆ'],
+t_va:['Distance vision','दूर की नज़र','ದೂರದ ದೃಷ್ಟಿ'],
+t_near:['Near reading','पास से पढ़ना','ಹತ್ತಿರದ ಓದು'],
+t_np:['Focusing range','फ़ोकस करने की क्षमता','ಕೇಂದ್ರೀಕರಣ ಶಕ್ತಿ'],
+t_contrast:['Contrast vision','कंट्रास्ट दृष्टि','ಕಾಂಟ್ರಾಸ್ಟ್ ದೃಷ್ಟಿ'],
+t_color:['Colour vision','रंग पहचान','ಬಣ್ಣ ಗುರುತಿಸುವಿಕೆ'],
+t_amsler:['Centre of vision (Amsler grid)','नज़र का केंद्र (एम्सलर ग्रिड)','ದೃಷ್ಟಿ ಕೇಂದ್ರ (ಆಮ್ಸ್ಲರ್ ಗ್ರಿಡ್)'],
+t_astig:['Astigmatism dial','एस्टिग्मैटिज़्म डायल','ಅಸ್ಟಿಗ್ಮ್ಯಾಟಿಸಮ್ ಡಯಲ್'],
+t_pd:['Pupil distance, for lens fitting','पुतलियों की दूरी, लेंस फ़िटिंग के लिए','ಕಣ್ಣುಗೊಂಬೆಗಳ ಅಂತರ, ಲೆನ್ಸ್ ಹೊಂದಿಕೆಗೆ'],
+testN:['Test {n} of {m}','जाँच {n} / {m}','ಪರೀಕ್ಷೆ {n} / {m}'],
+calibTitle:['Place a bank card or Aadhaar card on the screen','स्क्रीन पर बैंक कार्ड या आधार कार्ड रखें','ಪರದೆಯ ಮೇಲೆ ಬ್ಯಾಂಕ್ ಕಾರ್ಡ್ ಅಥವಾ ಆಧಾರ್ ಕಾರ್ಡ್ ಇಡಿ'],
+calibBody:['Move the slider until the blue box is as wide as your card.','स्लाइडर खिसकाएँ जब तक नीला डिब्बा कार्ड जितना चौड़ा न हो जाए।','ನೀಲಿ ಪೆಟ್ಟಿಗೆ ಕಾರ್ಡ್‌ನಷ್ಟು ಅಗಲವಾಗುವವರೆಗೆ ಸ್ಲೈಡರ್ ಸರಿಸಿ.'],
+distTitle:['Hold the phone one forearm away (about 40 cm)','फ़ोन को कोहनी से हथेली जितनी दूरी (लगभग 40 सेमी) पर रखें','ಫೋನನ್ನು ಮುಂಗೈ ಉದ್ದದಷ್ಟು (ಸುಮಾರು 40 ಸೆಂ.ಮೀ) ದೂರದಲ್ಲಿ ಹಿಡಿಯಿರಿ'],
+distBody:['The front camera measures how far you are using the size of your iris.','आगे का कैमरा आपकी आँख की पुतली के आकार से दूरी नापता है।','ಮುಂಭಾಗದ ಕ್ಯಾಮೆರಾ ನಿಮ್ಮ ಕಣ್ಣಿನ ಐರಿಸ್ ಗಾತ್ರದಿಂದ ದೂರ ಅಳೆಯುತ್ತದೆ.'],
+distOk:['Good distance','सही दूरी','ಸರಿಯಾದ ದೂರ'],
+camDemo:['Camera (demo)','कैमरा (डेमो)','ಕ್ಯಾಮೆರಾ (ಡೆಮೊ)'],
+camLive:['Camera','कैमरा','ಕ್ಯಾಮೆರಾ'],
+lightOk:['Light: good','रोशनी: ठीक','ಬೆಳಕು: ಸರಿಯಾಗಿದೆ'],
+coverLeft:['Cover your LEFT eye with your palm','अपनी बाईं आँख को हथेली से ढकें','ನಿಮ್ಮ ಎಡ ಕಣ್ಣನ್ನು ಅಂಗೈಯಿಂದ ಮುಚ್ಚಿ'],
+coverRight:['Cover your RIGHT eye with your palm','अपनी दाईं आँख को हथेली से ढकें','ನಿಮ್ಮ ಬಲ ಕಣ್ಣನ್ನು ಅಂಗೈಯಿಂದ ಮುಚ್ಚಿ'],
+eyeCheck:['Camera: correct eye covered','कैमरा: सही आँख ढकी है','ಕ್ಯಾಮೆರಾ: ಸರಿಯಾದ ಕಣ್ಣು ಮುಚ್ಚಲಾಗಿದೆ'],
+whereGap:['Where is the gap in the ring?','छल्ले में खुली जगह किस तरफ़ है?','ಉಂಗುರದಲ್ಲಿ ತೆರೆದ ಭಾಗ ಯಾವ ಕಡೆ ಇದೆ?'],
+up:['Up','ऊपर','ಮೇಲೆ'],down:['Down','नीचे','ಕೆಳಗೆ'],left:['Left','बाएँ','ಎಡ'],right:['Right','दाएँ','ಬಲ'],
+cantSee:['I can’t see it','मुझे नहीं दिख रहा','ನನಗೆ ಕಾಣುತ್ತಿಲ್ಲ'],
+rightEye:['Right eye','दाईं आँख','ಬಲ ಕಣ್ಣು'],leftEye:['Left eye','बाईं आँख','ಎಡ ಕಣ್ಣು'],
+sizeN:['Size {n} of {m}','आकार {n} / {m}','ಗಾತ್ರ {n} / {m}'],
+nearTitle:['Hold the phone where you usually read','फ़ोन को वैसे पकड़ें जैसे आप पढ़ते हैं','ನೀವು ಸಾಮಾನ್ಯವಾಗಿ ಓದುವ ದೂರದಲ್ಲಿ ಫೋನ್ ಹಿಡಿಯಿರಿ'],
+canRead:['Can you read this clearly?','क्या आप इसे साफ़ पढ़ पा रहे हैं?','ಇದನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ಓದಬಹುದೇ?'],
+yes:['Yes','हाँ','ಹೌದು'],no:['No','नहीं','ಇಲ್ಲ'],some:['Sometimes','कभी-कभी','ಕೆಲವೊಮ್ಮೆ'],
+npTitle:['Bring the phone slowly toward your face','फ़ोन को धीरे-धीरे अपने चेहरे के पास लाएँ','ಫೋನನ್ನು ನಿಧಾನವಾಗಿ ನಿಮ್ಮ ಮುಖದ ಹತ್ತಿರ ತನ್ನಿ'],
+npBody:['Stop and say “blurry” when the words start to blur.','जब शब्द धुंधले होने लगें, रुकें और “धुंधला” बोलें।','ಪದಗಳು ಮಸುಕಾಗಲು ಆರಂಭಿಸಿದಾಗ ನಿಲ್ಲಿಸಿ “ಮಸುಕು” ಎಂದು ಹೇಳಿ.'],
+distNow:['Distance from your eyes','आँखों से दूरी','ಕಣ್ಣುಗಳಿಂದ ದೂರ'],
+blurryNow:['It’s blurry now','अब धुंधला है','ಈಗ ಮಸುಕಾಗಿದೆ'],
+start:['Start','शुरू करें','ಪ್ರಾರಂಭಿಸಿ'],
+npResult:['Words blurred at {cm} cm','{cm} सेमी पर शब्द धुंधले हुए','{cm} ಸೆಂ.ಮೀ ನಲ್ಲಿ ಪದಗಳು ಮಸುಕಾದವು'],
+contrastQ:['Where is the gap? The ring gets fainter each time.','खुली जगह कहाँ है? छल्ला हर बार हल्का होता जाएगा।','ತೆರೆದ ಭಾಗ ಎಲ್ಲಿದೆ? ಉಂಗುರ ಪ್ರತಿ ಬಾರಿ ಮಸುಕಾಗುತ್ತದೆ.'],
+colorQ:['What number do you see in the circle?','गोले में आपको कौन-सी संख्या दिखती है?','ವೃತ್ತದಲ್ಲಿ ನಿಮಗೆ ಯಾವ ಸಂಖ್ಯೆ ಕಾಣುತ್ತದೆ?'],
+noNumber:['I can’t see a number','कोई संख्या नहीं दिखती','ಯಾವುದೇ ಸಂಖ್ಯೆ ಕಾಣುತ್ತಿಲ್ಲ'],
+plateN:['Plate {n} of {m}','प्लेट {n} / {m}','ಪ್ಲೇಟ್ {n} / {m}'],
+amslerQ:['Look only at the black dot in the centre.','सिर्फ़ बीच के काले बिंदु को देखें।','ಮಧ್ಯದ ಕಪ್ಪು ಚುಕ್ಕೆಯನ್ನು ಮಾತ್ರ ನೋಡಿ.'],
+amslerTap:['Tap any square where lines look wavy, blurry or missing.','जहाँ लाइनें टेढ़ी, धुंधली या गायब दिखें, उस खाने पर टैप करें।','ಗೆರೆಗಳು ವಕ್ರ, ಮಸುಕು ಅಥವಾ ಕಾಣೆಯಾದಂತೆ ಕಾಣುವ ಚೌಕದ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ.'],
+allStraight:['All lines look straight','सभी लाइनें सीधी दिखती हैं','ಎಲ್ಲಾ ಗೆರೆಗಳು ನೇರವಾಗಿ ಕಾಣುತ್ತವೆ'],
+doneMarking:['Done marking','निशान लगा दिए','ಗುರುತು ಮುಗಿಯಿತು'],
+astigQ:['Do some lines look darker or sharper than others?','क्या कुछ लाइनें बाकी से ज़्यादा गहरी या साफ़ दिखती हैं?','ಕೆಲವು ಗೆರೆಗಳು ಉಳಿದವಕ್ಕಿಂತ ಗಾಢ ಅಥವಾ ಸ್ಪಷ್ಟವಾಗಿ ಕಾಣುತ್ತವೆಯೇ?'],
+allSame:['All look the same','सब एक जैसी दिखती हैं','ಎಲ್ಲವೂ ಒಂದೇ ರೀತಿ ಕಾಣುತ್ತವೆ'],
+tapDarker:['If one is darker, tap that line.','अगर कोई लाइन गहरी है, तो उस पर टैप करें।','ಯಾವುದಾದರೂ ಗೆರೆ ಗಾಢವಾಗಿದ್ದರೆ, ಅದರ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ.'],
+pdTitle:['Look straight at the camera','सीधे कैमरे में देखें','ನೇರವಾಗಿ ಕ್ಯಾಮೆರಾ ನೋಡಿ'],
+pdBody:['Hold your card under your nose. It helps measure in millimetres.','कार्ड को नाक के नीचे पकड़ें। इससे मिलीमीटर में नाप मिलता है।','ಕಾರ್ಡನ್ನು ಮೂಗಿನ ಕೆಳಗೆ ಹಿಡಿಯಿರಿ. ಇದು ಮಿಲಿಮೀಟರ್‌ನಲ್ಲಿ ಅಳೆಯಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.'],
+measure:['Measure','नापें','ಅಳೆಯಿರಿ'],
+measuring:['Measuring…','नाप रहे हैं…','ಅಳೆಯುತ್ತಿದ್ದೇವೆ…'],
+pdRes:['Pupil distance','पुतलियों की दूरी','ಕಣ್ಣುಗೊಂಬೆ ಅಂತರ'],
+testsDone:['All tests done!','सभी जाँच पूरी हुईं!','ಎಲ್ಲಾ ಪರೀಕ್ಷೆಗಳು ಮುಗಿದಿವೆ!'],
+testsDoneSub:['I’m putting your answers and results together.','मैं आपके जवाब और नतीजे जोड़ रही हूँ।','ನಿಮ್ಮ ಉತ್ತರಗಳು ಮತ್ತು ಫಲಿತಾಂಶಗಳನ್ನು ಒಟ್ಟುಗೂಡಿಸುತ್ತಿದ್ದೇನೆ.'],
+seeProfile:['See my profile','मेरी प्रोफ़ाइल देखें','ನನ್ನ ಪ್ರೊಫೈಲ್ ನೋಡಿ'],
+profileOf:['{name}’s vision profile','{name} की विज़न प्रोफ़ाइल','{name} ಅವರ ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್'],
+tri_green:['Routine','सामान्य','ಸಾಮಾನ್ಯ'],tri_amber:['Check soon','जल्द जाँच कराएँ','ಶೀಘ್ರ ತಪಾಸಣೆ'],tri_red:['Urgent','तुरंत','ತುರ್ತು'],
+triD_green:['You likely need glasses or a small change. An optometrist will review your profile.','शायद आपको चश्मे या थोड़े बदलाव की ज़रूरत है। ऑप्टोमेट्रिस्ट आपकी प्रोफ़ाइल देखेंगे।','ನಿಮಗೆ ಕನ್ನಡಕ ಅಥವಾ ಸಣ್ಣ ಬದಲಾವಣೆ ಬೇಕಾಗಬಹುದು. ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಪರಿಶೀಲಿಸುತ್ತಾರೆ.'],
+triD_amber:['Some answers or results mean you should have a full eye check in the next few weeks.','कुछ जवाबों या नतीजों के कारण अगले कुछ हफ़्तों में आँखों की पूरी जाँच ज़रूरी है।','ಕೆಲವು ಉತ್ತರಗಳು ಅಥವಾ ಫಲಿತಾಂಶಗಳಿಂದಾಗಿ ಮುಂದಿನ ಕೆಲವು ವಾರಗಳಲ್ಲಿ ಪೂರ್ಣ ಕಣ್ಣಿನ ತಪಾಸಣೆ ಅಗತ್ಯ.'],
+triD_red:['Please see an eye doctor today. Don’t wait for glasses.','कृपया आज ही आँखों के डॉक्टर को दिखाएँ। चश्मे का इंतज़ार न करें।','ದಯವಿಟ್ಟು ಇಂದೇ ಕಣ್ಣಿನ ವೈದ್ಯರನ್ನು ನೋಡಿ. ಕನ್ನಡಕಕ್ಕಾಗಿ ಕಾಯಬೇಡಿ.'],
+howUse:['How you use your eyes','आप अपनी आँखों का उपयोग कैसे करते हैं','ನೀವು ಕಣ್ಣುಗಳನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ'],
+z_near:['Near','पास','ಹತ್ತಿರ'],z_mid:['Middle','बीच','ಮಧ್ಯ'],z_far:['Far','दूर','ದೂರ'],
+zx_near:['reading, phone, sewing','पढ़ना, फ़ोन, सिलाई','ಓದು, ಫೋನ್, ಹೊಲಿಗೆ'],
+zx_mid:['cooking, computer, counter','खाना, कंप्यूटर, काउंटर','ಅಡುಗೆ, ಕಂಪ್ಯೂಟರ್, ಕೌಂಟರ್'],
+zx_far:['fields, road, faces','खेत, सड़क, चेहरे','ಹೊಲ, ರಸ್ತೆ, ಮುಖಗಳು'],
+za_near:['near','पास के','ಹತ್ತಿರದ'],za_mid:['middle-distance','बीच की दूरी के','ಮಧ್ಯ ದೂರದ'],za_far:['far','दूर के','ದೂರದ'],
+mostly:['You use your eyes mostly for {z} tasks.','आप अपनी आँखों का ज़्यादातर उपयोग {z} कामों के लिए करते हैं।','ನೀವು ಕಣ್ಣುಗಳನ್ನು ಹೆಚ್ಚಾಗಿ {z} ಕೆಲಸಗಳಿಗೆ ಬಳಸುತ್ತೀರಿ.'],
+noProfile:['Answer the vision profile questions to see how you use your eyes.','अपनी आँखों के उपयोग को देखने के लिए विज़न प्रोफ़ाइल के सवालों के जवाब दें।','ನೀವು ಕಣ್ಣುಗಳನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ ಎಂದು ನೋಡಲು ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ.'],
+answerQs:['Answer the questions','सवालों के जवाब दें','ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ'],
+takeTests:['Take the vision tests','दृष्टि जाँच करें','ದೃಷ್ಟಿ ಪರೀಕ್ಷೆ ಮಾಡಿ'],
+testRes:['Your test results','आपके जाँच नतीजे','ನಿಮ್ಮ ಪರೀಕ್ಷಾ ಫಲಿತಾಂಶಗಳು'],
+good:['Good','अच्छा','ಉತ್ತಮ'],attention:['Needs attention','ध्यान दें','ಗಮನ ಬೇಕು'],notDone:['Not done','नहीं किया','ಮಾಡಿಲ್ಲ'],
+readHelp:['Reading help estimate','पढ़ने के लिए अनुमानित सहायता','ಓದಲು ಅಂದಾಜು ಸಹಾಯ'],
+tipsTitle:['Tips for you','आपके लिए सुझाव','ನಿಮಗಾಗಿ ಸಲಹೆಗಳು'],
+listen:['Listen','सुनें','ಕೇಳಿ'],
+sendDoc:['Send to optometrist','ऑप्टोमेट्रिस्ट को भेजें','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ಗೆ ಕಳುಹಿಸಿ'],
+share:['Share','साझा करें','ಹಂಚಿಕೊಳ್ಳಿ'],
+shared:['Profile card shared to WhatsApp (demo)','प्रोफ़ाइल कार्ड WhatsApp पर साझा किया गया (डेमो)','ಪ್ರೊಫೈಲ್ ಕಾರ್ಡ್ WhatsApp ನಲ್ಲಿ ಹಂಚಲಾಗಿದೆ (ಡೆಮೊ)'],
+disclaimer:['This is a screening, not a prescription. The final glasses power is confirmed by an optometrist.','यह शुरुआती जाँच है, नुस्खा नहीं। चश्मे का अंतिम नंबर ऑप्टोमेट्रिस्ट तय करेंगे।','ಇದು ಪ್ರಾಥಮಿಕ ತಪಾಸಣೆ, ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್ ಅಲ್ಲ. ಕನ್ನಡಕದ ಅಂತಿಮ ಸಂಖ್ಯೆಯನ್ನು ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಖಚಿತಪಡಿಸುತ್ತಾರೆ.'],
+st_title:['Where your profile is','आपकी प्रोफ़ाइल कहाँ है','ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಎಲ್ಲಿದೆ'],
+st_queued:['Saved on phone, will send when internet returns','फ़ोन में सेव, इंटरनेट आने पर भेजी जाएगी','ಫೋನಿನಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ, ಇಂಟರ್ನೆಟ್ ಬಂದಾಗ ಕಳುಹಿಸಲಾಗುವುದು'],
+st_sent:['Sent to optometrist','ऑप्टोमेट्रिस्ट को भेजी गई','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ'],
+st_review:['Optometrist is reviewing','ऑप्टोमेट्रिस्ट देख रहे हैं','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಪರಿಶೀಲಿಸುತ್ತಿದ್ದಾರೆ'],
+st_replied:['Recommendation received','सुझाव मिल गया','ಶಿಫಾರಸು ಬಂದಿದೆ'],
+sentToast:['Profile sent to the optometrist','प्रोफ़ाइल ऑप्टोमेट्रिस्ट को भेजी गई','ಪ್ರೊಫೈಲ್ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ'],
+queuedToast:['No internet. Profile saved and will send automatically.','इंटरनेट नहीं है। प्रोफ़ाइल सेव है और अपने आप भेजी जाएगी।','ಇಂಟರ್ನೆಟ್ ಇಲ್ಲ. ಪ್ರೊಫೈಲ್ ಉಳಿಸಲಾಗಿದೆ, ತಾನಾಗಿಯೇ ಕಳುಹಿಸಲಾಗುವುದು.'],
+newMsg:['New message from your optometrist','आपके ऑप्टोमेट्रिस्ट का नया संदेश','ನಿಮ್ಮ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ನಿಂದ ಹೊಸ ಸಂದೇಶ'],
+noMsg:['No messages yet. After you send your profile, the reply will appear here and by SMS.','अभी कोई संदेश नहीं। प्रोफ़ाइल भेजने के बाद जवाब यहाँ और SMS पर आएगा।','ಇನ್ನೂ ಯಾವುದೇ ಸಂದೇಶವಿಲ್ಲ. ಪ್ರೊಫೈಲ್ ಕಳುಹಿಸಿದ ನಂತರ ಉತ್ತರ ಇಲ್ಲಿ ಮತ್ತು SMS ಮೂಲಕ ಬರುತ್ತದೆ.'],
+playVoice:['Play voice message','आवाज़ संदेश सुनें','ಧ್ವನಿ ಸಂದೇಶ ಕೇಳಿ'],
+recLens:['Recommended lens','सुझाया गया लेंस','ಶಿಫಾರಸು ಮಾಡಿದ ಲೆನ್ಸ್'],
+extras:['Lens features','लेंस की खूबियाँ','ಲೆನ್ಸ್ ವೈಶಿಷ್ಟ್ಯಗಳು'],
+nextStep:['Next step','अगला कदम','ಮುಂದಿನ ಹಂತ'],
+where:['Where','कहाँ','ಎಲ್ಲಿ'],
+docNote:['Note from the optometrist','ऑप्टोमेट्रिस्ट का नोट','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಟಿಪ್ಪಣಿ'],
+directions:['Get directions','रास्ता देखें','ದಾರಿ ನೋಡಿ'],
+dirToast:['Opening directions (demo)','रास्ता खोला जा रहा है (डेमो)','ದಾರಿ ತೆರೆಯಲಾಗುತ್ತಿದೆ (ಡೆಮೊ)'],
+online:['Online','ऑनलाइन','ಆನ್‌ಲೈನ್'],offline:['Offline','ऑफ़लाइन','ಆಫ್‌ಲೈನ್'],
+synced:['Back online. Profile sent.','इंटरनेट वापस आया। प्रोफ़ाइल भेजी गई।','ಇಂಟರ್ನೆಟ್ ಮರಳಿದೆ. ಪ್ರೊಫೈಲ್ ಕಳುಹಿಸಲಾಗಿದೆ.'],
+nowOffline:['You’re offline. Everything still works and will sync later.','आप ऑफ़लाइन हैं। सब कुछ चलता रहेगा और बाद में सिंक होगा।','ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ. ಎಲ್ಲವೂ ಕೆಲಸ ಮಾಡುತ್ತದೆ, ನಂತರ ಸಿಂಕ್ ಆಗುತ್ತದೆ.'],
+helpedSub:['Profiles are saved on this phone and sent when internet is available.','प्रोफ़ाइल इस फ़ोन में सेव रहती हैं और इंटरनेट मिलने पर भेजी जाती हैं।','ಪ್ರೊಫೈಲ್‌ಗಳು ಈ ಫೋನಿನಲ್ಲಿ ಉಳಿಯುತ್ತವೆ ಮತ್ತು ಇಂಟರ್ನೆಟ್ ಸಿಕ್ಕಾಗ ಕಳುಹಿಸಲಾಗುತ್ತದೆ.'],
+waiting:['Waiting for internet','इंटरनेट का इंतज़ार','ಇಂಟರ್ನೆಟ್‌ಗಾಗಿ ಕಾಯುತ್ತಿದೆ'],
+syncedLbl:['Sent','भेजी गई','ಕಳುಹಿಸಲಾಗಿದೆ'],
+startNew:['Start a check for a new person','नए व्यक्ति की जाँच शुरू करें','ಹೊಸ ವ್ಯಕ್ತಿಯ ತಪಾಸಣೆ ಪ್ರಾರಂಭಿಸಿ'],
+noVoice:['No {lang} voice on this device, so the text is shown. A full build uses Indian-language speech models.','इस डिवाइस पर {lang} आवाज़ नहीं है, इसलिए लिखा हुआ दिखाया गया है।','ಈ ಸಾಧನದಲ್ಲಿ {lang} ಧ್ವನಿ ಇಲ್ಲ, ಆದ್ದರಿಂದ ಪಠ್ಯ ತೋರಿಸಲಾಗಿದೆ.'],
+home:['Home','होम','ಮುಖಪುಟ'],
+speak:['Speak','बोलें','ಮಾತನಾಡಿ'],
+};
+function t(k,v){const a=T[k];let s=a?(a[LI[S.lang]]||a[0]):k;if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s}
+function tx(arr,lang){return arr[LI[lang||S.lang]]||arr[0]}
+const READ_LINES=[
+ ['The bus to the market leaves at seven in the morning.','बाज़ार जाने वाली बस सुबह सात बजे निकलती है।','ಮಾರುಕಟ್ಟೆಗೆ ಹೋಗುವ ಬಸ್ ಬೆಳಿಗ್ಗೆ ಏಳು ಗಂಟೆಗೆ ಹೊರಡುತ್ತದೆ.'],
+ ['Take one tablet after food, twice a day.','दिन में दो बार खाने के बाद एक गोली लें।','ದಿನಕ್ಕೆ ಎರಡು ಬಾರಿ ಊಟದ ನಂತರ ಒಂದು ಮಾತ್ರೆ ತೆಗೆದುಕೊಳ್ಳಿ.'],
+ ['Rice, 25 kg bag. Price ₹1,450.','चावल, 25 किलो बोरी। दाम ₹1,450।','ಅಕ್ಕಿ, 25 ಕೆಜಿ ಚೀಲ. ಬೆಲೆ ₹1,450.'],
+];
+
+Object.assign(T,{
+nav_home:['Home','होम','ಮುಖಪುಟ'],
+nav_profile:['Vision profile','विज़न प्रोफ़ाइल','ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್'],
+nav_check:['Online vision check','ऑनलाइन दृष्टि जाँच','ಆನ್‌ಲೈನ್ ದೃಷ್ಟಿ ತಪಾಸಣೆ'],
+nav_portal:['For optometrists','ऑप्टोमेट्रिस्ट के लिए','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ಗಳಿಗೆ'],
+tagline:['Eye care that comes to you','आपके पास पहुँचने वाली आँखों की देखभाल','ನಿಮ್ಮ ಬಳಿಗೆ ಬರುವ ಕಣ್ಣಿನ ಆರೈಕೆ'],
+heroK:['Remote eye care for every village','हर गाँव के लिए दूर से आँखों की देखभाल','ಪ್ರತಿ ಹಳ್ಳಿಗೂ ದೂರದಿಂದ ಕಣ್ಣಿನ ಆರೈಕೆ'],
+heroH:['Good vision starts with understanding how you see.','अच्छी नज़र की शुरुआत यह समझने से होती है कि आप कैसे देखते हैं।','ಉತ್ತಮ ದೃಷ್ಟಿ, ನೀವು ಹೇಗೆ ನೋಡುತ್ತೀರಿ ಎಂದು ತಿಳಿಯುವುದರಿಂದ ಆರಂಭವಾಗುತ್ತದೆ.'],
+heroP:['Answer a spoken consultation in your language, take simple vision checks on your phone, and get advice from a qualified optometrist without travelling to a clinic.','अपनी भाषा में बोलकर सवालों के जवाब दें, फ़ोन पर आसान दृष्टि जाँच करें, और क्लिनिक जाए बिना योग्य ऑप्टोमेट्रिस्ट से सलाह पाएँ।','ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಮಾತನಾಡಿ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ, ಫೋನಿನಲ್ಲಿ ಸರಳ ದೃಷ್ಟಿ ಪರೀಕ್ಷೆ ಮಾಡಿ, ಕ್ಲಿನಿಕ್‌ಗೆ ಹೋಗದೆ ಅರ್ಹ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಸಲಹೆ ಪಡೆಯಿರಿ.'],
+startFull:['Start full eye check','पूरी आँख जाँच शुरू करें','ಪೂರ್ಣ ಕಣ್ಣಿನ ತಪಾಸಣೆ ಪ್ರಾರಂಭಿಸಿ'],
+profileCard:['About 18 spoken questions on your work, screen time, time outdoors, driving and health. You get a profile of how you use your eyes.','आपके काम, स्क्रीन के समय, बाहर बिताए समय, ड्राइविंग और सेहत पर लगभग 18 सवाल। आपको पता चलेगा कि आप अपनी आँखों का उपयोग कैसे करते हैं।','ನಿಮ್ಮ ಕೆಲಸ, ಪರದೆ ಸಮಯ, ಹೊರಾಂಗಣ ಸಮಯ, ಚಾಲನೆ ಮತ್ತು ಆರೋಗ್ಯದ ಬಗ್ಗೆ ಸುಮಾರು 18 ಪ್ರಶ್ನೆಗಳು. ನೀವು ಕಣ್ಣುಗಳನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ ಎಂಬ ಪ್ರೊಫೈಲ್ ಸಿಗುತ್ತದೆ.'],
+checkCard:['Nine screening tests that use your phone’s screen and front camera instead of clinic equipment.','नौ जाँचें जो क्लिनिक की मशीनों की जगह आपके फ़ोन की स्क्रीन और आगे के कैमरे का उपयोग करती हैं।','ಕ್ಲಿನಿಕ್ ಉಪಕರಣಗಳ ಬದಲು ನಿಮ್ಮ ಫೋನಿನ ಪರದೆ ಮತ್ತು ಮುಂಭಾಗದ ಕ್ಯಾಮೆರಾ ಬಳಸುವ ಒಂಬತ್ತು ಪರೀಕ್ಷೆಗಳು.'],
+startProfile:['Create my vision profile','मेरी विज़न प्रोफ़ाइल बनाएँ','ನನ್ನ ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್ ರಚಿಸಿ'],
+startCheck:['Start the vision check','दृष्टि जाँच शुरू करें','ದೃಷ್ಟಿ ತಪಾಸಣೆ ಪ್ರಾರಂಭಿಸಿ'],
+mins:['About {n} minutes','लगभग {n} मिनट','ಸುಮಾರು {n} ನಿಮಿಷ'],
+howH:['How it works','यह कैसे काम करता है','ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ'],
+m1t:['Voice interview','आवाज़ से बातचीत','ಧ್ವನಿ ಸಂದರ್ಶನ'],
+m1d:['Questions are spoken in your language and you answer by voice or by tapping. No reading needed.','सवाल आपकी भाषा में बोले जाते हैं, आप बोलकर या टैप करके जवाब देते हैं। पढ़ना ज़रूरी नहीं।','ಪ್ರಶ್ನೆಗಳನ್ನು ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಕೇಳಲಾಗುತ್ತದೆ, ನೀವು ಮಾತನಾಡಿ ಅಥವಾ ಟ್ಯಾಪ್ ಮಾಡಿ ಉತ್ತರಿಸಬಹುದು. ಓದುವ ಅಗತ್ಯವಿಲ್ಲ.'],
+m2t:['Adaptive questions','आपके हिसाब से सवाल','ಹೊಂದಿಕೊಳ್ಳುವ ಪ್ರಶ್ನೆಗಳು'],
+m2d:['Follow-up questions appear only when your answers need them, for example if you have diabetes.','आपके जवाबों के अनुसार ही आगे के सवाल आते हैं, जैसे अगर आपको मधुमेह है।','ನಿಮ್ಮ ಉತ್ತರಗಳಿಗೆ ಅಗತ್ಯವಿದ್ದಾಗ ಮಾತ್ರ ಮುಂದಿನ ಪ್ರಶ್ನೆಗಳು ಬರುತ್ತವೆ, ಉದಾಹರಣೆಗೆ ಮಧುಮೇಹವಿದ್ದರೆ.'],
+m3t:['Phone vision tests','फ़ोन पर दृष्टि जाँच','ಫೋನ್ ದೃಷ್ಟಿ ಪರೀಕ್ಷೆಗಳು'],
+m3d:['The screen and front camera replace the eye chart, measuring tape and pupil meter.','स्क्रीन और आगे का कैमरा आँखों के चार्ट, फ़ीते और पुतली मीटर का काम करते हैं।','ಪರದೆ ಮತ್ತು ಮುಂಭಾಗದ ಕ್ಯಾಮೆರಾ ಕಣ್ಣಿನ ಚಾರ್ಟ್, ಅಳತೆ ಪಟ್ಟಿ ಮತ್ತು ಪ್ಯೂಪಿಲ್ ಮೀಟರ್‌ನ ಕೆಲಸ ಮಾಡುತ್ತವೆ.'],
+m4t:['Your vision profile','आपकी विज़न प्रोफ़ाइल','ನಿಮ್ಮ ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್'],
+m4d:['See whether you mostly use near, middle or far vision, and how soon you should see someone.','देखें कि आप ज़्यादातर पास, बीच या दूर की नज़र इस्तेमाल करते हैं, और कितनी जल्दी जाँच करानी चाहिए।','ನೀವು ಹೆಚ್ಚಾಗಿ ಹತ್ತಿರ, ಮಧ್ಯ ಅಥವಾ ದೂರದ ದೃಷ್ಟಿ ಬಳಸುತ್ತೀರಾ ಮತ್ತು ಎಷ್ಟು ಬೇಗ ತಪಾಸಣೆ ಬೇಕು ಎಂದು ನೋಡಿ.'],
+m5t:['Remote optometrist','दूर बैठे ऑप्टोमेट्रिस्ट','ದೂರದ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್'],
+m5d:['A qualified optometrist reviews your profile and replies by voice message and SMS.','योग्य ऑप्टोमेट्रिस्ट आपकी प्रोफ़ाइल देखकर आवाज़ संदेश और SMS से जवाब देते हैं।','ಅರ್ಹ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಪರಿಶೀಲಿಸಿ ಧ್ವನಿ ಸಂದೇಶ ಮತ್ತು SMS ಮೂಲಕ ಉತ್ತರಿಸುತ್ತಾರೆ.'],
+step:['Step {n}','चरण {n}','ಹಂತ {n}'],
+qOf:['Question {n} of about {m}','सवाल {n}, लगभग {m} में से','ಪ್ರಶ್ನೆ {n}, ಸುಮಾರು {m} ರಲ್ಲಿ'],
+yourAnswers:['Your answers','आपके जवाब','ನಿಮ್ಮ ಉತ್ತರಗಳು'],
+noAnswers:['Your answers will appear here.','आपके जवाब यहाँ दिखेंगे।','ನಿಮ್ಮ ಉತ್ತರಗಳು ಇಲ್ಲಿ ಕಾಣುತ್ತವೆ.'],
+selectOne:['Select one answer','एक जवाब चुनें','ಒಂದು ಉತ್ತರ ಆರಿಸಿ'],
+answerVoice:['Answer by voice','बोलकर जवाब दें','ಮಾತಿನಲ್ಲಿ ಉತ್ತರಿಸಿ'],
+sayIn:['Tap the microphone and say your answer in {lang}','माइक दबाएँ और अपना जवाब {lang} में बोलें','ಮೈಕ್ ಒತ್ತಿ ನಿಮ್ಮ ಉತ್ತರವನ್ನು {lang} ನಲ್ಲಿ ಹೇಳಿ'],
+heardL:['Heard','सुना गया','ಕೇಳಿದ್ದು'],
+assistant:['Voice assistant, speaking {lang}','वॉइस असिस्टेंट, {lang} में','ಧ್ವನಿ ಸಹಾಯಕ, {lang} ನಲ್ಲಿ'],
+repeatQ:['Repeat question','सवाल दोहराएँ','ಪ್ರಶ್ನೆ ಮತ್ತೆ ಕೇಳಿ'],
+followUp:['Follow-up question','आगे का सवाल','ಮುಂದುವರಿದ ಪ್ರಶ್ನೆ'],
+report:['Vision profile report','विज़न प्रोफ़ाइल रिपोर्ट','ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್ ವರದಿ'],
+lensCats:['Lens types to discuss with your optometrist','ऑप्टोमेट्रिस्ट से चर्चा के लिए लेंस','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಜೊತೆ ಚರ್ಚಿಸಬೇಕಾದ ಲೆನ್ಸ್'],
+colTest:['Test','जाँच','ಪರೀಕ್ಷೆ'],colResult:['Result','नतीजा','ಫಲಿತಾಂಶ'],colStatus:['Status','स्थिति','ಸ್ಥಿತಿ'],
+profileId:['Profile ID','प्रोफ़ाइल आईडी','ಪ್ರೊಫೈಲ್ ಐಡಿ'],
+dateL:['Date','तारीख़','ದಿನಾಂಕ'],
+patientL:['Patient','मरीज़','ರೋಗಿ'],
+reviewTitle:['Optometrist review','ऑप्टोमेट्रिस्ट समीक्षा','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಪರಿಶೀಲನೆ'],
+sendBody:['Send this report to a qualified optometrist. You’ll get a reply by voice message and SMS, usually within a day.','यह रिपोर्ट योग्य ऑप्टोमेट्रिस्ट को भेजें। आपको आमतौर पर एक दिन में आवाज़ संदेश और SMS से जवाब मिलेगा।','ಈ ವರದಿಯನ್ನು ಅರ್ಹ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ಗೆ ಕಳುಹಿಸಿ. ಸಾಮಾನ್ಯವಾಗಿ ಒಂದು ದಿನದೊಳಗೆ ಧ್ವನಿ ಸಂದೇಶ ಮತ್ತು SMS ಮೂಲಕ ಉತ್ತರ ಬರುತ್ತದೆ.'],
+viewReply:['View recommendation','सुझाव देखें','ಶಿಫಾರಸು ನೋಡಿ'],
+noResults:['Complete a check first to see your results.','नतीजे देखने के लिए पहले जाँच पूरी करें।','ಫಲಿತಾಂಶ ನೋಡಲು ಮೊದಲು ತಪಾಸಣೆ ಪೂರ್ಣಗೊಳಿಸಿ.'],
+howTo:['What to do','क्या करना है','ಏನು ಮಾಡಬೇಕು'],
+eyeTesting:['Testing your {eye}','आपकी {eye} की जाँच','ನಿಮ್ಮ {eye} ಪರೀಕ್ಷೆ'],
+lens_sv_dist:['For clear distance vision, such as the road, fields and faces.','दूर साफ़ देखने के लिए, जैसे सड़क, खेत और चेहरे।','ರಸ್ತೆ, ಹೊಲ ಮತ್ತು ಮುಖಗಳಂತಹ ದೂರದ ಸ್ಪಷ್ಟ ದೃಷ್ಟಿಗಾಗಿ.'],
+lens_sv_read:['For reading and close work only.','सिर्फ़ पढ़ने और पास के काम के लिए।','ಓದು ಮತ್ತು ಹತ್ತಿರದ ಕೆಲಸಕ್ಕೆ ಮಾತ್ರ.'],
+lens_bifocal:['Distance on top, reading at the bottom. One pair, lower cost.','ऊपर दूर का, नीचे पढ़ने का हिस्सा। एक चश्मा, कम कीमत।','ಮೇಲೆ ದೂರ, ಕೆಳಗೆ ಓದು. ಒಂದೇ ಕನ್ನಡಕ, ಕಡಿಮೆ ಬೆಲೆ.'],
+lens_progressive:['Smooth focus at every distance with no visible line.','हर दूरी पर आसान फ़ोकस, बिना दिखने वाली लाइन के।','ಎಲ್ಲಾ ದೂರಗಳಲ್ಲಿ ಸುಗಮ ಕೇಂದ್ರೀಕರಣ, ಗೆರೆ ಕಾಣುವುದಿಲ್ಲ.'],
+lens_none:['Your answers and results don’t suggest glasses right now.','आपके जवाबों और नतीजों से अभी चश्मे की ज़रूरत नहीं लगती।','ನಿಮ್ಮ ಉತ್ತರ ಮತ್ತು ಫಲಿತಾಂಶಗಳ ಪ್ರಕಾರ ಸದ್ಯಕ್ಕೆ ಕನ್ನಡಕ ಬೇಕಿಲ್ಲ.'],
+lens_defer:['The optometrist will decide after examining you in person.','ऑप्टोमेट्रिस्ट आपको देखकर तय करेंगे।','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ನಿಮ್ಮನ್ನು ನೇರವಾಗಿ ಪರೀಕ್ಷಿಸಿ ನಿರ್ಧರಿಸುತ್ತಾರೆ.'],
+featL:['Helpful lens features','उपयोगी लेंस खूबियाँ','ಉಪಯುಕ್ತ ಲೆನ್ಸ್ ವೈಶಿಷ್ಟ್ಯಗಳು'],
+whyL:['Why this suggestion','यह सुझाव क्यों','ಈ ಸಲಹೆ ಏಕೆ'],
+d_setup:['Calibrates the screen size and checks your distance, so every test is shown at the right size.','स्क्रीन का आकार और आपकी दूरी जाँचता है, ताकि हर जाँच सही आकार में दिखे।','ಪ್ರತಿ ಪರೀಕ್ಷೆ ಸರಿಯಾದ ಗಾತ್ರದಲ್ಲಿ ಕಾಣಲು ಪರದೆಯ ಗಾತ್ರ ಮತ್ತು ನಿಮ್ಮ ದೂರವನ್ನು ಹೊಂದಿಸುತ್ತದೆ.'],
+d_va:['Measures how sharply each eye sees at a distance, like the letter chart at a clinic.','हर आँख दूर कितना साफ़ देखती है, यह नापता है, जैसे क्लिनिक का अक्षर चार्ट।','ಕ್ಲಿನಿಕ್‌ನ ಅಕ್ಷರ ಚಾರ್ಟ್‌ನಂತೆ, ಪ್ರತಿ ಕಣ್ಣು ದೂರವನ್ನು ಎಷ್ಟು ಸ್ಪಷ್ಟವಾಗಿ ನೋಡುತ್ತದೆ ಎಂದು ಅಳೆಯುತ್ತದೆ.'],
+d_near:['Finds the smallest text you can read comfortably.','सबसे छोटे अक्षर ढूँढता है जो आप आराम से पढ़ सकते हैं।','ನೀವು ಆರಾಮವಾಗಿ ಓದಬಹುದಾದ ಅತಿ ಚಿಕ್ಕ ಅಕ್ಷರವನ್ನು ಕಂಡುಹಿಡಿಯುತ್ತದೆ.'],
+d_np:['Measures how close you can focus. This estimates how much reading help you may need.','आप कितने पास तक फ़ोकस कर सकते हैं, यह नापता है। इससे पढ़ने के लिए ज़रूरी मदद का अनुमान मिलता है।','ನೀವು ಎಷ್ಟು ಹತ್ತಿರದವರೆಗೆ ಕೇಂದ್ರೀಕರಿಸಬಹುದು ಎಂದು ಅಳೆಯುತ್ತದೆ. ಓದಲು ಬೇಕಾದ ಸಹಾಯವನ್ನು ಅಂದಾಜಿಸುತ್ತದೆ.'],
+d_contrast:['Checks how well you see faint shapes. This can drop early with cataract.','हल्की आकृतियाँ आप कितनी अच्छी तरह देखते हैं, यह जाँचता है। मोतियाबिंद में यह पहले कम होता है।','ಮಸುಕಾದ ಆಕಾರಗಳನ್ನು ಎಷ್ಟು ಚೆನ್ನಾಗಿ ನೋಡುತ್ತೀರಿ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ. ಕಣ್ಣಿನ ಪೊರೆಯಲ್ಲಿ ಇದು ಬೇಗ ಕಡಿಮೆಯಾಗುತ್ತದೆ.'],
+d_color:['Screens for red-green colour vision differences.','लाल-हरे रंग पहचानने में अंतर की जाँच करता है।','ಕೆಂಪು-ಹಸಿರು ಬಣ್ಣ ಗುರುತಿಸುವಿಕೆಯ ವ್ಯತ್ಯಾಸವನ್ನು ಪರೀಕ್ಷಿಸುತ್ತದೆ.'],
+d_amsler:['Checks the centre of your vision for wavy or missing areas. Important with diabetes or after 50.','नज़र के बीच के हिस्से में टेढ़ी या गायब जगह की जाँच करता है। मधुमेह या 50 के बाद ज़रूरी।','ದೃಷ್ಟಿಯ ಮಧ್ಯಭಾಗದಲ್ಲಿ ವಕ್ರ ಅಥವಾ ಕಾಣೆಯಾದ ಭಾಗಗಳನ್ನು ಪರೀಕ್ಷಿಸುತ್ತದೆ. ಮಧುಮೇಹ ಅಥವಾ 50 ನಂತರ ಮುಖ್ಯ.'],
+d_astig:['Screens for astigmatism, where lines in some directions look sharper than others.','एस्टिग्मैटिज़्म की जाँच, जिसमें कुछ दिशाओं की लाइनें बाकी से ज़्यादा साफ़ दिखती हैं।','ಕೆಲವು ದಿಕ್ಕಿನ ಗೆರೆಗಳು ಇತರಕ್ಕಿಂತ ಸ್ಪಷ್ಟವಾಗಿ ಕಾಣುವ ಅಸ್ಟಿಗ್ಮ್ಯಾಟಿಸಮ್ ಪರೀಕ್ಷೆ.'],
+d_pd:['Measures the distance between your pupils, which is needed to fit lenses correctly.','आपकी पुतलियों के बीच की दूरी नापता है, जो लेंस सही लगाने के लिए ज़रूरी है।','ಲೆನ್ಸ್ ಸರಿಯಾಗಿ ಹೊಂದಿಸಲು ಬೇಕಾದ ನಿಮ್ಮ ಕಣ್ಣುಗೊಂಬೆಗಳ ನಡುವಿನ ಅಂತರವನ್ನು ಅಳೆಯುತ್ತದೆ.'],
+s_setup:['Setup','सेटअप','ಸಿದ್ಧತೆ'],s_va:['Distance','दूर','ದೂರ'],s_near:['Reading','पढ़ना','ಓದು'],s_np:['Focus range','फ़ोकस','ಕೇಂದ್ರೀಕರಣ'],s_contrast:['Contrast','कंट्रास्ट','ಕಾಂಟ್ರಾಸ್ಟ್'],s_color:['Colour','रंग','ಬಣ್ಣ'],s_amsler:['Amsler grid','एम्सलर','ಆಮ್ಸ್ಲರ್'],s_astig:['Astigmatism','एस्टिग्मैटिज़्म','ಅಸ್ಟಿಗ್ಮ್ಯಾಟಿಸಮ್'],s_pd:['Pupil distance','पुतली दूरी','ಕಣ್ಣುಗೊಂಬೆ ಅಂತರ'],
+chooseLangSub:['Drishti, your voice assistant, will speak to you in this language.','आपकी वॉइस असिस्टेंट दृष्टि इसी भाषा में बात करेगी।','ನಿಮ್ಮ ಧ್ವನಿ ಸಹಾಯಕಿ ದೃಷ್ಟಿ ಇದೇ ಭಾಷೆಯಲ್ಲಿ ಮಾತನಾಡುತ್ತಾಳೆ.'],
+yrs:['{n} years','{n} साल','{n} ವರ್ಷ'],
+smsL:['SMS sent to {p}','{p} पर SMS भेजा गया','{p} ಗೆ SMS ಕಳುಹಿಸಲಾಗಿದೆ'],
+received:['Received {t}','{t} मिला','{t} ಸ್ವೀಕರಿಸಲಾಗಿದೆ'],
+dominantL:['Main use','मुख्य उपयोग','ಮುಖ್ಯ ಬಳಕೆ'],
+zr_near:['up to 40 cm','40 सेमी तक','40 ಸೆಂ.ಮೀ ವರೆಗೆ'],zr_mid:['40 cm to 1 m','40 सेमी से 1 मी','40 ಸೆಂ.ಮೀ ರಿಂದ 1 ಮೀ'],zr_far:['beyond 1 m','1 मी से आगे','1 ಮೀ ಗಿಂತ ದೂರ'],
+});
+
+/* ============ icons ============ */
+const ICO={
+ sprout:'<path d="M12 21v-9"/><path d="M12 12c0-4.4 3-7.5 7.5-7.5 0 4.4-3 7.5-7.5 7.5z"/><path d="M12 14.5c0-3.3-2.6-5.8-6.5-5.8 0 3.6 2.6 5.8 6.5 5.8z"/><path d="M6 21h12"/>',
+ store:'<path d="M3 9l1.6-5h14.8L21 9"/><path d="M3 9h18v1.5a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M5 13.5V21h14v-7.5M10 21v-5h4v5"/>',
+ monitor:'<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/>',
+ cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3.5 2.2 8.5 2.2 12 0v-5M22 9v6"/>',
+ home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/>',
+ needle:'<path d="M4 20L17 7"/><ellipse cx="18.5" cy="5.5" rx="2.2" ry="1.2" transform="rotate(-45 18.5 5.5)"/><path d="M6 12c2 0 3 1 3 3s1 3 3 3"/>',
+ truck:'<path d="M2 6h12v10H2zM14 9h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
+ ban:'<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+ mountain:'<path d="M2 20l7-12 4 7 3-4 6 9z"/>',
+ book:'<path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/>',
+ glasses:'<circle cx="6" cy="15" r="4"/><circle cx="18" cy="15" r="4"/><path d="M10 15h4M2 15l2-8h3M22 15l-2-8h-3"/>',
+ tag:'<path d="M3 3h8l10 10-8 8L3 11z"/><circle cx="7.5" cy="7.5" r="1.4"/>',
+ spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+ calendar:'<rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ hourglass:'<path d="M6 3h12M6 21h12M7 3v3l5 6 5-6V3M7 21v-3l5-6 5 6v3"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ walk:'<circle cx="13" cy="4.5" r="1.8"/><path d="M10 21l2.5-7 3 3v5M7 12.5l3-4 4 1 2.5 3.5"/>',
+ bike:'<circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h5l3 8M9 8h3"/>',
+ moto:'<circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M8 17h7l3-6h-5l-3 3H5M14 7h3l1 4"/>',
+ car:'<path d="M3 16v-4l2-5h14l2 5v4z"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/><path d="M3 12h18"/>',
+ moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+ check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ tilde:'<circle cx="12" cy="12" r="9"/><path d="M7.5 13c1.5-2 3-2 4.5 0s3 2 4.5 0"/>',
+ x:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
+ head:'<path d="M15 21v-3h2a2 2 0 0 0 2-2v-2.5l1.5-.6-1.6-3.4A7 7 0 0 0 5 9.5c0 2.4 1 4 2 5.2V21"/><path d="M9.5 7.5l2 2.5-2 1.5 2 2"/>',
+ eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ eyeoff:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><path d="M4 4l16 16"/>',
+ drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+ eyes2:'<circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/>',
+ heart:'<path d="M12 20s-8-4.7-8-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 2.5C20 15.3 12 20 12 20z"/>',
+ help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5v.7M12 17h.01"/>',
+ zap:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+ alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/>',
+ cloud:'<path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 8z"/>',
+ wallet:'<rect x="3" y="6" width="18" height="13" rx="1.5"/><path d="M3 10h18M16 14.5h2"/>',
+ shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.5.6 4 2.8 4 6"/>',
+ swap:'<path d="M4 8h14l-3-3M20 16H6l3 3"/>',
+ bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/>',
+ hand:'<path d="M8 13V5a1.5 1.5 0 0 1 3 0v6M11 10V3.5a1.5 1.5 0 0 1 3 0V10M14 10V5a1.5 1.5 0 0 1 3 0v8c0 4-2.5 8-7 8-3 0-4.5-2-6-4.5l-1.5-2.5a1.5 1.5 0 0 1 2.5-1.6L8 15"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+ spk:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>',
+ mute:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/>',
+ back:'<path d="M15 5l-7 7 7 7"/>',
+ fwd:'<path d="M9 5l7 7-7 7"/>',
+ up:'<path d="M12 19V5M5 12l7-7 7 7"/>',
+ send:'<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>',
+ wifi:'<path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0"/><path d="M12 19h.01"/>',
+ nowifi:'<path d="M3 3l18 18M8.5 15.5a5 5 0 0 1 7 0M2 8.5a15 15 0 0 1 5-3M17 5.5a15 15 0 0 1 5 3M12 19h.01"/>',
+ video:'<rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/>',
+ phone:'<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/>',
+ pin:'<path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+ share:'<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
+ inbox:'<path d="M3 13l3-8h12l3 8v6H3z"/><path d="M3 13h5l1.5 2.5h5L16 13h5"/>',
+ list:'<path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>',
+ chart:'<path d="M3 3v18h18"/><path d="M7 15v3M12 10v8M17 6v12"/>',
+ building:'<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M10 21v-3h4v3"/>',
+ bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0"/>',
+ file:'<path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+ card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+ ruler:'<path d="M3 17L17 3l4 4L7 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/>',
+};
+const ic=(n,c)=>`<svg class="i ${c||''}" viewBox="0 0 24 24" aria-hidden="true">${ICO[n]||''}</svg>`;
+const MARK=`<svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="var(--blue)" stroke-width="2.4"/><path d="M5 20c4-7.5 9.2-11 15-11s11 3.5 15 11c-4 7.5-9.2 11-15 11S9 27.5 5 20z" fill="var(--blue-soft)" stroke="var(--navy)" stroke-width="2"/><circle cx="20" cy="20" r="6" fill="var(--navy)"/><circle cx="22.5" cy="17.5" r="1.8" fill="var(--bg)"/></svg>`;
+
+
+Object.assign(T,{
+heroH2:['Check your eyes <em>from home</em>','घर बैठे <em>आँखों की जाँच</em>','ಮನೆಯಿಂದಲೇ <em>ಕಣ್ಣಿನ ತಪಾಸಣೆ</em>'],
+heroP2:['Talk, tap and test. A real optometrist checks your results.','बोलिए, टैप कीजिए, जाँच कीजिए। असली ऑप्टोमेट्रिस्ट नतीजे देखेंगे।','ಮಾತನಾಡಿ, ಟ್ಯಾಪ್ ಮಾಡಿ, ಪರೀಕ್ಷಿಸಿ. ನಿಜವಾದ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಫಲಿತಾಂಶ ನೋಡುತ್ತಾರೆ.'],
+card2:['Talk with Drishti','दृष्टि से बात करें','ದೃಷ್ಟಿಯೊಂದಿಗೆ ಮಾತನಾಡಿ'],
+card3:['Eye test only','सिर्फ़ आँख जाँच','ಕೇವಲ ಕಣ್ಣು ಪರೀಕ್ಷೆ'],
+hw1:['Speak','बोलें','ಮಾತನಾಡಿ'],hs1:['in your language','अपनी भाषा में','ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ'],
+hw2:['Answer','जवाब दें','ಉತ್ತರಿಸಿ'],hs2:['questions made for you','आपके लिए सवाल','ನಿಮಗಾಗಿ ಪ್ರಶ್ನೆಗಳು'],
+hw3:['Test','जाँचें','ಪರೀಕ್ಷಿಸಿ'],hs3:['with your phone','अपने फ़ोन से','ನಿಮ್ಮ ಫೋನಿನಿಂದ'],
+hw4:['See','देखें','ನೋಡಿ'],hs4:['your eye report','अपनी आँख रिपोर्ट','ನಿಮ್ಮ ಕಣ್ಣಿನ ವರದಿ'],
+hw5:['Get advice','सलाह पाएँ','ಸಲಹೆ ಪಡೆಯಿರಿ'],hs5:['from an optometrist','ऑप्टोमेट्रिस्ट से','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ರಿಂದ'],
+cTitle:['Before we start','शुरू करने से पहले','ಪ್ರಾರಂಭಿಸುವ ಮೊದಲು'],
+c1:['About 10 minutes','लगभग 10 मिनट','ಸುಮಾರು 10 ನಿಮಿಷ'],c2:['Speak or tap','बोलें या टैप करें','ಮಾತನಾಡಿ ಅಥವಾ ಟ್ಯಾಪ್ ಮಾಡಿ'],c3:['Only an optometrist sees it','सिर्फ़ ऑप्टोमेट्रिस्ट देखेंगे','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಮಾತ್ರ ನೋಡುತ್ತಾರೆ'],
+consentSay:['Hello, I am Drishti. This takes about ten minutes. You can speak or tap. Only an optometrist will see your answers.','नमस्ते, मैं दृष्टि हूँ। इसमें लगभग दस मिनट लगेंगे। आप बोल सकते हैं या टैप कर सकते हैं। आपके जवाब सिर्फ़ ऑप्टोमेट्रिस्ट देखेंगे।','ನಮಸ್ಕಾರ, ನಾನು ದೃಷ್ಟಿ. ಇದಕ್ಕೆ ಸುಮಾರು ಹತ್ತು ನಿಮಿಷ ಬೇಕು. ನೀವು ಮಾತನಾಡಬಹುದು ಅಥವಾ ಟ್ಯಾಪ್ ಮಾಡಬಹುದು. ನಿಮ್ಮ ಉತ್ತರಗಳನ್ನು ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಮಾತ್ರ ನೋಡುತ್ತಾರೆ.'],
+letsGo:['Let’s start','चलिए शुरू करें','ಪ್ರಾರಂಭಿಸೋಣ'],
+youSaid:['You said: {x}.','आपने बताया: {x}।','ನೀವು ಹೇಳಿದ್ದು: {x}.'],
+sec_eyes:['Your eyes','आपकी आँखें','ನಿಮ್ಮ ಕಣ್ಣುಗಳು'],sec_day:['Your day','आपका दिन','ನಿಮ್ಮ ದಿನ'],sec_health:['Your health','आपकी सेहत','ನಿಮ್ಮ ಆರೋಗ್ಯ'],
+secIn_day:['Now, a little about your day.','अब आपके दिन के बारे में।','ಈಗ ನಿಮ್ಮ ದಿನದ ಬಗ್ಗೆ ಸ್ವಲ್ಪ.'],
+secIn_health:['Last, a few health questions.','आख़िर में, सेहत के कुछ सवाल।','ಕೊನೆಯದಾಗಿ, ಆರೋಗ್ಯದ ಕೆಲವು ಪ್ರಶ್ನೆಗಳು.'],
+ack:['Got it','समझ गई','ಸರಿ'],
+hoursN:['{n} hours','{n} घंटे','{n} ಗಂಟೆ'],
+yearsN:['{n} years','{n} साल','{n} ವರ್ಷ'],
+hrs:['hours','घंटे','ಗಂಟೆ'],yrsW:['years','साल','ವರ್ಷ'],
+allClear:['Everything is clear','सब साफ़ दिखता है','ಎಲ್ಲವೂ ಸ್ಪಷ್ಟ'],
+blurry:['blurry','धुंधला','ಮಸುಕು'],
+done:['Done','हो गया','ಮುಗಿಯಿತು'],
+tapAll:['Tap all that fit','जो सही हों, सब चुनें','ಹೊಂದುವ ಎಲ್ಲವನ್ನೂ ಆರಿಸಿ'],
+speakNow:['Tap and speak','दबाएँ और बोलें','ಒತ್ತಿ ಮಾತನಾಡಿ'],
+you:['You','आप','ನೀವು'],
+reportTitle:['Your eye report','आपकी आँख रिपोर्ट','ನಿಮ್ಮ ಕಣ್ಣಿನ ವರದಿ'],
+myReport:['My report','मेरी रिपोर्ट','ನನ್ನ ವರದಿ'],
+loginTitle:['Send to optometrist','ऑप्टोमेट्रिस्ट को भेजें','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್‌ಗೆ ಕಳುಹಿಸಿ'],
+loginSub:['Enter your phone number. The reply comes here and by SMS.','अपना फ़ोन नंबर डालें। जवाब यहाँ और SMS पर आएगा।','ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ. ಉತ್ತರ ಇಲ್ಲಿ ಮತ್ತು SMS ಮೂಲಕ ಬರುತ್ತದೆ.'],
+sendOtp:['Send code','कोड भेजें','ಕೋಡ್ ಕಳುಹಿಸಿ'],
+enterOtp:['Enter the 4-digit code sent to {p}','{p} पर भेजा गया 4 अंकों का कोड डालें','{p} ಗೆ ಕಳುಹಿಸಿದ 4 ಅಂಕಿಯ ಕೋಡ್ ನಮೂದಿಸಿ'],
+demoOtp:['Demo code: {c}','डेमो कोड: {c}','ಡೆಮೊ ಕೋಡ್: {c}'],
+verify:['Verify','पुष्टि करें','ಪರಿಶೀಲಿಸಿ'],
+yourName:['Your name','आपका नाम','ನಿಮ್ಮ ಹೆಸರು'],
+badPhone:['Please enter a 10-digit number.','कृपया 10 अंकों का नंबर डालें।','ದಯವಿಟ್ಟು 10 ಅಂಕಿಯ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.'],
+badOtp:['That code is not right.','कोड सही नहीं है।','ಕೋಡ್ ಸರಿಯಿಲ್ಲ.'],
+needName:['Please add your name.','कृपया अपना नाम लिखें।','ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಸೇರಿಸಿ.'],
+cancel:['Cancel','रद्द करें','ರದ್ದುಮಾಡಿ'],
+verified:['Number verified','नंबर की पुष्टि हुई','ಸಂಖ್ಯೆ ಪರಿಶೀಲಿಸಲಾಗಿದೆ'],
+vidTitle:['Video consultation','वीडियो परामर्श','ವೀಡಿಯೊ ಸಮಾಲೋಚನೆ'],
+vidWhen:['When','कब','ಯಾವಾಗ'],
+joinMeet:['Join Google Meet','Google Meet से जुड़ें','Google Meet ಸೇರಿ'],
+linkSoon:['The link will come by SMS before the call.','कॉल से पहले लिंक SMS से आएगा।','ಕರೆಯ ಮೊದಲು ಲಿಂಕ್ SMS ಮೂಲಕ ಬರುತ್ತದೆ.'],
+newVid:['Your optometrist booked a video call','आपके ऑप्टोमेट्रिस्ट ने वीडियो कॉल तय की','ನಿಮ್ಮ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ವೀಡಿಯೊ ಕರೆ ನಿಗದಿಪಡಿಸಿದ್ದಾರೆ'],
+howYou:['How you use your eyes','आप आँखों का उपयोग कैसे करते हैं','ನೀವು ಕಣ್ಣುಗಳನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ'],
+lensFor:['Glasses that may suit you','आपके लिए सही चश्मा','ನಿಮಗೆ ಹೊಂದುವ ಕನ್ನಡಕ'],
+testShort:['Your tests','आपकी जाँच','ನಿಮ್ಮ ಪರೀಕ್ಷೆಗಳು'],
+helpL:['I’m a health worker helping this person','मैं स्वास्थ्य कार्यकर्ता हूँ और मदद कर रही हूँ','ನಾನು ಸಹಾಯ ಮಾಡುತ್ತಿರುವ ಆರೋಗ್ಯ ಕಾರ್ಯಕರ್ತೆ'],
+});
+
+Object.assign(ICO,{
+ mobile:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
+ pot:'<path d="M4 10h16v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M2 10h20M9 6c0-1 1-1 1-2M14 6c0-1 1-1 1-2"/>',
+ bus:'<rect x="4" y="3" width="16" height="15" rx="2"/><path d="M4 11h16M8 21v-3M16 21v-3"/><circle cx="8" cy="14.5" r="1"/><circle cx="16" cy="14.5" r="1"/>',
+ sign:'<path d="M12 22V10M5 3h14v7H5z"/><path d="M8 6.5h8"/>',
+ tool:'<path d="M14 6l4 4-9 9H5v-4z"/><path d="M13 7l2-2a2.8 2.8 0 0 1 4 4l-2 2"/>',
+ pill:'<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>',
+ person:'<circle cx="12" cy="5" r="2.5"/><path d="M12 8v7M8 22l4-7 4 7M7 11h10"/>',
+ star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+ lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+ logout:'<path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/>',
+ ext:'<path d="M14 3h7v7M21 3l-9 9M19 14v6H4V5h6"/>',
+ shieldchk:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+ smoke:'<path d="M4 20h16M6 16c0-2 2-2 2-4s-2-2-2-4M12 16c0-2 2-2 2-4s-2-2-2-4M18 16c0-2 2-2 2-4s-2-2-2-4"/>',
+ thyroid:'<path d="M8 4c-3 3-4 8-2 12s4 4 6 2c2 2 4 2 6-2s1-9-2-12"/><path d="M12 8v10"/>',
+});
+
+const SEC_COL={eyes:'indigo',day:'teal',health:'coral'};
+const PAL=['indigo','teal','gold','coral','sky','leaf'];
+const YNS=[{v:'yes',ic:'check',l:T.yes,kw:['haan','ha','ಹೌದು','yes']},{v:'some',ic:'tilde',l:T.some,kw:['kabhi','ಕೆಲವೊಮ್ಮೆ','sometimes']},{v:'no',ic:'x',l:T.no,kw:['nahi','nahin','ಇಲ್ಲ','no']}];
+const NONE=l=>({v:'none',ic:'check',l:l||['None','कोई नहीं','ಯಾವುದೂ ಇಲ್ಲ'],kw:['none','nothing','koi nahi','ಯಾವುದೂ','no']});
+const SCENE=[
+ {v:'paper',z:'near',ic:'book',l:['Newspaper','अख़बार','ಪತ್ರಿಕೆ'],kw:['paper','news','akhbaar','ಪತ್ರಿಕೆ']},
+ {v:'phone',z:'near',ic:'mobile',l:['Phone','फ़ोन','ಫೋನ್'],kw:['phone','mobile','ಫೋನ್']},
+ {v:'needle',z:'near',ic:'needle',l:['Needle','सुई','ಸೂಜಿ'],kw:['needle','sui','ಸೂಜಿ']},
+ {v:'cook',z:'mid',ic:'pot',l:['Cooking','खाना बनाना','ಅಡುಗೆ'],kw:['cook','khana','ಅಡುಗೆ','stove']},
+ {v:'computer',z:'mid',ic:'monitor',l:['Computer, TV','कंप्यूटर, टीवी','ಕಂಪ್ಯೂಟರ್, ಟಿವಿ'],kw:['computer','tv','ಟಿವಿ']},
+ {v:'counter',z:'mid',ic:'store',l:['Shop counter','दुकान काउंटर','ಅಂಗಡಿ ಕೌಂಟರ್'],kw:['counter','shop','dukaan','ಅಂಗಡಿ']},
+ {v:'bus',z:'far',ic:'bus',l:['Bus number','बस नंबर','ಬಸ್ ಸಂಖ್ಯೆ'],kw:['bus','ಬಸ್']},
+ {v:'face',z:'far',ic:'users',l:['Faces far away','दूर के चेहरे','ದೂರದ ಮುಖಗಳು'],kw:['face','chehra','ಮುಖ']},
+ {v:'sign',z:'far',ic:'sign',l:['Signboard','साइनबोर्ड','ಫಲಕ'],kw:['sign','board','ಫಲಕ']},
+];
+const SMAP=Object.fromEntries(SCENE.map(s=>[s.v,s]));
+const zonesOf=a=>[...new Set((a.scene||[]).map(v=>SMAP[v]&&SMAP[v].z).filter(Boolean))];
+const RF=[
+ {v:'loss',ic:'zap',l:['Vision went dark','अचानक दिखना बंद','ದೃಷ್ಟಿ ಕತ್ತಲಾಯಿತು'],kw:['dark','sudden','andhera','ಕತ್ತಲು','ಹಠಾತ್']},
+ {v:'flash',ic:'spark',l:['Flashes or floaters','चमक या तैरते धब्बे','ಮಿಂಚು ಅಥವಾ ತೇಲುವ ಚುಕ್ಕೆ'],kw:['flash','float','chamak','ಮಿಂಚು']},
+ {v:'curtain',ic:'cloud',l:['Shadow or curtain','परछाईं या पर्दा','ನೆರಳು ಅಥವಾ ಪರದೆ'],kw:['shadow','curtain','parda','ನೆರಳು','ಪರದೆ']},
+ {v:'pain',ic:'alert',l:['Strong eye pain','तेज़ आँख दर्द','ತೀವ್ರ ಕಣ್ಣು ನೋವು'],kw:['pain','dard','ನೋವು']},
+];
+const Q=[
+ /* ---- your eyes ---- */
+ {id:'age',sec:'eyes',type:'age',t:['How old are you?','आपकी उम्र क्या है?','ನಿಮ್ಮ ವಯಸ್ಸು ಎಷ್ಟು?']},
+ {id:'cc',sec:'eyes',type:'single',t:['What troubles your eyes the most?','आपकी आँखों में सबसे ज़्यादा क्या परेशानी है?','ನಿಮ್ಮ ಕಣ್ಣುಗಳಿಗೆ ಹೆಚ್ಚು ತೊಂದರೆ ಏನು?'],o:[
+  {v:'far',ic:'mountain',l:['Far is blurry','दूर धुंधला','ದೂರ ಮಸುಕು'],kw:['far','door','ದೂರ']},
+  {v:'near',ic:'book',l:['Reading is hard','पढ़ने में दिक्कत','ಓದಲು ಕಷ್ಟ'],kw:['read','padh','ಓದ','near','paas']},
+  {v:'strain',ic:'head',l:['Tired eyes, headache','थकी आँखें, सिरदर्द','ಕಣ್ಣು ಆಯಾಸ, ತಲೆನೋವು'],kw:['tired','head','sir','thakan','ತಲೆ','ಆಯಾಸ']},
+  {v:'irrit',ic:'drop',l:['Red, itchy, watery','लाल, खुजली, पानी','ಕೆಂಪು, ತುರಿಕೆ, ನೀರು'],kw:['red','itch','water','khujli','ತುರಿಕೆ','ಕೆಂಪು']},
+  {v:'sudden',ic:'zap',l:['Sudden change or pain','अचानक बदलाव या दर्द','ಹಠಾತ್ ಬದಲಾವಣೆ ಅಥವಾ ನೋವು'],kw:['sudden','pain','achanak','dard','ಹಠಾತ್','ನೋವು']},
+  {v:'checkup',ic:'shieldchk',l:['Just a check-up','बस जाँच','ಕೇವಲ ತಪಾಸಣೆ'],kw:['check','jaanch','ತಪಾಸಣೆ','nothing']},
+ ]},
+ {id:'cc_sudden',sec:'eyes',type:'multi',parent:'cc',cond:a=>a.cc==='sudden',rule:'Sudden change → identify red-flag type immediately',t:['What happened? Tap all.','क्या हुआ? सब चुनें।','ಏನಾಯಿತು? ಎಲ್ಲವನ್ನೂ ಆರಿಸಿ.'],o:RF},
+ {id:'cc_irrit',sec:'eyes',type:'single',parent:'cc',cond:a=>a.cc==='irrit',rule:'Red/itchy eye → check for pain (urgent) or discharge (infection)',t:['Is there pain, or sticky discharge?','क्या दर्द है, या चिपचिपा पानी?','ನೋವು ಇದೆಯೇ, ಅಥವಾ ಅಂಟು ಸ್ರಾವ?'],o:[
+  {v:'pain',ic:'alert',l:['Pain','दर्द','ನೋವು'],kw:['pain','dard','ನೋವು']},
+  {v:'discharge',ic:'drop',l:['Sticky discharge','चिपचिपा पानी','ಅಂಟು ಸ್ರಾವ'],kw:['sticky','discharge','chipchipa','ಅಂಟು']},
+  {v:'neither',ic:'check',l:['Neither','दोनों नहीं','ಯಾವುದೂ ಇಲ್ಲ'],kw:['neither','no','nahi','ಇಲ್ಲ']},
+ ]},
+ {id:'cc_since',sec:'eyes',type:'single',parent:'cc',cond:a=>['far','near','strain'].includes(a.cc),rule:'Blur or strain → ask onset (recent change needs exam)',t:['Since when?','कब से?','ಯಾವಾಗಿನಿಂದ?'],o:[
+  {v:'weeks',ic:'calendar',l:['A few weeks','कुछ हफ़्ते','ಕೆಲವು ವಾರ'],kw:['week','hafte','ವಾರ']},
+  {v:'months',ic:'calendar',l:['Some months','कुछ महीने','ಕೆಲವು ತಿಂಗಳು'],kw:['month','mahine','ತಿಂಗಳು']},
+  {v:'years',ic:'hourglass',l:['Years','सालों से','ವರ್ಷಗಳಿಂದ'],kw:['year','saal','ವರ್ಷ']},
+ ]},
+ {id:'cc_eye',sec:'eyes',type:'single',parent:'cc',cond:a=>['far','near'].includes(a.cc),rule:'Blur → one eye or both (one-eye blur needs exam)',t:['One eye or both?','एक आँख या दोनों?','ಒಂದು ಕಣ್ಣೇ ಅಥವಾ ಎರಡೂ?'],o:[
+  {v:'right',ic:'eye',l:['Right eye','दाईं आँख','ಬಲ ಕಣ್ಣು'],kw:['right','daayin','ಬಲ']},
+  {v:'left',ic:'eye',l:['Left eye','बाईं आँख','ಎಡ ಕಣ್ಣು'],kw:['left','baayin','ಎಡ']},
+  {v:'both',ic:'eyes2',l:['Both eyes','दोनों आँखें','ಎರಡೂ ಕಣ್ಣು'],kw:['both','dono','ಎರಡೂ']},
+ ]},
+ {id:'strain_when',sec:'eyes',type:'multi',parent:'cc',cond:a=>a.cc==='strain',rule:'Strain → find the trigger (screen, close work, sun, evening)',t:['When does it happen?','यह कब होता है?','ಇದು ಯಾವಾಗ ಆಗುತ್ತದೆ?'],o:[
+  {v:'screen',ic:'mobile',l:['After phone or TV','फ़ोन या टीवी के बाद','ಫೋನ್ ಅಥವಾ ಟಿವಿ ನಂತರ'],kw:['phone','tv','ಫೋನ್']},
+  {v:'close',ic:'needle',l:['After reading, sewing','पढ़ने, सिलाई के बाद','ಓದು, ಹೊಲಿಗೆ ನಂತರ'],kw:['read','sew','silai','ಓದು','ಹೊಲಿಗೆ']},
+  {v:'sun',ic:'sun',l:['In bright sun','तेज़ धूप में','ಪ್ರಖರ ಬಿಸಿಲಿನಲ್ಲಿ'],kw:['sun','dhoop','ಬಿಸಿಲು']},
+  {v:'evening',ic:'moon',l:['By evening','शाम तक','ಸಂಜೆಯ ವೇಳೆಗೆ'],kw:['evening','shaam','ಸಂಜೆ']},
+ ]},
+ {id:'scene',sec:'eyes',type:'scene',cond:a=>a.cc!=='sudden',t:['Which of these look blurry to you?','इनमें से क्या धुंधला दिखता है?','ಇವುಗಳಲ್ಲಿ ಯಾವುದು ಮಸುಕಾಗಿ ಕಾಣುತ್ತದೆ?']},
+ {id:'presby',sec:'eyes',type:'single',parent:'scene',cond:(a,age)=>age>=38&&zonesOf(a).includes('near'),rule:'Age ≥ 38 and near items blurry → presbyopia follow-up',lead:['Close things look blurry.','पास की चीज़ें धुंधली दिखती हैं।','ಹತ್ತಿರದ ವಸ್ತುಗಳು ಮಸುಕಾಗಿ ಕಾಣುತ್ತವೆ.'],t:['Do you hold things farther away to read?','क्या पढ़ने के लिए चीज़ें दूर करके पकड़ते हैं?','ಓದಲು ವಸ್ತುಗಳನ್ನು ದೂರ ಹಿಡಿಯುತ್ತೀರಾ?'],o:YNS},
+ {id:'switching',sec:'eyes',type:'single',cond:(a,age)=>age>=35&&zonesOf(a).length>0,rule:'Age ≥ 35 with blur → ask about switching focus (progressive need)',t:['Is it slow to change focus from phone to road?','फ़ोन से सड़क पर नज़र बदलने में देर लगती है?','ಫೋನಿನಿಂದ ರಸ್ತೆಗೆ ದೃಷ್ಟಿ ಬದಲಿಸಲು ತಡವಾಗುತ್ತದೆಯೇ?'],o:YNS},
+ {id:'glasses',sec:'eyes',type:'single',t:['Do you wear glasses?','क्या आप चश्मा पहनते हैं?','ನೀವು ಕನ್ನಡಕ ಹಾಕುತ್ತೀರಾ?'],o:[
+  {v:'yes',ic:'glasses',l:['Yes','हाँ','ಹೌದು'],kw:['yes','haan','ಹೌದು']},
+  {v:'no',ic:'ban',l:['No','नहीं','ಇಲ್ಲ'],kw:['no','nahi','ಇಲ್ಲ']},
+  {v:'used',ic:'hourglass',l:['I used to','पहले पहनता था','ಹಿಂದೆ ಹಾಕುತ್ತಿದ್ದೆ'],kw:['used','pehle','ಹಿಂದೆ']},
+ ]},
+ {id:'glasses_for',sec:'eyes',type:'single',parent:'glasses',cond:a=>a.glasses==='yes'||a.glasses==='used',rule:'Wears glasses → what for',t:['What are they for?','चश्मा किस लिए है?','ಕನ್ನಡಕ ಯಾವುದಕ್ಕೆ?'],o:[
+  {v:'far',ic:'mountain',l:['Far','दूर','ದೂರ'],kw:['far','door','ದೂರ']},
+  {v:'read',ic:'book',l:['Reading','पढ़ना','ಓದು'],kw:['read','padh','ಓದು']},
+  {v:'both',ic:'glasses',l:['Both','दोनों','ಎರಡೂ'],kw:['both','dono','ಎರಡೂ']},
+ ]},
+ {id:'glasses_src',sec:'eyes',type:'single',parent:'glasses_for',cond:a=>a.glasses==='yes'||a.glasses==='used',rule:'Wears glasses → where from (readymade = no exam)',t:['Where did you get them?','चश्मा कहाँ से लिया?','ಕನ್ನಡಕ ಎಲ್ಲಿಂದ ಪಡೆದಿರಿ?'],o:[
+  {v:'exam',ic:'eye',l:['After an eye test','आँख जाँच के बाद','ಕಣ್ಣು ಪರೀಕ್ಷೆಯ ನಂತರ'],kw:['test','doctor','jaanch','ಪರೀಕ್ಷೆ']},
+  {v:'market',ic:'tag',l:['Market, readymade','बाज़ार, रेडीमेड','ಮಾರುಕಟ್ಟೆ, ರೆಡಿಮೇಡ್'],kw:['market','readymade','bazaar','ಮಾರುಕಟ್ಟೆ']},
+  {v:'other',ic:'users',l:['Someone else’s','किसी और का','ಬೇರೆಯವರದ್ದು'],kw:['someone','other','kisi','ಬೇರೆ']},
+ ]},
+ {id:'glasses_age',sec:'eyes',type:'single',parent:'glasses_src',cond:a=>a.glasses==='yes'||a.glasses==='used',rule:'Wears glasses → how old',t:['How old are they?','चश्मा कितना पुराना है?','ಕನ್ನಡಕ ಎಷ್ಟು ಹಳೆಯದು?'],o:[
+  {v:'lt1',ic:'spark',l:['Under 1 year','1 साल से कम','1 ವರ್ಷದೊಳಗೆ'],kw:['new','less','naya','ಹೊಸ']},
+  {v:'1to2',ic:'calendar',l:['1 to 2 years','1 से 2 साल','1 ರಿಂದ 2 ವರ್ಷ'],kw:['one','two','ek','do','ಒಂದು','ಎರಡು']},
+  {v:'gt2',ic:'hourglass',l:['Over 2 years','2 साल से ज़्यादा','2 ವರ್ಷಕ್ಕೂ ಹೆಚ್ಚು'],kw:['old','more','purana','ಹಳೆ']},
+ ]},
+ /* ---- your day ---- */
+ {id:'work',sec:'day',type:'single',t:['What work do you do?','आप क्या काम करते हैं?','ನೀವು ಏನು ಕೆಲಸ ಮಾಡುತ್ತೀರಿ?'],o:[
+  {v:'farming',ic:'sprout',l:['Farming','खेती','ಕೃಷಿ'],kw:['farm','field','kheti','ಹೊಲ','ಕೃಷಿ','ರೈತ']},
+  {v:'labour',ic:'tool',l:['Labour, building','मज़दूरी','ಕೂಲಿ ಕೆಲಸ'],kw:['labour','building','mazdoori','ಕೂಲಿ']},
+  {v:'shop',ic:'store',l:['Shop','दुकान','ಅಂಗಡಿ'],kw:['shop','dukaan','ಅಂಗಡಿ']},
+  {v:'home',ic:'home',l:['Home work','घर का काम','ಮನೆಕೆಲಸ'],kw:['home','ghar','ಮನೆ']},
+  {v:'craft',ic:'needle',l:['Tailoring, crafts','सिलाई, दस्तकारी','ಹೊಲಿಗೆ, ಕರಕುಶಲ'],kw:['tailor','sew','silai','ಹೊಲಿಗೆ']},
+  {v:'student',ic:'cap',l:['Student','पढ़ाई','ವಿದ್ಯಾರ್ಥಿ'],kw:['student','school','ಶಾಲೆ']},
+  {v:'office',ic:'monitor',l:['Office','ऑफ़िस','ಕಚೇರಿ'],kw:['office','computer','ಕಚೇರಿ']},
+  {v:'driver',ic:'truck',l:['Driver','ड्राइवर','ಚಾಲಕ'],kw:['driver','drive','ಚಾಲಕ']},
+ ]},
+ {id:'dust',sec:'day',type:'single',parent:'work',cond:a=>['farming','labour'].includes(a.work),rule:'Outdoor or manual work → ask about dust and smoke (eye protection)',t:['Is there dust or smoke at work?','काम पर धूल या धुआँ होता है?','ಕೆಲಸದಲ್ಲಿ ಧೂಳು ಅಥವಾ ಹೊಗೆ ಇದೆಯೇ?'],o:YNS},
+ {id:'nearwork',sec:'day',type:'hours',parent:'work',cond:a=>['craft','student','shop','office','home'].includes(a.work),rule:'Close-work job → measure hours of near work',t:['How many hours of close work, like reading or sewing?','पढ़ने या सिलाई जैसे पास के काम के कितने घंटे?','ಓದು ಅಥವಾ ಹೊಲಿಗೆಯಂತಹ ಹತ್ತಿರದ ಕೆಲಸ ಎಷ್ಟು ಗಂಟೆ?']},
+ {id:'outdoor',sec:'day',type:'hours',t:['How many hours are you out in the sun?','आप कितने घंटे धूप में रहते हैं?','ನೀವು ಎಷ್ಟು ಗಂಟೆ ಬಿಸಿಲಿನಲ್ಲಿ ಇರುತ್ತೀರಿ?']},
+ {id:'phone',sec:'day',type:'hours',t:['How many hours on phone or TV?','फ़ोन या टीवी पर कितने घंटे?','ಫೋನ್ ಅಥವಾ ಟಿವಿ ಎಷ್ಟು ಗಂಟೆ?']},
+ {id:'drive',sec:'day',type:'single',t:['Do you drive or ride?','क्या आप गाड़ी चलाते हैं?','ನೀವು ವಾಹನ ಓಡಿಸುತ್ತೀರಾ?'],o:[
+  {v:'no',ic:'walk',l:['No','नहीं','ಇಲ್ಲ'],kw:['no','nahi','ಇಲ್ಲ']},
+  {v:'cycle',ic:'bike',l:['Cycle','साइकिल','ಸೈಕಲ್'],kw:['cycle','ಸೈಕಲ್']},
+  {v:'two',ic:'moto',l:['Bike, scooter','बाइक, स्कूटर','ಬೈಕ್, ಸ್ಕೂಟರ್'],kw:['bike','scooter','ಬೈಕ್','ಸ್ಕೂಟರ್']},
+  {v:'four',ic:'car',l:['Car, tractor','कार, ट्रैक्टर','ಕಾರು, ಟ್ರ್ಯಾಕ್ಟರ್'],kw:['car','tractor','truck','ಕಾರು','ಟ್ರ್ಯಾಕ್ಟರ್']},
+ ]},
+ {id:'night',sec:'day',type:'single',parent:'drive',cond:a=>a.drive&&a.drive!=='no',rule:'Drives → ask about night glare',t:['At night, do headlights dazzle you?','रात में सामने की लाइट से आँखें चौंधियाती हैं?','ರಾತ್ರಿ ಎದುರಿನ ದೀಪದಿಂದ ಕಣ್ಣು ಕುಕ್ಕುತ್ತದೆಯೇ?'],o:[
+  {v:'glare',ic:'sun',l:['Yes, a lot','हाँ, बहुत','ಹೌದು, ತುಂಬಾ'],kw:['yes','lot','haan','bahut','ಹೌದು']},
+  {v:'ok',ic:'check',l:['No problem','कोई दिक्कत नहीं','ತೊಂದರೆ ಇಲ್ಲ'],kw:['no problem','theek','ತೊಂದರೆ ಇಲ್ಲ']},
+  {v:'no_night',ic:'moon',l:['I don’t drive at night','रात में नहीं चलाता','ರಾತ್ರಿ ಓಡಿಸುವುದಿಲ್ಲ'],kw:['night','raat','ರಾತ್ರಿ']},
+ ]},
+ /* ---- your health ---- */
+ {id:'medical',sec:'health',type:'multi',excl:'none',t:['Do you have any of these?','क्या इनमें से कोई बीमारी है?','ಇವುಗಳಲ್ಲಿ ಯಾವುದಾದರೂ ಇದೆಯೇ?'],o:[
+  {v:'diabetes',ic:'drop',l:['Sugar (diabetes)','शुगर (मधुमेह)','ಶುಗರ್ (ಮಧುಮೇಹ)'],kw:['sugar','diabet','शुगर','ಶುಗರ್','ಮಧುಮೇಹ']},
+  {v:'bp',ic:'heart',l:['High BP','हाई बीपी','ಹೈ ಬಿಪಿ'],kw:['bp','pressure','ಬಿಪಿ']},
+  {v:'thyroid',ic:'thyroid',l:['Thyroid','थायरॉइड','ಥೈರಾಯ್ಡ್'],kw:['thyroid','ಥೈರಾಯ್ಡ್']},
+  {v:'unsure',ic:'help',l:['Don’t know','पता नहीं','ಗೊತ್ತಿಲ್ಲ'],kw:['know','pata','ಗೊತ್ತಿಲ್ಲ']},
+  NONE(),
+ ]},
+ {id:'diab_years',sec:'health',type:'single',parent:'medical',cond:a=>has(a.medical,'diabetes'),rule:'Diabetes → duration (risk rises after 5–10 years)',t:['For how many years?','कितने सालों से?','ಎಷ್ಟು ವರ್ಷಗಳಿಂದ?'],o:[
+  {v:'lt5',ic:'calendar',l:['Under 5 years','5 साल से कम','5 ವರ್ಷಕ್ಕಿಂತ ಕಡಿಮೆ'],kw:['less','kam','ಕಡಿಮೆ']},
+  {v:'5to10',ic:'calendar',l:['5 to 10 years','5 से 10 साल','5 ರಿಂದ 10 ವರ್ಷ'],kw:['five','ten','paanch','das','ಐದು','ಹತ್ತು']},
+  {v:'gt10',ic:'hourglass',l:['Over 10 years','10 साल से ज़्यादा','10 ವರ್ಷಕ್ಕೂ ಹೆಚ್ಚು'],kw:['more','zyada','ಹೆಚ್ಚು']},
+ ]},
+ {id:'diab_check',sec:'health',type:'single',parent:'diab_years',cond:a=>has(a.medical,'diabetes'),rule:'Diabetes → last retinal check',t:['When was your last eye test?','आख़िरी आँख जाँच कब हुई?','ಕೊನೆಯ ಕಣ್ಣು ಪರೀಕ್ಷೆ ಯಾವಾಗ?'],o:[
+  {v:'lt1',ic:'calendar',l:['This year','इस साल','ಈ ವರ್ಷ'],kw:['this year','is saal','ಈ ವರ್ಷ']},
+  {v:'gt1',ic:'hourglass',l:['Long ago','बहुत पहले','ತುಂಬಾ ಹಿಂದೆ'],kw:['long','pehle','ಹಿಂದೆ']},
+  {v:'never',ic:'ban',l:['Never','कभी नहीं','ಎಂದೂ ಇಲ್ಲ'],kw:['never','kabhi nahi','ಎಂದೂ']},
+ ]},
+ {id:'diab_spots',sec:'health',type:'single',parent:'diab_check',cond:a=>has(a.medical,'diabetes'),rule:'Diabetes → spots or patches (retinopathy symptom)',t:['Do you see dark spots or patches?','काले धब्बे या धुंधले हिस्से दिखते हैं?','ಕಪ್ಪು ಚುಕ್ಕೆ ಅಥವಾ ಮಸುಕು ಭಾಗ ಕಾಣುತ್ತದೆಯೇ?'],o:YNS},
+ {id:'meds',sec:'health',type:'single',t:['Do you take steroid tablets or eye drops daily?','क्या रोज़ स्टेरॉयड गोली या आँख की दवा लेते हैं?','ದಿನವೂ ಸ್ಟೀರಾಯ್ಡ್ ಮಾತ್ರೆ ಅಥವಾ ಕಣ್ಣಿನ ಹನಿ ಬಳಸುತ್ತೀರಾ?'],o:[
+  {v:'yes',ic:'pill',l:['Yes','हाँ','ಹೌದು'],kw:['yes','haan','ಹೌದು']},
+  {v:'no',ic:'x',l:['No','नहीं','ಇಲ್ಲ'],kw:['no','nahi','ಇಲ್ಲ']},
+  {v:'unsure',ic:'help',l:['Don’t know','पता नहीं','ಗೊತ್ತಿಲ್ಲ'],kw:['know','pata','ಗೊತ್ತಿಲ್ಲ']},
+ ]},
+ {id:'surgery',sec:'health',type:'single',t:['Any eye operation or injury before?','पहले आँख का ऑपरेशन या चोट?','ಹಿಂದೆ ಕಣ್ಣಿನ ಶಸ್ತ್ರಚಿಕಿತ್ಸೆ ಅಥವಾ ಗಾಯ?'],o:[
+  {v:'none',ic:'check',l:['No','नहीं','ಇಲ್ಲ'],kw:['no','nahi','ಇಲ್ಲ']},
+  {v:'cataract',ic:'eye',l:['Cataract operation','मोतियाबिंद ऑपरेशन','ಪೊರೆ ಶಸ್ತ್ರಚಿಕಿತ್ಸೆ'],kw:['cataract','motiyabind','ಪೊರೆ']},
+  {v:'injury',ic:'alert',l:['Injury','चोट','ಗಾಯ'],kw:['injury','chot','ಗಾಯ']},
+ ]},
+ {id:'family',sec:'health',type:'multi',excl:'none',t:['Anyone in your family with glaucoma or blindness?','परिवार में किसी को काला मोतिया या अंधापन?','ಕುಟುಂಬದಲ್ಲಿ ಯಾರಿಗಾದರೂ ಗ್ಲೂಕೋಮಾ ಅಥವಾ ಅಂಧತ್ವ?'],o:[
+  {v:'glaucoma',ic:'eye',l:['Glaucoma','काला मोतिया','ಗ್ಲೂಕೋಮಾ'],kw:['glaucoma','kala motia','ಗ್ಲೂಕೋಮಾ']},
+  {v:'blind',ic:'eyeoff',l:['Blindness','अंधापन','ಅಂಧತ್ವ'],kw:['blind','andha','ಅಂಧ','ಕುರುಡ']},
+  {v:'unsure',ic:'help',l:['Don’t know','पता नहीं','ಗೊತ್ತಿಲ್ಲ'],kw:['know','pata','ಗೊತ್ತಿಲ್ಲ']},
+  NONE(),
+ ]},
+ {id:'redflag',sec:'health',type:'multi',excl:'none',cond:a=>a.cc!=='sudden',t:['Lately, have you had any of these?','हाल में, इनमें से कुछ हुआ?','ಇತ್ತೀಚೆಗೆ ಇವುಗಳಲ್ಲಿ ಯಾವುದಾದರೂ ಆಯಿತೇ?'],o:[...RF,NONE()]},
+ {id:'priority',sec:'health',type:'single',t:['What matters most in new glasses?','नए चश्मे में सबसे ज़रूरी क्या?','ಹೊಸ ಕನ್ನಡಕದಲ್ಲಿ ಮುಖ್ಯವಾದುದು ಏನು?'],o:[
+  {v:'price',ic:'wallet',l:['Low cost','कम दाम','ಕಡಿಮೆ ಬೆಲೆ'],kw:['cost','cheap','price','sasta','ಬೆಲೆ']},
+  {v:'strong',ic:'shield',l:['Strong','मज़बूत','ಗಟ್ಟಿಮುಟ್ಟು'],kw:['strong','mazboot','ಗಟ್ಟಿ']},
+  {v:'sun',ic:'sun',l:['Sun protection','धूप से बचाव','ಬಿಸಿಲು ರಕ್ಷಣೆ'],kw:['sun','dhoop','ಬಿಸಿಲು']},
+  {v:'one',ic:'glasses',l:['One pair for all','सबके लिए एक','ಎಲ್ಲಕ್ಕೂ ಒಂದೇ'],kw:['one','ek','ಒಂದೇ']},
+ ]},
+];
+Q.forEach(q=>{if(q.type==='multi'&&!q.excl&&q.o.some(o=>o.v==='none'))q.excl='none'});
+const QMAP=Object.fromEntries(Q.map(q=>[q.id,q]));
+const has=(a,v)=>Array.isArray(a)&&a.includes(v);
+function visibleQs(a,age){a=a||{};age=+age||+a.age||0;return Q.filter(q=>!q.cond||q.cond(a,age))}
+function optLabel(q,v,lang){if(q.type==='scene'){const s=SMAP[v];return s?tx(s.l,lang):v}const o=(q.o||[]).find(o=>o.v===v);return o?tx(o.l,lang):v}
+function ansLabel(q,val,lang){
+ if(q.type==='hours')return tx(T.hoursN,lang).replace('{n}',val);
+ if(q.type==='age')return tx(T.yearsN,lang).replace('{n}',val);
+ if(q.type==='scene')return val&&val.length?val.map(v=>optLabel(q,v,lang)).join(', '):tx(T.allClear,lang);
+ return Array.isArray(val)?val.map(v=>optLabel(q,v,lang)).join(', '):optLabel(q,val,lang)}
+
+/* ============ tests ============ */
+const TESTS=['setup','va','near','np','contrast','color','amsler','astig','pd'];
+const VA=['6/60','6/36','6/24','6/18','6/12','6/9','6/6'];
+const VA_PX=[104,72,52,40,30,22,15];
+const NEAR=['N24','N18','N14','N12','N10','N8','N6'];
+const NEAR_PX=[30,24,19,16,13.5,11,9];
+const CONTRAST=[100,50,25,12,6,3];
+const PLATES=[{n:12,o:[12,17,21]},{n:74,o:[21,74,71]},{n:6,o:[5,8,6]}];
+const DIRS={right:0,down:90,left:180,up:270};
+const vaStr=i=>i<0?'worse than 6/60':VA[i];
+const TIP_IC={diab:'drop',family:'users',ready:'tag',night:'moon',sun:'sun',light:'bulb',r2020:'clock',blink:'eye',rub:'hand',dust:'shield'};
+const TEST_IC={setup:'card',va:'mountain',near:'book',np:'ruler',contrast:'tilde',color:'eye',amsler:'list',astig:'spark',pd:'eyes2'};
+/* ============ lens / reply vocab ============ */
+const LENS={
+ sv_dist:['Single vision for distance','सिंगल विज़न, दूर के लिए','ಸಿಂಗಲ್ ವಿಷನ್, ದೂರಕ್ಕೆ'],
+ sv_read:['Single vision for reading','सिंगल विज़न, पढ़ने के लिए','ಸಿಂಗಲ್ ವಿಷನ್, ಓದಲು'],
+ bifocal:['Bifocal (far and near)','बाइफ़ोकल (दूर और पास)','ಬೈಫೋಕಲ್ (ದೂರ ಮತ್ತು ಹತ್ತಿರ)'],
+ progressive:['Progressive (all distances)','प्रोग्रेसिव (सभी दूरियों के लिए)','ಪ್ರೋಗ್ರೆಸಿವ್ (ಎಲ್ಲ ದೂರಗಳಿಗೆ)'],
+ none:['No glasses needed yet','अभी चश्मे की ज़रूरत नहीं','ಸದ್ಯಕ್ಕೆ ಕನ್ನಡಕ ಬೇಕಿಲ್ಲ'],
+ defer:['Decide after an in-person exam','आमने-सामने जाँच के बाद तय होगा','ನೇರ ಪರೀಕ್ಷೆಯ ನಂತರ ನಿರ್ಧರಿಸಲಾಗುವುದು'],
+};
+const COAT={
+ uv:['UV and sun protection','UV और धूप से सुरक्षा','UV ಮತ್ತು ಬಿಸಿಲು ರಕ್ಷಣೆ'],
+ ar:['Anti-glare for night driving','रात में ड्राइविंग के लिए एंटी-ग्लेयर','ರಾತ್ರಿ ಚಾಲನೆಗೆ ಆಂಟಿ-ಗ್ಲೇರ್'],
+ blue:['Blue-light filter for screens','स्क्रीन के लिए ब्लू-लाइट फ़िल्टर','ಪರದೆಗಾಗಿ ಬ್ಲೂ-ಲೈಟ್ ಫಿಲ್ಟರ್'],
+ tough:['Scratch-resistant, durable','खरोंच-रोधी, मज़बूत','ಗೀರು ನಿರೋಧಕ, ಗಟ್ಟಿಮುಟ್ಟು'],
+};
+const NEXT={
+ store:['Visit the partner optical store for final power and fitting','अंतिम नंबर और फ़िटिंग के लिए पार्टनर चश्मे की दुकान पर जाएँ','ಅಂತಿಮ ಸಂಖ್ಯೆ ಮತ್ತು ಹೊಂದಿಕೆಗಾಗಿ ಪಾಲುದಾರ ಕನ್ನಡಕ ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ'],
+ camp:['Come to the eye camp for a full eye check','पूरी आँख जाँच के लिए आँख शिविर में आएँ','ಪೂರ್ಣ ಕಣ್ಣಿನ ತಪಾಸಣೆಗಾಗಿ ಕಣ್ಣಿನ ಶಿಬಿರಕ್ಕೆ ಬನ್ನಿ'],
+ hospital:['Go to the eye hospital urgently','तुरंत आँखों के अस्पताल जाएँ','ತುರ್ತಾಗಿ ಕಣ್ಣಿನ ಆಸ್ಪತ್ರೆಗೆ ಹೋಗಿ'],
+ video:['Join a video call with the optometrist','ऑप्टोमेट्रिस्ट के साथ वीडियो कॉल करें','ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಜೊತೆ ವೀಡಿಯೊ ಕರೆಯಲ್ಲಿ ಸೇರಿ'],
+};
+const CENTRES=[
+ {id:'netra',type:'store',name:'Netra Opticals, Tumakuru',km:14,detail:'Partner optical store, open 9 am to 8 pm, all days',load:'12 referrals this week'},
+ {id:'gubbi',type:'store',name:'Vision Centre, Gubbi PHC',km:9,detail:'Government vision centre, Monday to Saturday',load:'7 referrals this week'},
+ {id:'camp',type:'camp',name:'Eye camp, Hosahalli Panchayat Hall',km:1,detail:'Saturday 7 November, 9 am to 4 pm',load:'38 of 80 slots booked'},
+ {id:'dist',type:'hospital',name:'District Eye Hospital, Tumakuru',km:15,detail:'Emergency eye care, open 24 hours, 0816 227 4400',load:'2 urgent referrals this week'},
+ {id:'video',type:'video',name:'Video call with Dr. Anjali Rao',km:0,detail:'Thursday 29 October, 4:30 pm',load:'4 slots left'},
+];
+const CMAP=Object.fromEntries(CENTRES.map(c=>[c.id,c]));
+const DOC={name:['Dr. Anjali Rao','डॉ. अंजलि राव','ಡಾ. ಅಂಜಲಿ ರಾವ್']};
+const REPLY_TPL=[
+ 'Hello {name}. {doc} has reviewed your vision profile. Recommended lens: {lens}. {extras}Next step: {next}, at {centre}.',
+ 'नमस्ते {name}। {doc} ने आपकी विज़न प्रोफ़ाइल देख ली है। सुझाया गया लेंस: {lens}। {extras}अगला कदम: {next}, {centre} पर।',
+ 'ನಮಸ್ಕಾರ {name}. {doc} ಅವರು ನಿಮ್ಮ ದೃಷ್ಟಿ ಪ್ರೊಫೈಲ್ ಪರಿಶೀಲಿಸಿದ್ದಾರೆ. ಶಿಫಾರಸು ಮಾಡಿದ ಲೆನ್ಸ್: {lens}. {extras}ಮುಂದಿನ ಹಂತ: {next}, {centre} ನಲ್ಲಿ.'];
+const EXTRAS_TPL=['With: {list}. ','साथ में: {list}। ','ಜೊತೆಗೆ: {list}. '];
+function replyText(name,rep,lang){
+ const i=LI[lang]||0;
+ const extras=rep.coat&&rep.coat.length?EXTRAS_TPL[i].replace('{list}',rep.coat.map(c=>COAT[c][i]).join(', ')):'';
+ const c=CMAP[rep.centre];
+ return REPLY_TPL[i].replace('{name}',name).replace('{doc}',DOC.name[i]).replace('{lens}',LENS[rep.lens][i]).replace('{extras}',extras).replace('{next}',NEXT[rep.next][i]).replace('{centre}',c?c.name:'');
+}
+
+const TIPS={
+ diab:['🩸',['With diabetes, get your eyes checked every year, even if you see well.','मधुमेह है तो हर साल आँखों की जाँच कराएँ, चाहे साफ़ दिखता हो।','ಮಧುಮೇಹವಿದ್ದರೆ, ಚೆನ್ನಾಗಿ ಕಂಡರೂ ಪ್ರತಿ ವರ್ಷ ಕಣ್ಣು ಪರೀಕ್ಷಿಸಿಕೊಳ್ಳಿ.']],
+ family:['👪',['Glaucoma can run in families. Ask for an eye pressure check at your next visit.','काला मोतिया परिवार में चल सकता है। अगली बार आँखों के दबाव की जाँच ज़रूर कराएँ।','ಗ್ಲೂಕೋಮಾ ಕುಟುಂಬದಲ್ಲಿ ಬರಬಹುದು. ಮುಂದಿನ ಭೇಟಿಯಲ್ಲಿ ಕಣ್ಣಿನ ಒತ್ತಡ ಪರೀಕ್ಷೆ ಕೇಳಿ.']],
+ ready:['🛒',['Readymade reading glasses can strain your eyes. Wait for the optometrist’s advice before buying new ones.','रेडीमेड पढ़ने वाले चश्मे से आँखों पर ज़ोर पड़ सकता है। नया लेने से पहले ऑप्टोमेट्रिस्ट की सलाह लें।','ರೆಡಿಮೇಡ್ ಓದುವ ಕನ್ನಡಕಗಳು ಕಣ್ಣಿಗೆ ಒತ್ತಡ ತರಬಹುದು. ಹೊಸದನ್ನು ಖರೀದಿಸುವ ಮೊದಲು ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಸಲಹೆ ಪಡೆಯಿರಿ.']],
+ night:['🌙',['Until you get advice, avoid driving at night if glare makes it hard to see.','सलाह मिलने तक, अगर चौंध से दिखने में दिक्कत हो तो रात में गाड़ी न चलाएँ।','ಸಲಹೆ ಸಿಗುವವರೆಗೆ, ಕಣ್ಣು ಕುಕ್ಕುವುದರಿಂದ ಕಾಣಲು ಕಷ್ಟವಾದರೆ ರಾತ್ರಿ ವಾಹನ ಓಡಿಸಬೇಡಿ.']],
+ sun:['🧢',['Outdoors, wear a wide hat or sunglasses with UV protection.','बाहर चौड़ी टोपी या UV सुरक्षा वाला धूप का चश्मा पहनें।','ಹೊರಗೆ ಅಗಲವಾದ ಟೋಪಿ ಅಥವಾ UV ರಕ್ಷಣೆಯ ತಂಪು ಕನ್ನಡಕ ಧರಿಸಿ.']],
+ light:['💡',['Do close work in bright, even light. Sit near a window or under a lamp.','पास का काम तेज़, एक-सी रोशनी में करें। खिड़की या बल्ब के पास बैठें।','ಹತ್ತಿರದ ಕೆಲಸವನ್ನು ಪ್ರಖರ, ಸಮನಾದ ಬೆಳಕಿನಲ್ಲಿ ಮಾಡಿ. ಕಿಟಕಿ ಅಥವಾ ದೀಪದ ಬಳಿ ಕುಳಿತುಕೊಳ್ಳಿ.']],
+ r2020:['⏱️',['Every 20 minutes of phone or close work, look at something far away for 20 seconds.','हर 20 मिनट फ़ोन या पास के काम के बाद, 20 सेकंड दूर किसी चीज़ को देखें।','ಪ್ರತಿ 20 ನಿಮಿಷ ಫೋನ್ ಅಥವಾ ಹತ್ತಿರದ ಕೆಲಸದ ನಂತರ, 20 ಸೆಕೆಂಡು ದೂರದ ವಸ್ತುವನ್ನು ನೋಡಿ.']],
+ blink:['😌',['Blink often, and rest your eyes when they feel tired or dry.','बार-बार पलकें झपकाएँ, और थकान या सूखापन लगे तो आँखों को आराम दें।','ಆಗಾಗ ಕಣ್ಣು ಮಿಟುಕಿಸಿ, ಆಯಾಸ ಅಥವಾ ಒಣಗಿದಂತೆ ಅನಿಸಿದಾಗ ಕಣ್ಣಿಗೆ ವಿಶ್ರಾಂತಿ ಕೊಡಿ.']],
+ rub:['🤲',['Don’t rub your eyes. If dust gets in, wash with clean water.','आँखें न मलें। धूल जाए तो साफ़ पानी से धोएँ।','ಕಣ್ಣು ಉಜ್ಜಬೇಡಿ. ಧೂಳು ಬಿದ್ದರೆ ಶುದ್ಧ ನೀರಿನಿಂದ ತೊಳೆಯಿರಿ.']],
+};
+
+
+TIPS.dust=['',['Wear protective glasses when there is dust, smoke or flying chips at work.','काम पर धूल, धुआँ या उड़ते टुकड़े हों तो सुरक्षा चश्मा पहनें।','ಕೆಲಸದಲ್ಲಿ ಧೂಳು, ಹೊಗೆ ಅಥವಾ ಹಾರುವ ಚೂರುಗಳಿದ್ದರೆ ರಕ್ಷಣಾ ಕನ್ನಡಕ ಧರಿಸಿ.']];
+
+function computeResult(r){
+ const a=r.answers||{},te=r.tests||{},age=+a.age||+r.age||0;
+ const hasProfile=a.work!==undefined;
+ const z=zonesOf(a);
+ let dom=null,dominant=null;
+ if(hasProfile){
+  const nearEst={craft:4,student:4,office:2,shop:2,home:2}[a.work]||0.5;
+  const nw=a.nearwork!==undefined?+a.nearwork:nearEst,ph=+a.phone||0,od=+a.outdoor||0;
+  let near=nw+ph*0.7,mid=ph*0.3+0.4,far=od;
+  const occ={farming:[0,0.5,2.5],labour:[0,0.5,2],shop:[0.5,2.5,0.5],office:[0.5,3,0],student:[1.5,1,0.5],home:[0.5,2.5,0.5],craft:[2,1,0],driver:[0,0.5,4]}[a.work]||[0,0,0];
+  near+=occ[0];mid+=occ[1];far+=occ[2];
+  if(a.drive&&a.drive!=='no')far+=a.drive==='four'?2:1;
+  const tot=near+mid+far||1;
+  dom={near:Math.round(near/tot*100),mid:Math.round(mid/tot*100)};dom.far=100-dom.near-dom.mid;
+  dominant=Object.entries(dom).sort((x,y)=>y[1]-x[1])[0][0];
+ }
+ const reasons=[],flags=[];let tri='green';
+ const amber=s=>{if(tri!=='red')tri='amber';reasons.push(s)};
+ const red=s=>{tri='red';reasons.unshift(s)};
+ const rfLbl=v=>optLabel({o:RF},v,'en').toLowerCase();
+ const rf=[...(a.cc_sudden||[]),...(a.redflag||[])].filter(x=>x!=='none');
+ if(rf.length)red('Red-flag symptom: '+[...new Set(rf)].map(rfLbl).join(', '));
+ if(a.cc_irrit==='pain')red('Red eye with pain — rule out acute glaucoma, uveitis or keratitis');
+ if(te.va&&te.va.R<0&&te.va.L<0)red('Very low vision in both eyes (worse than 6/60)');
+ if(a.cc_irrit==='discharge')amber('Red eye with discharge — likely infection, see within 2 days');
+ if(a.cc_since==='weeks'&&['far','near'].includes(a.cc))amber('Vision changed within the last few weeks');
+ if(a.cc_eye==='right'||a.cc_eye==='left')amber('Blur in one eye only ('+a.cc_eye+')');
+ if(has(a.medical,'diabetes')){
+  amber('Diabetes'+(a.diab_years==='gt10'?' for over 10 years':a.diab_years==='5to10'?' for 5–10 years':'')+(a.diab_check==='never'?', never had an eye exam':a.diab_check==='gt1'?', no eye exam in over a year':'')+' — needs dilated retinal exam');
+  if(a.diab_spots==='yes'||a.diab_spots==='some')amber('Diabetic with spots or patches ('+(a.diab_spots==='yes'?'often':'sometimes')+')');
+ }
+ if(has(a.family,'glaucoma')||has(a.family,'blind'))amber('Family history of '+(a.family||[]).filter(x=>x==='glaucoma'||x==='blind').map(x=>x==='blind'?'blindness':'glaucoma').join(' and ')+' — check eye pressure');
+ if(a.meds==='yes')amber('Regular steroid use — risk of cataract and raised eye pressure');
+ if(a.surgery==='injury')amber('Previous eye injury');
+ if(age>=60)amber('Age 60+ — screen for cataract and glaucoma');
+ if(te.amsler&&(te.amsler.R>0||te.amsler.L>0))amber('Amsler grid distortion marked (R '+te.amsler.R+', L '+te.amsler.L+')');
+ if(te.color&&te.color.c<te.color.n)amber('Colour plates: '+te.color.c+' of '+te.color.n+' correct');
+ if(te.contrast&&te.contrast.pct>=25)amber('Reduced contrast sensitivity ('+te.contrast.pct+'%), possible early cataract');
+ if(te.va&&(te.va.R<3||te.va.L<3)&&!(te.va.R<0&&te.va.L<0))amber('Distance acuity worse than 6/18 in at least one eye');
+ const nearIssue=z.includes('near')||a.cc==='near'||a.presby==='yes'||(te.np&&te.np.add>=0.75)||(te.near&&te.near.level!==undefined&&te.near.level<5);
+ const farIssue=z.includes('far')||a.cc==='far'||(te.va&&(te.va.R<5||te.va.L<5));
+ const midIssue=z.includes('mid')||a.switching==='yes';
+ if(a.presby==='yes'||(age>=40&&te.np&&te.np.add>=0.75))flags.push('Presbyopia likely'+(te.np?' (blur at '+te.np.cm+' cm, add ≈ +'+te.np.add.toFixed(2)+')':''));
+ if(a.glasses_src==='market')flags.push('Using readymade glasses from the market');
+ if(a.glasses_src==='other')flags.push('Using someone else’s glasses');
+ if(a.glasses_age==='gt2')flags.push('Current glasses over 2 years old');
+ if(a.night==='glare')flags.push('Night glare while driving');
+ if(a.dust==='yes')flags.push('Dust or smoke exposure at work');
+ if(a.surgery==='cataract')flags.push('Previous cataract surgery');
+ if(te.astig&&te.astig.res==='possible')flags.push('Possible astigmatism, axis ≈ '+te.astig.axis+'°');
+ let lens,why=[];
+ if(tri==='red'){lens='defer';why.push('Red flag — refer before refraction')}
+ else if(age>=40&&nearIssue&&(farIssue||midIssue)){
+  const pr=a.priority==='one'||dominant==='mid'||a.work==='office';
+  lens=pr?'progressive':'bifocal';
+  why.push('Age '+age+' with near difficulty'+(te.np?' (add ≈ +'+te.np.add.toFixed(2)+')':''));
+  why.push(farIssue?'Distance also affected'+(te.va?' (R '+vaStr(te.va.R)+', L '+vaStr(te.va.L)+')':''):'Intermediate difficulty or slow focus switching');
+  why.push(pr?'Wants one pair / intermediate-heavy work → progressive':'Cost priority or outdoor distance-dominant work → bifocal');
+ }
+ else if(age>=40&&nearIssue){lens='sv_read';why.push('Near difficulty only, distance acceptable')}
+ else if(farIssue){lens='sv_dist';why.push('Distance difficulty'+(te.va?' (R '+vaStr(te.va.R)+', L '+vaStr(te.va.L)+')':''))}
+ else if(nearIssue||midIssue||a.cc==='strain'){lens='defer';why.push('Near or strain complaints — check for hyperopia or binocular issues in person')}
+ else{lens='none';why.push('No reported difficulty and screening within normal limits')}
+ const coat=[];
+ if(+a.outdoor>=3||a.priority==='sun'||has(a.strain_when,'sun'))coat.push('uv');
+ if(a.night==='glare')coat.push('ar');
+ if(+a.phone>=4)coat.push('blue');
+ if(a.priority==='strong'||a.dust==='yes'||['farming','driver','craft','labour'].includes(a.work))coat.push('tough');
+ const next=tri==='red'?'hospital':tri==='amber'?'camp':(lens==='defer'?'video':'store');
+ const centre=next==='hospital'?'dist':next==='camp'?'camp':next==='video'?'video':'netra';
+ const tips=[];
+ if(has(a.medical,'diabetes'))tips.push('diab');
+ if(has(a.family,'glaucoma'))tips.push('family');
+ if(a.glasses_src==='market'||a.glasses_src==='other')tips.push('ready');
+ if(a.dust==='yes')tips.push('dust');
+ if(a.night==='glare')tips.push('night');
+ if(+a.outdoor>=3)tips.push('sun');
+ if(nearIssue)tips.push('light');
+ if(+a.phone>=3||+a.nearwork>=3)tips.push('r2020');
+ if(a.cc==='strain'||a.cc==='irrit')tips.push('blink');
+ tips.push('rub');
+ return{dom,dominant,tri,reasons,flags,lens,why,coat,next,centre,tips:[...new Set(tips)].slice(0,6)};
+}
+
+/* ============ mock patients ============ */
+const now=Date.now();
+function mk(id,pid,name,age,gender,village,lang,mins,answers,tests,status,assisted,reply){answers.age=age;return{id,pid,name,age,gender,village,lang,phone:'+91 9'+String(8000000000+id.charCodeAt(1)*7919113).slice(1,10),ts:now-mins*60000,answers,tests,status,assisted:assisted||null,reply:reply||null,voice:true}}
+const ALLT=(va,near,np,ct,col,am,as,pd)=>({setup:{pxmm:3.78},va,near,np,contrast:ct,color:col,amsler:am,astig:as,pd});
+function seedPatients(){return[
+ mk('p1','EZ-261026-1182','Lakshmamma',62,'female','Kunigal','kn',14,{cc:'sudden',cc_sudden:['curtain'],glasses:'yes',glasses_for:'read',glasses_src:'market',glasses_age:'gt2',work:'home',nearwork:4,outdoor:1,phone:1,drive:'no',medical:['bp'],meds:'no',surgery:'none',family:['none'],priority:'price'},ALLT({R:1,L:4},{level:2},{cm:62,add:2.5},{pct:25},{c:3,n:3},{R:6,L:0},{res:'none'},{pd:60.5,conf:84}),'new','ASHA worker Kavya B.'),
+ mk('p2','EZ-261026-1176','Gowramma',57,'female','Gubbi','kn',38,{cc:'near',cc_since:'years',cc_eye:'both',scene:['paper','needle','cook'],presby:'yes',switching:'yes',glasses:'no',work:'home',nearwork:4,outdoor:1,phone:2,drive:'no',medical:['diabetes','bp'],diab_years:'gt10',diab_check:'never',diab_spots:'yes',meds:'no',surgery:'none',family:['none'],redflag:['none'],priority:'one'},ALLT({R:4,L:4},{level:2},{cm:55,add:1.75},{pct:12},{c:3,n:3},{R:2,L:0},{res:'none'},{pd:61,conf:90}),'new'),
+ mk('p4','EZ-261026-1169','Mohammed Irfan',34,'male','Sira','hi',52,{cc:'far',cc_since:'months',cc_eye:'both',scene:['bus','sign'],switching:'no',glasses:'no',work:'driver',outdoor:8,phone:2,drive:'four',night:'glare',medical:['none'],meds:'no',surgery:'none',family:['none'],redflag:['none'],priority:'sun'},ALLT({R:3,L:4},{level:6},{cm:11,add:0},{pct:6},{c:3,n:3},{R:0,L:0},{res:'possible',clock:6,axis:180},{pd:65,conf:91}),'new'),
+ mk('p3','EZ-261026-1151','Basavaraj',66,'male','Tiptur','kn',95,{cc:'far',cc_since:'years',cc_eye:'both',scene:['bus','face','paper'],presby:'yes',switching:'yes',glasses:'yes',glasses_for:'read',glasses_src:'market',glasses_age:'gt2',work:'farming',dust:'yes',outdoor:8,phone:0,drive:'four',night:'glare',medical:['unsure'],meds:'no',surgery:'none',family:['glaucoma'],redflag:['none'],priority:'strong'},ALLT({R:3,L:2},{level:1},{cm:80,add:2.5},{pct:25},{c:3,n:3},{R:0,L:0},{res:'possible',clock:3,axis:90},{pd:64,conf:86}),'review','ASHA worker Kavya B.'),
+ mk('p5','EZ-261026-1140','Savitri Devi',48,'female','Madhugiri','hi',130,{cc:'strain',cc_since:'months',strain_when:['close','evening'],scene:['needle','paper'],presby:'yes',switching:'some',glasses:'yes',glasses_for:'read',glasses_src:'market',glasses_age:'1to2',work:'craft',nearwork:8,outdoor:0,phone:2,drive:'no',medical:['none'],meds:'no',surgery:'none',family:['none'],redflag:['none'],priority:'price'},ALLT({R:6,L:5},{level:3},{cm:42,add:1.25},{pct:3},{c:3,n:3},{R:0,L:0},{res:'none'},{pd:59.5,conf:88}),'new'),
+ mk('p6','EZ-261026-1121','Ravi Kumar',21,'male','Tumakuru','en',210,{cc:'far',cc_since:'months',cc_eye:'both',scene:['bus','sign','computer'],glasses:'no',work:'student',nearwork:5,outdoor:1,phone:7,drive:'two',night:'ok',medical:['none'],meds:'no',surgery:'none',family:['none'],redflag:['none'],priority:'one'},ALLT({R:3,L:3},{level:6},{cm:9,add:0},{pct:3},{c:3,n:3},{R:0,L:0},{res:'none'},{pd:62,conf:93}),'new'),
+ mk('p7','EZ-261025-1098','Priya S.',29,'female','Tumakuru','en',1460,{cc:'strain',cc_since:'months',strain_when:['screen'],scene:['bus','computer'],glasses:'yes',glasses_for:'far',glasses_src:'exam',glasses_age:'gt2',work:'office',nearwork:3,outdoor:0,phone:9,drive:'two',night:'ok',medical:['none'],meds:'no',surgery:'none',family:['none'],redflag:['none'],priority:'one'},ALLT({R:4,L:4},{level:6},{cm:10,add:0},{pct:3},{c:3,n:3},{R:0,L:0},{res:'none'},{pd:60,conf:92}),'replied',null,{lens:'sv_dist',coat:['blue'],next:'store',centre:'netra',notes:'Update distance power; old glasses likely under-corrected.',at:now-1300*60000}),
+ mk('p8','EZ-261024-1044','Nagaraj',44,'male','Koratagere','kn',2900,{cc:'near',cc_since:'months',cc_eye:'both',scene:['paper','phone'],presby:'yes',switching:'no',glasses:'no',work:'shop',nearwork:5,outdoor:1,phone:2,drive:'two',night:'no_night',medical:['none'],meds:'no',surgery:'none',family:['none'],redflag:['none'],priority:'price'},ALLT({R:6,L:6},{level:4},{cm:36,add:1.0},{pct:3},{c:3,n:3},{R:0,L:0},{res:'none'},{pd:63,conf:89}),'replied',null,{lens:'sv_read',coat:[],next:'store',centre:'gubbi',notes:'',at:now-2700*60000}),
+]}
+const PERSONA={name:['Ramappa','रामप्पा','ರಾಮಪ್ಪ'],village:['Hosahalli, Tumakuru','होसहल्ली, तुमकुरु','ಹೊಸಹಳ್ಳಿ, ತುಮಕೂರು'],phone:'9845012345',
+ answers:{age:55,cc:'near',cc_since:'months',cc_eye:'both',scene:['paper','needle','bus'],presby:'yes',switching:'yes',glasses:'yes',glasses_for:'read',glasses_src:'market',glasses_age:'gt2',work:'farming',dust:'yes',outdoor:7,phone:2,drive:'two',night:'glare',medical:['diabetes'],diab_years:'5to10',diab_check:'never',diab_spots:'some',meds:'no',surgery:'none',family:['none'],redflag:['none'],priority:'price'},
+ va:{R:4,L:3},near:3,np:48,contrast:3,pd:63.5};
+/* ============ results table ============ */
+function testRows(te,lang){
+ const L=lang||'en',rows=[];
+ const add=(k,v,ok,conf)=>rows.push({k,label:tx(T['t_'+k],L),v,st:ok===null?'na':ok?'good':'warn',conf});
+ add('va',te.va?'R '+(te.va.R<0?'<6/60':VA[te.va.R])+'  ·  L '+(te.va.L<0?'<6/60':VA[te.va.L]):'',te.va?(te.va.R>=5&&te.va.L>=5):null,82);
+ add('near',te.near?(te.near.level<0?'> N24':NEAR[te.near.level]):'',te.near?te.near.level>=5:null,85);
+ add('np',te.np?'+'+te.np.add.toFixed(2)+' D ('+te.np.cm+' cm)':'',te.np?te.np.add<0.75:null,70);
+ add('contrast',te.contrast?te.contrast.pct+'%':'',te.contrast?te.contrast.pct<=6:null,74);
+ add('color',te.color?te.color.c+' / '+te.color.n:'',te.color?te.color.c===te.color.n:null,68);
+ add('amsler',te.amsler?(te.amsler.R+te.amsler.L===0?(L==='en'?'No distortion':'—'):'R '+te.amsler.R+'  ·  L '+te.amsler.L):'',te.amsler?te.amsler.R+te.amsler.L===0:null,77);
+ add('astig',te.astig?(te.astig.res==='none'?(L==='en'?'Not indicated':'—'):'Axis ≈ '+te.astig.axis+'°'):'',te.astig?te.astig.res==='none':null,60);
+ add('pd',te.pd?te.pd.pd.toFixed(1)+' mm':'',te.pd?true:null,te.pd?te.pd.conf:0);
+ return rows;
+}
+
+
+/* ============ state ============ */
+function freshP(){return{screen:'home',mode:null,consented:false,answers:{},qhist:[],fired:{},multiSel:null,pick:null,val:null,heard:null,voiceAns:{},listening:false,modal:null,login:null,tests:{},cur:null,ts:null,status:null,reply:null,invite:null,unread:false,result:null,pid:null,sentAt:null,subId:null,info:{},assisted:false,ackAt:0,autoPlayed:false,inviteSeen:false}}
+const S={page:location.hash==='#optometrist'?'portal':'patient',lang:'en',voiceOn:true,online:true,autopilot:false,docAuto:false,dockOpen:true,speed:1,tok:0,p:freshP(),
+ d:{logged:false,tab:'queue',screen:'queue',sel:null,filter:'all',q:'',meet:null},seeds:seedPatients(),log:[],warned:{},stream:null,camFailed:false,mem:{subs:{}}};
+
+/* ============ shared store (links the two pages) ============ */
+const SK='eyeze_shared_v1';
+function shared(){try{const s=localStorage.getItem(SK);if(s)return JSON.parse(s)}catch(e){}return S.mem}
+function saveShared(o){S.mem=o;try{localStorage.setItem(SK,JSON.stringify(o))}catch(e){}}
+function allPatients(){const sh=shared();return[...Object.values(sh.subs||{}).map(r=>Object.assign(r,{live:true})),...S.seeds]}
+function findRec(id){return allPatients().find(r=>r.id===id)}
+function updateRec(id,fn){const sh=shared();if(sh.subs&&sh.subs[id]){fn(sh.subs[id]);saveShared(sh);return}const r=S.seeds.find(x=>x.id===id);if(r)fn(r)}
+let lastSig='';
+function syncCheck(){
+ const sh=shared();
+ if(S.page==='patient'&&S.p.subId){const r=(sh.subs||{})[S.p.subId];if(!r)return;let changed=false;
+  if(r.status!==S.p.status&&!(S.p.status==='queued')){S.p.status=r.status;changed=true;if(r.status==='review')log('Optometrist opened the profile','net')}
+  if(r.reply&&!S.p.reply){S.p.reply=r.reply;S.p.unread=true;S.p.autoPlayed=false;changed=true;toast(t('newMsg'));log('Reply received from optometrist','net')}
+  if(r.invite&&(!S.p.invite||S.p.invite.at!==r.invite.at)){S.p.invite=r.invite;S.p.unread=true;changed=true;toast(t('newVid'));log('Video consultation invite received','net')}
+  if(changed&&!busyTyping())render();return}
+ if(S.page==='portal'){const sig=JSON.stringify(Object.values(sh.subs||{}).map(r=>[r.id,r.status,!!r.reply,r.invite&&r.invite.at]));if(sig!==lastSig){const first=!lastSig;lastSig=sig;if(!first&&!busyTyping()){render()}}}
+}
+function busyTyping(){const a=document.activeElement;return a&&['INPUT','TEXTAREA','SELECT'].includes(a.tagName)&&a.type!=='range'}
+window.addEventListener('storage',e=>{if(e.key===SK)syncCheck()});
+setInterval(syncCheck,1500);
+window.addEventListener('hashchange',()=>{S.page=location.hash==='#optometrist'?'portal':'patient';stopSpeak();render()});
+
+/* ============ helpers ============ */
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(msg){const w=document.getElementById('toasts');if(!w)return;const d=document.createElement('div');d.className='toast';d.textContent=msg;w.appendChild(d);setTimeout(()=>d.remove(),3800)}
+function log(msg,kind){const d=new Date();S.log.unshift({t:d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),msg,kind:kind||''});S.log=S.log.slice(0,80);const el=document.getElementById('dlog');if(el)el.innerHTML=logItems()}
+function logItems(){return S.log.length?S.log.slice(0,30).map(l=>`<li class="${l.kind}"><time>${l.t}</time>${esc(l.msg)}</li>`).join(''):'<li>Engine events appear here.</li>'}
+function ago(ts){const m=Math.max(0,Math.round((Date.now()-ts)/60000));if(m<1)return'just now';if(m<60)return m+' min ago';const h=Math.round(m/60);if(h<24)return h+' h ago';return Math.round(h/24)+' d ago'}
+const LOC={en:'en-IN',hi:'hi-IN',kn:'kn-IN'};
+function fmtDate(ts,lang){return new Date(ts||Date.now()).toLocaleDateString(LOC[lang||S.lang],{day:'numeric',month:'long',year:'numeric'})}
+function fmtWhen(ts,lang){return new Date(ts).toLocaleString(LOC[lang||S.lang],{weekday:'long',day:'numeric',month:'long',hour:'numeric',minute:'2-digit'})}
+function landolt(deg,size,alpha){return`<svg width="${size}" height="${size}" viewBox="-2.6 -2.6 5.2 5.2" role="img" aria-label="Landolt ring"><g transform="rotate(${deg})"><circle r="2" fill="none" stroke="rgba(0,0,0,${alpha==null?1:alpha})" stroke-width="1"/><rect x="1.3" y="-0.5" width="1.5" height="1" fill="#ffffff"/></g></svg>`}
+function randDir(prev){const k=Object.keys(DIRS).filter(d=>d!==prev);return k[Math.floor(Math.random()*k.length)]}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const ZN={near:'Near',mid:'Intermediate',far:'Distance'};
+const TRI_EN={green:'Routine',amber:'Check soon',red:'Urgent'};
+function newPid(){return'EZ-'+new Date().toISOString().slice(2,10).replace(/-/g,'')+'-'+String(1000+Math.floor(Math.random()*9000))}
+function mascot(s,cls){return`<div class="mascot ${cls||''} ${S.speaking?'speaking':''}" data-mark style="--s:${s||56}px"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--teal)"/><path d="M8 32c6-10 14-15 24-15s18 5 24 15c-6 10-14 15-24 15S14 42 8 32z" fill="#fff"/><g class="pup"><circle cx="32" cy="32" r="10" fill="#4f46e5"/><circle cx="32" cy="32" r="10" fill="none" stroke="#f59e0b" stroke-width="2.4" stroke-dasharray="2.6 2.6"/><circle cx="32" cy="32" r="4.4" fill="#13233a"/><circle cx="35.5" cy="28.5" r="2.2" fill="#fff"/></g><path d="M22 52q10 6 20 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div>`}
+
+/* ============ voice ============ */
+let VOICES=[];
+function loadVoices(){try{VOICES=speechSynthesis.getVoices()||[]}catch(e){VOICES=[]}}
+if('speechSynthesis' in window){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}}
+function setSpeaking(on){S.speaking=on;document.querySelectorAll('[data-mark]').forEach(e=>e.classList.toggle('speaking',on))}
+function speak(text,lang){
+ lang=lang||S.lang;if(!S.voiceOn||!('speechSynthesis' in window)||!text)return;
+ try{speechSynthesis.cancel()}catch(e){}
+ const code=LANGS[lang].tts,v=VOICES.find(v=>v.lang===code)||VOICES.find(v=>(v.lang||'').toLowerCase().replace('_','-').startsWith(lang));
+ if(!v&&lang!=='en'){if(!S.warned[lang]){S.warned[lang]=1;toast(t('noVoice',{lang:LANGS[lang].name}));log('No '+LANGS[lang].name+' voice installed on this device; production build streams Bhashini / IndicTTS audio','voice')}return}
+ const u=new SpeechSynthesisUtterance(text);if(v)u.voice=v;u.lang=code;u.rate=.95;
+ let done=false;const fin=()=>{if(done)return;done=true;setSpeaking(false)};
+ u.onend=fin;u.onerror=fin;setTimeout(fin,Math.min(20000,2000+text.length*85));setSpeaking(true);try{speechSynthesis.speak(u)}catch(e){fin()}
+}
+function stopSpeak(){try{speechSynthesis.cancel()}catch(e){}setSpeaking(false)}
+function norm(s){return String(s).toLowerCase().replace(/[.,!?;:()“”"'’।]/g,' ').replace(/\s+/g,' ').trim()}
+function matchOpts(alts,opts){const out=[];for(const o of opts){const cands=[...o.l,...(o.kw||[])].map(norm);
+ const hit=alts.some(al=>{const A=norm(al);if(!A)return false;const aw=A.split(' ');return cands.some(c=>{if(!c)return false;if(c.length>=2&&(' '+A+' ').includes(' '+c+' '))return true;if(A.length>=3&&c.includes(A))return true;return c.split(' ').some(cw=>cw.length>=4&&aw.some(w=>w.length>=4&&(cw.startsWith(w)||w.startsWith(cw))))})});
+ if(hit)out.push(o.v)}return out}
+const NUMW={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,ek:1,do:2,teen:3,char:4,chaar:4,paanch:5,chhe:6,saat:7,aath:8,nau:9,das:10,'एक':1,'दो':2,'तीन':3,'चार':4,'पांच':5,'पाँच':5,'छह':6,'सात':7,'आठ':8,'नौ':9,'दस':10,'ಒಂದು':1,'ಎರಡು':2,'ಮೂರು':3,'ನಾಲ್ಕು':4,'ಐದು':5,'ಆರು':6,'ಏಳು':7,'ಎಂಟು':8,'ಒಂಬತ್ತು':9,'ಹತ್ತು':10};
+function parseNum(alts){for(const a of alts){const m=String(a).match(/\d+/);if(m)return+m[0];for(const w of norm(a).split(' '))if(NUMW[w]!==undefined)return NUMW[w]}return null}
+function recognize(cb){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return false;
+ try{const r=new SR();r.lang=LANGS[S.lang].tts;r.interimResults=false;r.maxAlternatives=4;let done=false;const fin=x=>{if(done)return;done=true;cb(x)};
+  r.onresult=e=>{const alts=[];for(let i=0;i<e.results[0].length;i++)alts.push(e.results[0][i].transcript);fin(alts)};r.onerror=()=>fin(null);r.onend=()=>fin(null);r.start();return true}catch(e){return false}}
+
+/* ============ patient flow ============ */
+function go(screen){S.p.screen=screen;S.p.heard=null;S.p.pick=null;render();const m=document.getElementById('main');if(m)m.scrollTop=0}
+function curRecord(){return{age:+S.p.answers.age||0,answers:S.p.answers,tests:S.p.tests}}
+function startMode(m){S.p.mode=m;log('Started: '+({full:'full eye check',profile:'talk with Drishti',precheck:'eye test only'})[m]);if(!S.p.consented)return go('consent');afterConsent()}
+function afterConsent(){const m=S.p.mode;if(m==='precheck')return go('testsIntro');if(nextQ())go('interview');else if(m==='full')go('testsIntro');else finalize()}
+function nextQ(){return visibleQs(S.p.answers).find(q=>S.p.answers[q.id]===undefined)}
+function prune(){const vis=new Set(visibleQs(S.p.answers).map(q=>q.id));for(const k of Object.keys(S.p.answers))if(!vis.has(k))delete S.p.answers[k];S.p.qhist=S.p.qhist.filter(k=>vis.has(k));
+ for(const q of Q)if(q.cond&&vis.has(q.id)&&!S.p.fired[q.id]){S.p.fired[q.id]=1;log('Follow-up added: '+q.rule,'rule')}}
+function initVal(q){if(q.type==='age')return 40;if(q.type==='hours')return q.id==='outdoor'?3:2;return null}
+function setAnswer(id,val){
+ if(S.p.answers[id]!==undefined)return;
+ S.p.answers[id]=val;S.p.qhist.push(id);S.p.multiSel=null;S.p.pick=null;S.p.val=null;S.p.ackAt=Date.now();
+ log(QMAP[id].t[0]+' → '+ansLabel(QMAP[id],val,'en')+(S.p.voiceAns[id]?' (voice)':''),S.p.voiceAns[id]?'voice':'');
+ prune();
+ const rfv=id==='cc_sudden'||id==='redflag'?(val||[]).filter(v=>v!=='none'):[];
+ if(rfv.length||(id==='cc_irrit'&&val==='pain')){S.p.modal='urgent';log('Red flag: urgent-care advice shown now, profile marked URGENT','alert');speak(t('urgentTitle')+'. '+t('urgentBody'))}
+ const n=nextQ();
+ if(!n){log('Interview complete: '+S.p.qhist.length+' of '+Q.length+' possible questions asked');if(S.p.modal){render();return}finishInterview();return}
+ S.p.val=initVal(n);render();
+}
+function finishInterview(){if(S.p.mode==='full'){speak(t('profileDone'));go('testsIntro')}else finalize()}
+function finalize(){S.p.result=computeResult(curRecord());if(!S.p.pid)S.p.pid=newPid();const r=S.p.result;log('Report '+S.p.pid+': '+(r.dominant?ZN[r.dominant].toLowerCase()+'-dominant, ':'')+'triage '+TRI_EN[r.tri].toUpperCase(),r.tri==='red'?'alert':'rule');go('result')}
+function nextTest(){const n=TESTS.find(k=>!S.p.tests[k]);if(n)openTest(n);else go('testsDone')}
+function openTest(id){S.p.cur=id;S.p.ts=initTest(id);go('test')}
+function initTest(id){switch(id){
+ case'setup':return{phase:'card',w:Math.round(85.6*3.78),dist:72,ok:false};
+ case'va':return{eye:'R',level:0,trial:0,dir:randDir(),best:-1};
+ case'contrast':return{level:0,trial:0,dir:randDir(),best:-1};
+ case'near':return{level:0};case'np':return{phase:'ready',cm:60};case'color':return{i:0,c:0};
+ case'amsler':return{eye:'R',marks:[],R:0};case'astig':return{};case'pd':return{phase:'ready'}}}
+function doneTest(id,res,msg){S.p.tests[id]=res;log('Test complete: '+T['t_'+id][0]+', '+msg);clearInterval(S.iv);nextTest()}
+
+/* send + login (only when sending) */
+function openSend(){if(!S.p.result)S.p.result=computeResult(curRecord());if(S.p.info.phone&&S.p.info.name){sendProfile();return}
+ S.p.login={step:'phone',phone:'',code:String(1000+Math.floor(Math.random()*9000)),otp:'',name:'',village:''};S.p.modal='login';log('Login requested only now, at the moment of sending');render()}
+function loginNext(){const L=S.p.login,g=id=>{const e=document.getElementById(id);return e?e.value.trim():''};
+ if(L.step==='phone'){const ph=g('l_phone').replace(/\D/g,'');if(ph.length!==10){toast(t('badPhone'));return}L.phone=ph;const cb=document.getElementById('l_asst');S.p.assisted=cb?cb.checked:false;L.step='otp';log('OTP sent to +91 '+ph.slice(0,5)+' '+ph.slice(5)+' (demo code '+L.code+')','net');render();setTimeout(()=>{const e=document.getElementById('l_otp');if(e)e.focus()},50);return}
+ if(L.step==='otp'){if(g('l_otp')!==L.code){toast(t('badOtp'));return}toast(t('verified'));L.step='name';render();return}
+ if(L.step==='name'){const nm=g('l_name');if(!nm){toast(t('needName'));return}S.p.info={name:nm,village:g('l_village'),phone:'+91 '+L.phone.slice(0,5)+' '+L.phone.slice(5)};S.p.modal=null;S.p.login=null;sendProfile()}}
+function sendProfile(){
+ if(!S.p.pid)S.p.pid=newPid();S.p.sentAt=Date.now();
+ if(S.online){pushLive();S.p.status='sent';toast(t('sentToast'))}
+ else{S.p.status='queued';toast(t('queuedToast'));log('No connection: report stored on the phone, will upload automatically','net')}
+ render()}
+function pushLive(){const i=S.p.info,id='live-'+S.p.pid;
+ const rec={id,pid:S.p.pid,name:i.name||'Patient',age:+S.p.answers.age||0,gender:'',village:i.village||'',lang:S.lang,phone:i.phone||'',ts:Date.now(),answers:JSON.parse(JSON.stringify(S.p.answers)),tests:JSON.parse(JSON.stringify(S.p.tests)),status:'new',assisted:S.p.assisted?'Health worker assisted':null,reply:null,invite:null,voice:true,voiceAns:{...S.p.voiceAns}};
+ const sh=shared();sh.subs=sh.subs||{};sh.subs[id]=rec;saveShared(sh);S.p.subId=id;lastSig='';
+ log('Uploaded to optometrist queue with '+TRI_EN[computeResult(rec).tri].toUpperCase()+' priority','net')}
+function toggleNet(){S.online=!S.online;
+ if(S.online){log('Connection restored','net');if(S.p.status==='queued'){pushLive();S.p.status='sent';toast(t('synced'))}}else{log('Connection lost: app keeps working offline','net');toast(t('nowOffline'))}render()}
+function playReply(){const r=S.p.reply;if(r)speak(replyText(S.p.info.name||'',r,S.lang))}
+
+/* listening */
+function startListen(){
+ const q=nextQ();if(!q||S.p.listening)return;stopSpeak();S.p.listening=true;S.p.heard=null;render();
+ if(S.autopilot){setTimeout(()=>{if(!S.p.listening)return;S.p.listening=false;applyVoice(q,PERSONA.answers[q.id])},1400*S.speed);return}
+ const ok=recognize(alts=>{if(!S.p.listening)return;S.p.listening=false;if(!alts){toast(t('notUnderstood'));render();return}
+  log('Speech recognised: “'+alts[0]+'”','voice');
+  if(q.type==='hours'||q.type==='age'){const n=parseNum(alts);if(n===null){toast(t('notUnderstood'));render();return}return applyVoice(q,Math.max(q.type==='age'?5:0,Math.min(q.type==='age'?95:12,n)),alts[0])}
+  const opts=q.type==='scene'?SCENE:q.o;let vals=matchOpts(alts,opts);
+  if(q.type==='single')vals=vals.slice(0,1);if(q.excl&&vals.length>1)vals=vals.filter(v=>v!==q.excl);
+  if(!vals.length){toast(t('notUnderstood'));render();return}
+  applyVoice(q,q.type==='single'?vals[0]:vals,alts[0])});
+ if(!ok)setTimeout(()=>{S.p.listening=false;toast(t('voiceFail'));render()},700)}
+function applyVoice(q,val,heard){
+ S.p.voiceAns[q.id]=true;S.p.heard={q:q.id,text:heard||ansLabel(q,val)};
+ if(q.type==='single'){S.p.pick=val;render();setTimeout(()=>setAnswer(q.id,val),700*S.speed)}
+ else if(q.type==='hours'||q.type==='age'){S.p.val=val;render();setTimeout(()=>setAnswer(q.id,val),900*S.speed)}
+ else{S.p.multiSel=val.slice();render()}}
+function confirmMulti(){const q=nextQ();if(!q)return;if(q.type==='scene'){setAnswer(q.id,(S.p.multiSel||[]).slice());return}if(!S.p.multiSel||!S.p.multiSel.length)return;setAnswer(q.id,S.p.multiSel.slice())}
+
+/* ============ camera ============ */
+let MESH=null;
+function meshSVG(){if(MESH)return MESH;const r=mulberry(11),cx=200,cy=150;let d='';
+ for(let i=0;i<44;i++){const a=i/44*Math.PI*2;d+=`<circle cx="${(cx+Math.cos(a)*80).toFixed(1)}" cy="${(cy+Math.sin(a)*106).toFixed(1)}" r="1.5"/>`}
+ for(let i=0;i<170;i++){const a=r()*Math.PI*2,k=Math.sqrt(r());d+=`<circle cx="${(cx+Math.cos(a)*k*72).toFixed(1)}" cy="${(cy+Math.sin(a)*k*98).toFixed(1)}" r="1" opacity=".55"/>`}
+ let e='';for(const[ex,ey]of[[167,134],[233,134]]){for(let i=0;i<18;i++){const a=i/18*Math.PI*2;e+=`<circle cx="${(ex+Math.cos(a)*20).toFixed(1)}" cy="${(ey+Math.sin(a)*8.5).toFixed(1)}" r="1.3"/>`}e+=`<circle cx="${ex}" cy="${ey}" r="6.5" fill="none" stroke="#99f6e4" stroke-width="1.4"/><circle cx="${ex}" cy="${ey}" r="2" fill="#fbbf24"/>`}
+ for(let i=0;i<7;i++)d+=`<circle cx="200" cy="${140+i*8}" r="1.3"/>`;
+ for(let i=0;i<13;i++){const a=Math.PI*(.15+.7*i/12);d+=`<circle cx="${(200-Math.cos(a)*26).toFixed(1)}" cy="${(205+Math.sin(a)*10).toFixed(1)}" r="1.3"/>`}
+ MESH=`<svg class="mesh" viewBox="0 0 400 300" aria-hidden="true"><defs><radialGradient id="mg" cx="50%" cy="45%" r="65%"><stop offset="0" stop-color="#123b34"/><stop offset="1" stop-color="#07130f"/></radialGradient></defs><rect width="400" height="300" fill="url(#mg)"/><g fill="#5eead4">${d}${e}</g><line x1="167" y1="134" x2="233" y2="134" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="3 3"/><ellipse cx="200" cy="150" rx="80" ry="106" fill="none" stroke="#5eead4" stroke-opacity=".35"/></svg>`;return MESH}
+function camHTML(extra){return`<div class="cam ${S.stream?'live':''}" id="cam"><video id="camv" autoplay playsinline muted></video>${meshSVG()}<span class="tg">${S.stream?'Front camera':'Face landmarks'}</span>${extra||''}</div>`}
+async function ensureCamera(){const v=document.getElementById('camv');
+ if(!v){if(S.stream){S.stream.getTracks().forEach(t=>t.stop());S.stream=null}return}
+ if(S.stream){v.srcObject=S.stream;return}
+ if(S.camFailed||S.camTrying||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return;S.camTrying=true;
+ try{const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});S.stream=s;log('Front camera on: iris landmarks used for distance and PD','voice');const v2=document.getElementById('camv');if(v2){v2.srcObject=s;document.getElementById('cam').classList.add('live')}else{s.getTracks().forEach(t=>t.stop());S.stream=null}}
+ catch(e){S.camFailed=true;log('Camera unavailable here: landmark preview shown','voice')}S.camTrying=false}
+
+/* ============ render: patient ============ */
+function pHeader(){
+ return`<header class="hdr"><div class="hdr-in"><button class="logo" data-act="home">${mascot(38)}<span>Eyeze</span></button>
+ <div class="hdr-r">${S.online?'':`<span class="offpill">${ic('nowifi','s')} ${t('offline')}</span>`}
+ <div class="lchips" role="group" aria-label="${t('chooseLang')}">${Object.entries(LANGS).map(([k,l])=>`<button data-act="setLang" data-v="${k}" aria-pressed="${S.lang===k}">${l.label}</button>`).join('')}</div>
+ ${S.p.result?`<button class="ib" data-act="report" aria-label="${t('myReport')}" title="${t('myReport')}">${ic('file')}</button>`:''}
+ ${S.p.reply||S.p.invite?`<button class="ib" data-act="msgs" aria-label="${t('messages')}">${ic('bell')}${S.p.unread?'<span class="dot"></span>':''}</button>`:''}
+ <button class="ib" data-act="voice" aria-label="Voice ${S.voiceOn?'on':'off'}">${ic(S.voiceOn?'spk':'mute')}</button></div></div></header>`}
+function homeHTML(){
+ const how=[['mic','teal'],['list','indigo'],['eye','gold'],['file','sky'],['users','coral']];
+ return`<div class="hero"><div><h1>${t('heroH2')}</h1><p>${t('heroP2')}</p>
+ <div class="row wr"><button class="btn p big" data-act="mode" data-v="full">${t('start')} ${ic('fwd')}</button></div></div>
+ <svg class="heroart" viewBox="0 0 400 360" aria-hidden="true"><circle cx="200" cy="180" r="160" fill="var(--teal-soft)"/><circle cx="80" cy="80" r="40" fill="var(--gold-soft)"/><circle cx="335" cy="290" r="44" fill="var(--indigo-soft)"/><circle cx="330" cy="70" r="22" fill="var(--coral-soft)"/>
+ <path d="M70 185c32-56 76-84 130-84s98 28 130 84c-32 56-76 84-130 84S102 241 70 185z" fill="var(--surface)" stroke="var(--teal)" stroke-width="6"/>
+ <circle cx="200" cy="185" r="54" fill="#4f46e5"/><circle cx="200" cy="185" r="54" fill="none" stroke="#f59e0b" stroke-width="8" stroke-dasharray="10 9"/><circle cx="200" cy="185" r="24" fill="#13233a"/><circle cx="216" cy="168" r="11" fill="#fff"/>
+ <g fill="none" stroke="var(--gold)" stroke-width="5" stroke-linecap="round"><path d="M200 70v-22M120 92l-14-16M280 92l14-16"/></g></svg></div>
+ <div class="bigcards">
+  <button class="bc t1" data-act="mode" data-v="full"><span class="ico">${ic('eye','l')}</span><b>${t('fullCheck')}</b><span>${ic('clock','s')} ${t('mins',{n:12})}</span></button>
+  <button class="bc t2" data-act="mode" data-v="profile"><span class="ico">${ic('mic','l')}</span><b>${t('card2')}</b><span>${ic('clock','s')} ${t('mins',{n:5})}</span></button>
+  <button class="bc t3" data-act="mode" data-v="precheck"><span class="ico">${ic('mobile','l')}</span><b>${t('card3')}</b><span>${ic('clock','s')} ${t('mins',{n:7})}</span></button>
+ </div>
+ <div class="how">${how.map(([i,c],k)=>`<div><span class="ico c-${c}">${ic(i)}</span><b>${t('hw'+(k+1))}</b><span>${t('hs'+(k+1))}</span></div>`).join('')}</div>
+ <p class="foot">${t('disclaimer')}<br><a href="#optometrist">Optometrist login</a></p>`}
+function consentHTML(){
+ return`<div class="card center">${mascot(110)}<h2 class="h2" style="margin-top:14px">${t('cTitle')}</h2>
+ <div class="consent"><div class="c-gold">${ic('clock')}${t('c1')}</div><div class="c-teal">${ic('mic')}${t('c2')}</div><div class="c-indigo">${ic('lock')}${t('c3')}</div></div>
+ <div class="row" style="justify-content:center"><button class="btn sm" data-act="replay">${ic('spk','s')} ${t('listen')}</button></div>
+ <div style="margin-top:20px"><button class="btn p big" data-act="agree">${t('letsGo')} ${ic('fwd')}</button></div></div>`}
+function bubbleLead(q){const p=S.p,last=p.qhist[p.qhist.length-1];
+ let lead='';
+ if(last&&QMAP[last].sec!==q.sec)lead=t('secIn_'+q.sec);
+ else if(q.lead)lead=tx(q.lead);
+ else if(q.parent&&p.answers[q.parent]!==undefined)lead=t('youSaid',{x:ansLabel(QMAP[q.parent],p.answers[q.parent])});
+ const ack=Date.now()-p.ackAt<2500&&p.qhist.length?`<span class="ack">${ic('check','s')} ${t('ack')}</span>`:'';
+ return(ack||lead)?`<div class="lead">${ack}${ack&&lead?' · ':''}${esc(lead)}</div>`:''}
+function interviewHTML(){
+ const p=S.p,q=nextQ();if(!q)return'';
+ const vis=visibleQs(p.answers),secs=['eyes','day','health'],si=secs.indexOf(q.sec),col=SEC_COL[q.sec];
+ const pct=Math.round(p.qhist.length/vis.length*100);
+ const path=`<div class="path">${secs.map((s,i)=>`<span class="${i===si?'on':i<si?'done':''}" ${i===si?`style="background:var(--${SEC_COL[s]}-soft);color:var(--${SEC_COL[s]})"`:''}><i>${ic(i<si?'check':{eyes:'eye',day:'sun',health:'heart'}[s],'s')}</i>${t('sec_'+s)}</span>`).join('')}</div><div class="prog"><i style="width:${pct}%;background:var(--${col})"></i></div>`;
+ const talk=`<div class="talk">${mascot(64)}<div class="bubble">${bubbleLead(q)}<h2 id="curq">${esc(tx(q.t))}</h2><button class="spk" data-act="replay" aria-label="${t('listen')}">${ic('spk')}</button></div></div>`;
+ let body='',canNext=false,showNext=false;
+ if(q.type==='single'||q.type==='multi'){
+  const sel=q.type==='multi'?(p.multiSel||[]):(p.pick?[p.pick]:[]);
+  body=(q.type==='multi'?`<p class="muted center" style="margin:-8px 0 12px">${t('tapAll')}</p>`:'')+`<div class="tiles ${q.o.length===4||q.o.length===2?'c2':''}">${q.o.map((o,i)=>`<button class="tile" data-act="opt" data-v="${o.v}" aria-pressed="${sel.includes(o.v)}"><span class="tick">${ic('check')}</span><span class="blob c-${PAL[i%PAL.length]}">${ic(o.ic)}</span>${esc(tx(o.l))}</button>`).join('')}</div>`;
+  showNext=q.type==='multi';canNext=sel.length>0}
+ else if(q.type==='hours'){const v=p.val==null?initVal(q):p.val,icn=q.id==='phone'?'mobile':q.id==='outdoor'?'sun':'book';
+  body=`<div class="dial2"><div class="bignum"><span id="hv">${v}</span><small>${t('hrs')}</small></div><div class="suns" id="suns">${Array.from({length:12},(_,i)=>`<i class="${i<v?'on':''} ${q.id==='phone'?'ph':''}">${i<v?`<svg viewBox="0 0 24 24">${ICO[icn]}</svg>`:''}</i>`).join('')}</div>
+  <div class="dlbl"><span>0</span><span>6</span><span>12</span></div><input type="range" id="hrange" min="0" max="12" step="1" value="${v}" aria-label="${t('hrs')}">
+  <div class="chipsrow">${[0,1,2,4,6,8,10].map(n=>`<button data-act="hset" data-v="${n}">${n}</button>`).join('')}</div></div>`;showNext=canNext=true}
+ else if(q.type==='age'){const v=p.val==null?40:p.val;
+  body=`<div class="dial2"><div class="stepper"><button data-act="aset" data-v="-1" aria-label="minus">−</button><div class="bignum"><span id="hv">${v}</span><small>${t('yrsW')}</small></div><button data-act="aset" data-v="1" aria-label="plus">+</button></div>
+  <input type="range" id="arange" min="5" max="95" step="1" value="${v}" aria-label="${t('age')}"><div class="chipsrow">${[15,25,35,45,55,65,75].map(n=>`<button data-act="aval" data-v="${n}">${n}</button>`).join('')}</div></div>`;showNext=canNext=true}
+ else if(q.type==='scene'){const sel=p.multiSel||[];
+  body=`<div class="scene"><div class="me">${ic('person','xl')}<span>${t('you')}</span></div>${['near','mid','far'].map(z=>`<div class="zcol ${z}"><h3>${t('z_'+z)}</h3><div class="dst">${t('zr_'+z)}</div>${SCENE.filter(s=>s.z===z).map(s=>`<button class="sitem" data-act="sitem" data-v="${s.v}" aria-pressed="${sel.includes(s.v)}"><span class="bl">${t('blurry')}</span>${ic(s.ic)}<span>${esc(tx(s.l))}</span></button>`).join('')}</div>`).join('')}</div>
+  <div class="center" style="margin-top:14px"><button class="btn o" data-act="sceneClear">${ic('check','s')} ${t('allClear')}</button></div>`;showNext=true;canNext=sel.length>0}
+ const heard=p.listening?`<div class="heard"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span> ${t('listening')}</div>`:(p.heard&&p.heard.q===q.id?`<div class="heard">${ic('mic','s')}<span>“${esc(p.heard.text)}”</span></div>`:'');
+ const foot=`<div class="qfoot">${p.qhist.length?`<button class="btn" data-act="qback" aria-label="${t('back')}">${ic('back')}</button>`:'<span style="width:52px"></span>'}
+  <div class="micwrap"><button class="mic ${p.listening?'on':''}" data-act="mic" aria-label="${t('speakNow')}">${ic('mic')}</button>${t('speakNow')}</div>
+  ${showNext?`<button class="btn p" data-act="qnext" ${canNext?'':'disabled'}>${q.type==='multi'||q.type==='scene'?t('done'):t('next')} ${ic('fwd','s')}</button>`:'<span style="width:52px"></span>'}</div>`;
+ return path+talk+body+heard+foot}
+function testHTML(){
+ const p=S.p,id=p.cur,s=p.ts,n=TESTS.indexOf(id)+1;
+ const steps=`<div class="tsteps">${TESTS.map(k=>`<span class="${k===id?'cur':p.tests[k]?'done':''}" title="${esc(t('t_'+k))}">${ic(p.tests[k]&&k!==id?'check':TEST_IC[k])}</span>`).join('')}</div>`;
+ const info=(instr,extra)=>`<div class="tinfo"><div class="row">${mascot(52)}<span class="muted small">${t('testN',{n,m:TESTS.length})}</span></div><h2>${t('t_'+id)}</h2>${instr?`<div class="instr">${ic('hand')}<span>${instr}</span></div>`:''}${extra||''}<p class="xs muted" style="margin-top:14px">${t('d_'+id)}</p></div>`;
+ const pad=act=>`<p class="tq">${act==='cAns'?t('contrastQ'):t('whereGap')}</p><div class="pad"><span class="c"></span><button data-act="${act}" data-v="up" aria-label="${t('up')}">${ic('up','l')}</button><span class="c"></span>
+  <button data-act="${act}" data-v="left" aria-label="${t('left')}"><span style="display:grid;transform:rotate(-90deg)">${ic('up','l')}</span></button><button class="mic" data-act="micDir" data-v="${act}" aria-label="${t('speakNow')}">${ic('mic')}</button><button data-act="${act}" data-v="right" aria-label="${t('right')}"><span style="display:grid;transform:rotate(90deg)">${ic('up','l')}</span></button>
+  <span class="c"></span><button data-act="${act}" data-v="down" aria-label="${t('down')}"><span style="display:grid;transform:rotate(180deg)">${ic('up','l')}</span></button><span class="c"></span></div>
+  <div class="center" style="margin-top:12px"><button class="btn sm" data-act="${act}" data-v="cant">${t('cantSee')}</button></div>`;
+ const eyeOk=`<span class="ok">${ic('check','s')} ${t('eyeCheck')}</span>`;
+ const box=c=>`<div class="card" style="padding:18px">${c}</div>`;
+ let b='';
+ switch(id){
+ case'setup':b=s.phase==='card'?info(t('calibTitle'))+box(`<div class="cardbox" id="cardbox" style="width:${s.w}px;max-width:100%"></div><input type="range" id="cardw" min="220" max="340" value="${s.w}" aria-label="Card width" style="margin-top:16px"><p class="xs muted center" id="pxmm">1 mm = ${(s.w/85.6).toFixed(2)} px</p><div class="center" style="margin-top:14px"><button class="btn p" data-act="setupNext">${t('continue')} ${ic('fwd','s')}</button></div>`)
+  :info(t('distTitle'),`<p id="distok">${s.ok?`<span class="ok">${ic('check','s')} ${t('distOk')}</span>`:''}</p>`)+box(camHTML(`<div class="ov"><span id="distv">${s.dist} cm</span><span>${t('lightOk')}</span></div>`)+`<div class="center" style="margin-top:14px"><button class="btn p" id="setupDone" data-act="setupDone" ${s.ok?'':'disabled'}>${t('continue')} ${ic('fwd','s')}</button></div>`);break;
+ case'va':b=info(s.eye==='R'?t('coverLeft'):t('coverRight'),eyeOk)+box(`<div class="tcard"><span class="lv">${VA[s.level]}</span>${landolt(DIRS[s.dir],VA_PX[s.level])}</div>${pad('vaAns')}`);break;
+ case'contrast':b=info(t('contrastQ'))+box(`<div class="tcard"><span class="lv">${CONTRAST[s.level]}%</span>${landolt(DIRS[s.dir],80,CONTRAST[s.level]/100)}</div>${pad('cAns')}`);break;
+ case'near':b=info(t('nearTitle'))+box(`<div class="tcard"><span class="lv">${NEAR[s.level]}</span><p class="readtxt" style="font-size:${NEAR_PX[s.level]}px">${esc(tx(READ_LINES[s.level%3]))}</p></div><p class="tq">${t('canRead')}</p><div class="row" style="margin-top:10px"><button class="btn" style="flex:1" data-act="nearAns" data-v="no">${ic('x','s')} ${t('no')}</button><button class="btn p" style="flex:1" data-act="nearAns" data-v="yes">${ic('check','s')} ${t('yes')}</button></div>`);break;
+ case'np':{const pct=Math.max(0,Math.min(100,(s.cm-8)/52*100));b=info(t('npTitle'),`<p class="muted" style="margin-top:10px">${t('npBody')}</p>`)+box(`<div class="tcard"><div class="gauge"><span class="k">${t('distNow')}</span><b id="npv">${Math.round(s.cm)} cm</b><div class="trk"><i id="npbar" style="width:${pct}%"></i></div><p class="readtxt" style="font-size:15px;margin-top:10px">${esc(tx(READ_LINES[1]))}</p>${s.phase==='done'?`<span class="ok">${t('npResult',{cm:Math.round(s.cm)})}</span>`:''}</div></div>
+  <div class="row" style="margin-top:14px;justify-content:center">${s.phase==='ready'?`<button class="btn p" data-act="npStart">${t('start')}</button>`:s.phase==='moving'?`<button class="mic" data-act="npBlur" aria-label="${t('blurryNow')}">${ic('mic')}</button><button class="btn g" data-act="npBlur">${t('blurryNow')}</button>`:`<button class="btn p" data-act="npDone">${t('continue')} ${ic('fwd','s')}</button>`}</div>`);break}
+ case'color':{const pl=PLATES[s.i];b=info(t('colorQ'))+box(`<div class="tcard"><span class="lv">${t('plateN',{n:s.i+1,m:PLATES.length})}</span><canvas class="plate" id="plate" width="240" height="240" aria-label="Colour plate"></canvas></div><div class="cnums">${pl.o.map(o=>`<button data-act="colorAns" data-v="${o}">${o}</button>`).join('')}</div><button class="btn w" style="margin-top:10px" data-act="colorAns" data-v="none">${t('noNumber')}</button>`);break}
+ case'amsler':b=info(s.eye==='R'?t('coverLeft'):t('coverRight'),eyeOk+`<p class="muted" style="margin-top:10px">${t('amslerQ')} ${t('amslerTap')}</p>`)+box(`<div class="tcard"><div class="amsler" role="group" aria-label="Amsler grid">${Array.from({length:196},(_,i)=>`<button data-act="amslerCell" data-v="${i}" aria-pressed="${s.marks.includes(i)}" aria-label="Square ${i+1}"></button>`).join('')}</div></div><div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="amslerDone" data-v="marked" ${s.marks.length?'':'disabled'}>${t('doneMarking')}</button><button class="btn p" style="flex:1" data-act="amslerDone" data-v="clear">${t('allStraight')}</button></div>`);break;
+ case'astig':b=info(t('coverLeft'),`<p class="muted" style="margin-top:10px">${t('tapDarker')}</p>`)+box(`<div class="tcard">${dialSVG()}</div><p class="tq">${t('astigQ')}</p><div class="center"><button class="btn p" data-act="astigSame">${t('allSame')}</button></div>`);break;
+ case'pd':b=info(t('pdTitle'),s.phase==='done'?`<div class="lensc" style="margin-top:14px"><span class="blob">${ic('eyes2','l')}</span><div><b>${s.pd.toFixed(1)} mm</b><p>R ${(s.pd/2).toFixed(1)} · L ${(s.pd/2).toFixed(1)} · ${s.conf}%</p></div></div>`:`<p class="muted" style="margin-top:10px">${t('pdBody')}</p>`)+box(camHTML((s.phase==='measuring'?'<div class="scan"></div>':'')+`<div class="ov">${s.phase==='done'?`<span>PD ${s.pd.toFixed(1)} mm</span>`:s.phase==='measuring'?`<span>${t('measuring')}</span>`:'<span>Card 85.6 mm</span>'}</div>`)+`<div class="center" style="margin-top:14px">${s.phase==='done'?`<button class="btn p" data-act="pdDone">${t('continue')} ${ic('fwd','s')}</button>`:`<button class="btn p" data-act="pdMeasure" ${s.phase==='measuring'?'disabled':''}>${s.phase==='measuring'?t('measuring'):t('measure')}</button>`}</div>`);break;
+ }
+ return steps+`<div class="tgrid">${b}</div>`}
+function dialSVG(){let s='<svg class="dial" viewBox="-130 -130 260 260" width="250" height="250" role="group" aria-label="Astigmatism dial">';
+ for(let k=1;k<=6;k++){const a=(k*30-90)*Math.PI/180,x=Math.cos(a)*105,y=Math.sin(a)*105,px=-Math.sin(a)*4,py=Math.cos(a)*4;
+  s+=`<g data-act="astigLine" data-v="${k}" role="button" aria-label="Line ${k} to ${k+6}"><line x1="${-x}" y1="${-y}" x2="${x}" y2="${y}" stroke="transparent" stroke-width="24"/>`;
+  for(const o of[-1,0,1])s+=`<line class="v" x1="${(-x+px*o).toFixed(1)}" y1="${(-y+py*o).toFixed(1)}" x2="${(x+px*o).toFixed(1)}" y2="${(y+py*o).toFixed(1)}" stroke-width="1.6"/>`;
+  s+='</g>';const lx=Math.cos(a)*120,ly=Math.sin(a)*120;s+=`<text x="${lx.toFixed(1)}" y="${(ly+5).toFixed(1)}" text-anchor="middle">${k}</text><text x="${(-lx).toFixed(1)}" y="${(-ly+5).toFixed(1)}" text-anchor="middle">${k+6}</text>`}
+ return s+'<circle r="6" fill="#fff" stroke="#000" stroke-width="1.5"/></svg>'}
+function drawPlate(){const c=document.getElementById('plate');if(!c)return;let ctx;try{ctx=c.getContext('2d')}catch(e){return}if(!ctx)return;
+ const pl=PLATES[S.p.ts.i],W=240,off=document.createElement('canvas');off.width=W;off.height=W;let o;try{o=off.getContext('2d')}catch(e){return}if(!o)return;
+ o.fillStyle='#000';o.font='bold 140px Arial, Helvetica, sans-serif';o.textAlign='center';o.textBaseline='middle';o.fillText(String(pl.n),W/2,W/2+6);
+ const m=o.getImageData(0,0,W,W).data,rnd=mulberry(pl.n*977+13);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,W);
+ const fig=['#d77d2e','#e4964a','#cc6a2b','#e8a45a','#d98b3c'],gnd=['#8fae4a','#9db95b','#7c9b3e','#a9c26c','#b4b45a'];
+ for(let i=0;i<2400;i++){const r=2.2+rnd()*4.6,an=rnd()*Math.PI*2,d=Math.sqrt(rnd())*(W/2-6),x=W/2+Math.cos(an)*d,y=W/2+Math.sin(an)*d;const inF=m[((y|0)*W+(x|0))*4+3]>100,pal=inF?fig:gnd;ctx.fillStyle=pal[(rnd()*pal.length)|0];ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}}
+
+function resultHTML(){
+ const p=S.p,r=p.result||computeResult(curRecord());p.result=r;
+ const rows=testRows(p.tests,S.lang),anyTest=Object.keys(p.tests).length>0,st=p.status;
+ const zc={near:['indigo','book'],mid:['teal','monitor'],far:['gold','mountain']};
+ const use=r.dom?`<div class="use">${['near','mid','far'].map(z=>`<div class="c-${zc[z][0]} ${r.dominant===z?'dom':''}">${r.dominant===z?`<span class="star">${ic('star','s')}</span>`:''}<div class="icw" style="height:64px">${`<svg class="i" viewBox="0 0 24 24" style="width:${28+r.dom[z]*0.45}px;height:${28+r.dom[z]*0.45}px;stroke-width:1.6">${ICO[zc[z][1]]}</svg>`}</div><div class="pc">${r.dom[z]}%</div><b>${t('z_'+z)}</b><span>${t('zx_'+z)}</span></div>`).join('')}</div>`:`<button class="btn o" data-act="mode" data-v="profile">${ic('mic','s')} ${t('card2')}</button>`;
+ const steps=[['sent',['sent','review','replied'].includes(st)],['review',['review','replied'].includes(st)],['replied',st==='replied']];
+ const nowS=st==='replied'?'replied':st==='review'?'review':'sent';
+ return`<div class="rep-h"><div><h1>${t('reportTitle')}</h1><div class="meta">${p.info.name?esc(p.info.name)+' · ':''}${p.answers.age?t('yearsN',{n:p.answers.age})+' · ':''}${p.pid||''} · ${fmtDate()}</div></div>
+ <div class="row"><button class="btn sm" data-act="listenProfile">${ic('spk','s')} ${t('listen')}</button><button class="btn sm" data-act="share">${ic('share','s')} ${t('share')}</button></div></div>
+ <div class="signal ${r.tri}"><div class="lights" aria-hidden="true"><i class="r ${r.tri==='red'?'on':''}"></i><i class="a ${r.tri==='amber'?'on':''}"></i><i class="g ${r.tri==='green'?'on':''}"></i></div><div><b>${t('tri_'+r.tri)}</b><p>${t('triD_'+r.tri)}</p></div></div>
+ <div class="rgrid"><div>
+ <section class="sec"><h2>${t('howYou')}</h2>${use}</section>
+ <section class="sec"><h2>${t('testShort')}</h2>${anyTest?`<div class="rtiles">${rows.map(x=>`<div class="rt ${x.st}">${ic(TEST_IC[x.k])}<b>${esc(x.v||'—')}</b><span>${esc(x.k==='np'?t('readHelp'):t('s_'+x.k))}</span></div>`).join('')}</div>`:`<button class="btn o" data-act="mode" data-v="precheck">${ic('mobile','s')} ${t('card3')}</button>`}</section>
+ <section class="sec"><h2>${t('lensFor')}</h2><div class="lensc"><span class="blob">${ic('glasses','l')}</span><div><b>${tx(LENS[r.lens])}</b><p>${t('lens_'+r.lens)}</p>${r.coat.length?`<div class="feat">${r.coat.map(c=>`<span>${tx(COAT[c])}</span>`).join('')}</div>`:''}</div></div></section>
+ <section class="sec"><h2>${t('tipsTitle')}</h2><div class="tipg">${r.tips.map((k,i)=>`<div class="tip"><span class="blob c-${PAL[(i+1)%PAL.length]}">${ic(TIP_IC[k])}</span><span>${esc(tx(TIPS[k][1]))}</span></div>`).join('')}</div></section>
+ </div><aside><div class="sendc"><h2>${t('reviewTitle')}</h2>
+ ${!st?`<p>${t('sendBody')}</p><button class="btn w big" data-act="send">${ic('send')} ${t('sendDoc')}</button>`:
+  st==='queued'?`<ol class="tl"><li class="now">${t('st_queued')}</li></ol>`:
+  `<ol class="tl">${steps.map(([k,d])=>`<li class="${k===nowS?(st==='replied'?'done':'now'):d?'done':''}"><div>${t('st_'+k)}${k==='sent'&&p.sentAt?`<span>${new Date(p.sentAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>`:''}</div></li>`).join('')}</ol>${st==='replied'||p.invite?`<button class="btn w" data-act="msgs">${t('viewReply')}</button>`:''}`}
+ <p class="disc">${t('disclaimer')}</p></div></aside></div>`}
+function messagesHTML(){
+ const p=S.p,r=p.reply,v=p.invite;
+ if(!r&&!v)return`<h1 class="h2">${t('messages')}</h1><div class="card center" style="padding:48px">${ic('inbox','xl')}<p class="muted" style="margin-top:12px">${t('noMsg')}</p></div>`;
+ let h=`<h1 class="h2" style="margin-bottom:16px">${t('messages')}</h1>`;
+ if(v)h+=`<article class="msgc vid"><div class="mh"><span class="av" style="background:var(--indigo)">${ic('video')}</span><div style="flex:1"><b style="font-family:var(--fd);font-size:20px">${t('vidTitle')}</b><div class="small muted">${tx(DOC.name)}</div></div></div><div class="mb">
+  <div class="kv"><span class="blob c-indigo">${ic('calendar')}</span><div><div class="k">${t('vidWhen')}</div><div class="v">${esc(fmtWhen(v.when))} · ${v.dur} min</div></div></div>
+  <div style="margin-top:14px">${v.link?`<a class="btn p w" href="${esc(v.link)}" target="_blank" rel="noopener">${ic('video','s')} ${t('joinMeet')}</a>`:`<p class="muted">${t('linkSoon')}</p>`}</div></div></article>`;
+ if(r){const c=CMAP[r.centre];h+=`<article class="msgc"><div class="mh"><span class="av">AR</span><div style="flex:1"><b style="font-family:var(--fd);font-size:20px">${tx(DOC.name)}</b><div class="small muted">${t('received',{t:ago(r.at)})}</div></div><button class="btn g sm" data-act="playReply">${ic('spk','s')} ${t('playVoice')}</button></div>
+ <div class="mb"><div class="kv"><span class="blob c-indigo">${ic('glasses')}</span><div><div class="k">${t('recLens')}</div><div class="v">${tx(LENS[r.lens])}</div>${r.coat.length?`<div class="feat">${r.coat.map(x=>`<span class="c-indigo">${tx(COAT[x])}</span>`).join('')}</div>`:''}</div></div>
+ <div class="kv"><span class="blob c-teal">${ic('fwd')}</span><div><div class="k">${t('nextStep')}</div><div class="v">${tx(NEXT[r.next])}</div></div></div>
+ <div class="kv"><span class="blob c-gold">${ic('pin')}</span><div><div class="k">${t('where')}</div><div class="v">${c.name}${c.km?', '+c.km+' km':''}</div><div class="small muted">${c.detail}</div></div></div>
+ ${r.notes?`<div class="kv"><span class="blob c-coral">${ic('file')}</span><div><div class="k">${t('docNote')}</div><div class="v" style="font-weight:500">“${esc(r.notes)}”</div></div></div>`:''}
+ <div class="row wr" style="margin-top:14px"><button class="btn o" data-act="directions">${ic('pin','s')} ${t('directions')}</button>${r.next==='hospital'?`<button class="btn" data-act="callHosp">${ic('phone','s')} ${t('callHosp')}</button>`:''}</div></div></article>
+ <p class="small muted">${t('smsL',{p:esc(p.info.phone||'—')})}</p><div class="sms">${esc(replyText(p.info.name||'',r,S.lang))}</div>`}
+ return h}
+function urgentModal(){const c=CMAP.dist;return`<div class="mbg"><div class="sheet red center" role="alertdialog" aria-labelledby="ugt"><span style="color:var(--red)">${ic('alert','xl')}</span><h2 class="h2" id="ugt" style="color:var(--red);margin-top:8px">${t('urgentTitle')}</h2><p>${t('urgentBody')}</p>
+ <div class="kv" style="text-align:left;margin-top:12px"><span class="blob c-coral">${ic('building')}</span><div><div class="k">${t('nearestHosp')}</div><div class="v">${c.name}, ${c.km} km</div></div></div>
+ <div style="display:grid;gap:10px;margin-top:16px"><button class="btn d w" data-act="callHosp">${ic('phone','s')} ${t('callHosp')}</button><button class="btn w" data-act="urgentClose">${t('continueCheck')}</button></div></div></div>`}
+function loginModal(){const L=S.p.login;let b='';
+ if(L.step==='phone')b=`<label class="fld"><span>${t('phone')}</span><div class="phonef"><span>+91</span><input id="l_phone" type="tel" inputmode="numeric" maxlength="11" placeholder="98450 12345" value="${esc(L.phone)}" autocomplete="tel"></div></label>
+  <label class="check"><input type="checkbox" id="l_asst" ${S.p.assisted?'checked':''}><span>${t('helpL')}</span></label>
+  <div class="row"><button class="btn" style="flex:1" data-act="loginCancel">${t('cancel')}</button><button class="btn p" style="flex:1" data-act="loginNext">${t('sendOtp')}</button></div>`;
+ else if(L.step==='otp')b=`<p class="center">${t('enterOtp',{p:'+91 '+L.phone.slice(0,5)+' '+L.phone.slice(5)})}</p><div class="otp"><input id="l_otp" inputmode="numeric" maxlength="4" style="width:200px;letter-spacing:18px" value="${esc(L.otp)}" aria-label="OTP"></div><p class="hint">${t('demoOtp',{c:L.code})}</p>
+  <div class="row" style="margin-top:14px"><button class="btn" style="flex:1" data-act="loginCancel">${t('cancel')}</button><button class="btn p" style="flex:1" data-act="loginNext">${t('verify')}</button></div>`;
+ else b=`<p class="ok" style="margin:0 0 14px">${ic('check','s')} ${t('verified')}</p><label class="fld"><span>${t('yourName')}</span><input id="l_name" value="${esc(L.name)}" autocomplete="name"></label><label class="fld"><span>${t('village')}</span><input id="l_village" value="${esc(L.village)}"></label>
+  <div class="row"><button class="btn" style="flex:1" data-act="loginCancel">${t('cancel')}</button><button class="btn p" style="flex:1" data-act="loginNext">${ic('send','s')} ${t('sendDoc')}</button></div>`;
+ return`<div class="mbg"><div class="sheet" role="dialog" aria-labelledby="lgt"><div class="row" style="margin-bottom:10px">${mascot(48)}<h2 class="h2" id="lgt" style="margin:0">${t('loginTitle')}</h2></div><p class="muted" style="margin-bottom:16px">${t('loginSub')}</p>${b}</div></div>`}
+function pDock(){
+ const tg=(act,on,lab,sub)=>`<button class="tog" data-act="${act}" aria-pressed="${on}"><span>${lab}<small>${sub}</small></span><i></i></button>`;
+ return`<div class="dock ${S.dockOpen?'':'min'}" role="region" aria-label="Demo controls"><button class="dh" data-act="dock"><span class="lv ${S.autopilot?'on':''}"></span>Demo controls</button>
+ ${S.dockOpen?`<div class="db">${tg('auto',S.autopilot,'Guided demo','Plays Ramappa’s journey hands-free')}${tg('net',!S.online,'Simulate no internet','Shows offline saving and auto-sync')}
+${tg('portal',false,'Optometrist portal','Switch to the doctor’s view')}
+ <div class="row" style="justify-content:space-between;margin-top:8px"><span class="xs muted">Engine log</span><button class="lnk xs" data-act="reset">Reset demo</button></div><ol class="dlog" id="dlog">${logItems()}</ol></div>`:''}</div>`}
+
+/* ============ render: optometrist portal ============ */
+const TRI_RANK={red:0,amber:1,green:2},ST_RANK={new:0,review:1,replied:2};
+function sortedPatients(){return allPatients().map(r=>({r,res:computeResult(r)})).sort((a,b)=>(ST_RANK[a.r.status]-ST_RANK[b.r.status])||(TRI_RANK[a.res.tri]-TRI_RANK[b.res.tri])||(b.r.ts-a.r.ts))}
+function loginPage(){return`<div class="login"><div class="sheet"><div class="row" style="margin-bottom:6px">${mascot(44)}<b style="font-family:var(--fd);font-size:22px;color:var(--teal)">Eyeze</b></div><h2 class="h2">Optometrist sign in</h2><p class="muted" style="margin-bottom:18px">Review patient profiles and reply remotely.</p>
+ <label class="fld"><span>Email</span><input id="d_email" type="email" value="anjali.rao@eyeze.in" autocomplete="username"></label>
+ <label class="fld"><span>Password</span><input id="d_pass" type="password" value="demo-password" autocomplete="current-password"></label>
+ <button class="btn p w" data-act="docLogin">${ic('lock','s')} Sign in</button><p class="xs muted center" style="margin-top:12px">Demo account, credentials pre-filled · <a href="#">Back to patient app</a></p></div></div>`}
+function portalHTML(){
+ if(!S.d.logged)return loginPage();
+ const pend=allPatients().filter(r=>r.status!=='replied').length,d=S.d;
+ const body=d.tab==='queue'?(d.screen==='detail'?detailHTML():queueHTML()):d.tab==='analytics'?analyticsHTML():centresHTML();
+ return`<div class="portal"><aside class="pside"><div class="brand">${mascot(34)} Eyeze</div>
+ <button class="nv" data-act="dtab" data-v="queue" aria-current="${d.tab==='queue'}">${ic('list','s')} Patient queue${pend?`<span class="cnt">${pend}</span>`:''}</button>
+ <button class="nv" data-act="dtab" data-v="analytics" aria-current="${d.tab==='analytics'}">${ic('chart','s')} Analytics</button>
+ <button class="nv" data-act="dtab" data-v="centres" aria-current="${d.tab==='centres'}">${ic('building','s')} Referral centres</button>
+ <div class="who"><span class="av" style="width:38px;height:38px;font-size:15px">AR</span><div><b>Dr. Anjali Rao</b><span>B.Optom, Bengaluru hub</span></div><button class="lnk" style="margin-left:auto;color:#bcd9d1" data-act="docLogout" aria-label="Sign out">${ic('logout','s')}</button></div></aside>
+ <div class="pmain" id="pmain">${body}</div></div>`}
+function queueHTML(){
+ const all=sortedPatients(),f=S.d.filter;
+ const list=all.filter(({r,res})=>f==='all'?true:f==='replied'?r.status==='replied':(r.status!=='replied'&&res.tri===f));
+ const cnt=k=>all.filter(({r,res})=>r.status!=='replied'&&res.tri===k).length;
+ return`<h1>Patient queue</h1><p class="muted">${fmtDate(null,'en')} · Tumakuru district programme</p>
+ <div class="stats"><div class="stat r"><b>${cnt('red')}</b><span>Urgent</span></div><div class="stat a"><b>${cnt('amber')}</b><span>Check soon</span></div><div class="stat g"><b>${cnt('green')}</b><span>Routine</span></div><div class="stat"><b>2 h 40 m</b><span>Median reply time</span></div></div>
+ <div class="fbar"><div class="tabs">${[['all','All'],['red','Urgent'],['amber','Check soon'],['green','Routine'],['replied','Replied']].map(([k,l])=>`<button data-act="dfilter" data-v="${k}" aria-pressed="${f===k}">${l}</button>`).join('')}</div><input class="search" id="dsearch" type="search" placeholder="Search name, village or ID" value="${esc(S.d.q)}" aria-label="Search patients"></div>
+ <div class="tw"><table><thead><tr><th>Priority</th><th>Patient</th><th>Village</th><th>Language</th><th>Vision use</th><th>Received</th><th>Status</th></tr></thead><tbody>
+ ${list.map(({r,res})=>`<tr class="rw ${r.live&&r.status==='new'?'live':''}" data-act="dopen" data-v="${r.id}" data-s="${esc((r.name+' '+r.village+' '+(r.pid||'')).toLowerCase())}" tabindex="0"><td><span class="tri ${res.tri}">${TRI_EN[res.tri]}</span></td><td class="nm"><b>${esc(r.name)}${r.live&&r.status==='new'?'<span class="newtag">NEW</span>':''}</b><span>${r.pid||''} · ${r.age}${r.gender==='female'?' F':r.gender==='male'?' M':''}${r.assisted?' · assisted':''}</span></td><td>${esc(r.village||'—')}</td><td>${LANGS[r.lang].name}</td><td>${res.dominant?ZN[res.dominant]+' '+res.dom[res.dominant]+'%':'—'}</td><td>${ago(r.ts)}</td><td><span class="st ${r.status}">${({new:'New',review:'In review',replied:'Replied'})[r.status]}</span>${r.invite?` <span class="xs muted">· video booked</span>`:''}</td></tr>`).join('')||'<tr><td colspan="7" class="muted">No patients in this view.</td></tr>'}
+ </tbody></table></div><p class="small muted" style="margin-top:12px">Sorted by status, priority and waiting time. Store-and-forward: patients don’t need to be online at the same time as you.</p>`}
+function detailHTML(){
+ const r=findRec(S.d.sel);if(!r){S.d.screen='queue';return queueHTML()}
+ const res=computeResult(r),rows=testRows(r.tests||{},'en'),vis=visibleQs(r.answers).filter(q=>r.answers[q.id]!==undefined),rep=r.reply,inv=r.invite;
+ const bx=res.tri==='red'?'r':res.tri==='amber'?'a':'g';
+ return`<button class="lnk" data-act="dback">${ic('back','s')} Patient queue</button>
+ <div class="rep-h" style="margin-top:12px"><div><h1 style="font-size:30px">${esc(r.name)}</h1><div class="meta">${r.pid||''} · ${r.age} years · ${esc(r.village||'—')} · ${LANGS[r.lang].name} · ${esc(r.phone||'')} · received ${ago(r.ts)}${r.assisted?' · '+esc(r.assisted):''}</div></div><span class="tri ${res.tri}" style="font-size:16px;padding:7px 16px">${TRI_EN[res.tri]}</span></div>
+ <div class="pgrid"><div>
+ <div class="box ${bx}"><h3>Reasons for priority</h3>${res.reasons.length?`<ul class="reasons">${res.reasons.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p class="small">No risk factors or red flags reported.</p>'}</div>
+ <div class="box"><h3>Functional vision profile</h3>${res.dom?`<div class="hb">${['near','mid','far'].map(z=>`<div class="r ${res.dominant===z?'dom':''}"><span>${ZN[z]}</span><div class="tr"><i style="width:${res.dom[z]}%"></i></div><b>${res.dom[z]}%</b></div>`).join('')}</div>
+  <p class="small" style="margin-top:8px"><b>${ZN[res.dominant]}-dominant.</b> Work: ${esc(optLabel(QMAP.work,r.answers.work,'en'))}. Sun ${r.answers.outdoor} h, phone/TV ${r.answers.phone} h${r.answers.nearwork!==undefined?', close work '+r.answers.nearwork+' h':''}.</p>`:'<p class="muted small">Eye test only, no interview.</p>'}
+  ${res.flags.length?`<ul class="reasons" style="margin-top:10px">${res.flags.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}</div>
+ <div class="box"><h3>Phone screening results</h3><div class="tw" style="border:0"><table><thead><tr><th>Test</th><th>Result</th><th>Flag</th><th>Confidence</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.label)}</td><td><b>${esc(x.v||'—')}</b></td><td><span class="chip ${x.st}">${x.st==='na'?'Not done':x.st==='good'?'In range':'Review'}</span></td><td>${x.st==='na'?'—':`<span class="conf"><i style="width:${x.conf}%"></i></span>${x.conf}%`}</td></tr>`).join('')}</tbody></table></div><p class="xs muted" style="margin-top:8px">Screen calibrated with a card; distance from iris diameter. Screening estimates only — confirm refraction in person.</p></div>
+ <div class="box"><h3>Interview transcript <span class="xs muted" style="font-weight:400;font-family:var(--fb)">${vis.length} questions in ${LANGS[r.lang].name}</span></h3><ul class="qa">${vis.map(q=>`<li><div class="q">${esc(q.t[0])}${q.cond?'<span class="fuq">follow-up</span>':''}</div><div class="a">${(r.voiceAns?r.voiceAns[q.id]:r.voice)?ic('mic','s'):''}${esc(ansLabel(q,r.answers[q.id],'en'))}</div></li>`).join('')}</ul></div>
+ </div><div><div class="stk">
+ ${inv?`<div class="box" style="border-left:6px solid var(--indigo)"><h3>${ic('video','s')} Video consultation booked</h3><p class="small">${esc(fmtWhen(inv.when,'en'))}, ${inv.dur} min</p>${inv.link?`<p class="small" style="margin-top:6px"><a href="${esc(inv.link)}" target="_blank" rel="noopener">${esc(inv.link)}</a></p>`:'<p class="xs muted" style="margin-top:6px">No Meet link added yet.</p>'}<div class="row wr" style="margin-top:10px">${inv.link?`<a class="btn p sm" href="${esc(inv.link)}" target="_blank" rel="noopener">${ic('video','s')} Join</a>`:''}<button class="btn sm" data-act="dmeet">Edit invite</button></div></div>`:''}
+ ${rep?`<div class="box g"><h3>Reply sent ${ago(rep.at)}</h3><p class="small"><b>${LENS[rep.lens][0]}</b>${rep.coat.length?' · '+rep.coat.map(c=>COAT[c][0]).join(', '):''}</p><p class="small">${NEXT[rep.next][0]} — ${CMAP[rep.centre].name}</p>
+  <div class="preview" style="margin-top:10px"><span class="k">Voice message and SMS in ${LANGS[r.lang].name}</span>${esc(replyText(r.name,rep,r.lang))}</div><div class="row wr"><button class="btn sm" data-act="dreopen">Edit and resend</button>${inv?'':`<button class="btn sm" data-act="dmeet">${ic('video','s')} Schedule video consultation</button>`}</div></div>`:
+ `<div class="box"><h3>Recommendation</h3>
+ <div class="sugg"><b>Decision support: ${LENS[res.lens][0]}</b><ul>${res.why.map(w=>`<li>${esc(w)}</li>`).join('')}</ul><span class="xs muted">Rule-based suggestion to support your clinical judgement.</span></div>
+ <label class="fld"><span>Lens type</span><select id="r_lens">${Object.keys(LENS).map(k=>`<option value="${k}" ${k===res.lens?'selected':''}>${LENS[k][0]}</option>`).join('')}</select></label>
+ <fieldset class="fld"><legend>Lens features</legend>${Object.keys(COAT).map(k=>`<label class="cbx"><input type="checkbox" name="r_coat" value="${k}" ${res.coat.includes(k)?'checked':''}>${COAT[k][0]}</label>`).join('')}</fieldset>
+ <label class="fld"><span>Next step</span><select id="r_next">${Object.keys(NEXT).map(k=>`<option value="${k}" ${k===res.next?'selected':''}>${NEXT[k][0]}</option>`).join('')}</select></label>
+ <label class="fld"><span>Location</span><select id="r_centre">${CENTRES.map(c=>`<option value="${c.id}" ${c.id===res.centre?'selected':''}>${c.name}${c.km?' ('+c.km+' km)':''}</option>`).join('')}</select></label>
+ <label class="fld"><span>Note to patient (optional)</span><textarea id="r_notes" placeholder="Translated and read aloud to the patient">${esc(r._draftNotes||'')}</textarea></label>
+ <div class="preview"><span class="k">Patient will hear this in ${LANGS[r.lang].name}</span><span id="r_prevtxt">${esc(replyText(r.name,{lens:res.lens,coat:res.coat,next:res.next,centre:res.centre},r.lang))}</span></div>
+ <div style="display:grid;gap:10px"><button class="btn p w" data-act="dsend">${ic('send','s')} Send voice message and SMS</button>${inv?'':`<button class="btn w" data-act="dmeet">${ic('video','s')} Video consultation (Google Meet)</button>`}</div></div>`}
+ </div></div></div>`}
+function readForm(){const g=id=>document.getElementById(id);if(!g('r_lens'))return null;return{lens:g('r_lens').value,coat:[...document.querySelectorAll('input[name=r_coat]:checked')].map(x=>x.value),next:g('r_next').value,centre:g('r_centre').value,notes:g('r_notes').value.trim()}}
+function sendReply(){const r=findRec(S.d.sel);if(!r)return;
+ let f=readForm();if(!f){const res=computeResult(r);f={lens:res.lens,coat:res.coat,next:res.next,centre:res.centre,notes:''}}
+ if(S.docAuto&&!f.notes)f.notes='Please bring your latest sugar test report. We will also check the back of your eye at the camp.';
+ updateRec(r.id,x=>{x.reply={...f,at:Date.now()};x.status='replied'});
+ log('Reply sent to '+r.name+': '+LENS[f.lens][0]+'; '+NEXT[f.next][0].toLowerCase(),'net');toast('Reply sent to '+r.name+' by voice message and SMS');lastSig='';render()}
+function openRec(id){const r=findRec(id);if(!r)return;S.d.tab='queue';S.d.screen='detail';S.d.sel=id;
+ if(r.status==='new'){updateRec(id,x=>{x.status='review'});log('Opened '+r.name+' — patient sees “reviewing”','net')}
+ lastSig='';render();const m=document.getElementById('main');if(m)m.scrollTop=0}
+/* Google Meet invitation via Google Calendar */
+function defaultMeet(r){const d=new Date();d.setDate(d.getDate()+1);const ds=d.toISOString().slice(0,10);return{id:r.id,date:r.invite?new Date(r.invite.when).toISOString().slice(0,10):ds,time:r.invite?new Date(r.invite.when).toTimeString().slice(0,5):'16:30',dur:r.invite?r.invite.dur:15,email:r.invite?r.invite.email||'':'',link:r.invite?r.invite.link||'':'',opened:false}}
+function gcalURL(m,r){const st=new Date(m.date+'T'+m.time),en=new Date(st.getTime()+m.dur*60000),f=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+ const res=computeResult(r);
+ const details=`Eyeze remote eye consultation\n\nPatient: ${r.name} (${r.pid||''})\nAge: ${r.age}\nVillage: ${r.village||'-'}\nPhone: ${r.phone||'-'}\nLanguage: ${LANGS[r.lang].name}\nTriage: ${TRI_EN[res.tri]}\n\nBefore saving: click “Add Google Meet video conferencing”.`;
+ const q=new URLSearchParams({action:'TEMPLATE',text:`Eye consultation: ${r.name} (${r.pid||''})`,dates:f(st)+'/'+f(en),details,location:'Google Meet'});if(m.email)q.set('add',m.email);
+ return'https://calendar.google.com/calendar/render?'+q.toString()}
+function meetModal(){const m=S.d.meet,r=findRec(m.id);if(!r)return'';
+ return`<div class="mbg"><div class="sheet" role="dialog" aria-labelledby="mt" style="max-width:520px"><div class="row" style="margin-bottom:6px"><span class="av" style="background:var(--indigo)">${ic('video')}</span><div><h2 class="h2" id="mt" style="margin:0">Video consultation</h2><p class="small muted">${esc(r.name)} · ${r.pid||''} · ${LANGS[r.lang].name}</p></div></div>
+ <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px"><label class="fld"><span>Date</span><input id="m_date" type="date" value="${m.date}"></label><label class="fld"><span>Time</span><input id="m_time" type="time" value="${m.time}"></label><label class="fld"><span>Length</span><select id="m_dur">${[15,20,30].map(n=>`<option value="${n}" ${+m.dur===n?'selected':''}>${n} min</option>`).join('')}</select></label></div>
+ <label class="fld"><span>Guest email (health worker or patient, optional)</span><input id="m_email" type="email" placeholder="kavya.asha@example.com" value="${esc(m.email)}"></label>
+ <div class="meetbox"><b>How it works</b><ol><li>Create the invite. Google Calendar opens with the patient’s details filled in.</li><li>Click “Add Google Meet video conferencing”, then Save.</li><li>Paste the Meet link below and send it to the patient.</li></ol></div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><a class="btn p" id="gcal" href="${esc(gcalURL(m,r))}" target="_blank" rel="noopener" data-act="gcalOpened">${ic('calendar','s')} Create Google Meet invite</a><a class="btn" href="https://meet.google.com/new" target="_blank" rel="noopener">${ic('ext','s')} Instant meeting</a></div>
+ <label class="fld" style="margin-top:14px"><span>Google Meet link</span><input id="m_link" type="url" placeholder="https://meet.google.com/abc-defg-hij" value="${esc(m.link)}"></label>
+ <div class="row"><button class="btn" style="flex:1" data-act="meetClose">Cancel</button><button class="btn p" style="flex:1" data-act="meetSend">${ic('send','s')} Send invite to patient</button></div>
+ <p class="xs muted" style="margin-top:10px">The patient gets the time and link in the app and by SMS. Audio-first is recommended for low bandwidth.</p></div></div>`}
+function readMeet(){const g=id=>{const e=document.getElementById(id);return e?e.value.trim():''};const m=S.d.meet;if(!m)return;m.date=g('m_date')||m.date;m.time=g('m_time')||m.time;m.dur=+g('m_dur')||m.dur;m.email=g('m_email');m.link=g('m_link')}
+function updMeet(){readMeet();const m=S.d.meet,r=m&&findRec(m.id),a=document.getElementById('gcal');if(a&&r)a.href=gcalURL(m,r)}
+function sendInvite(){readMeet();const m=S.d.meet,r=findRec(m.id);if(!r)return;
+ if(m.link&&!/^https:\/\/meet\.google\.com\/[a-z0-9-]+/i.test(m.link)){toast('Please paste a Google Meet link, like https://meet.google.com/abc-defg-hij');return}
+ const when=new Date(m.date+'T'+m.time).getTime();
+ updateRec(r.id,x=>{x.invite={when,dur:m.dur,link:m.link||'',email:m.email||'',at:Date.now()};if(x.status==='new')x.status='review'});
+ log('Video consultation sent to '+r.name+' for '+fmtWhen(when,'en')+(m.link?' with Meet link':' (link to follow)'),'net');toast('Video consultation invite sent to '+r.name);S.d.meet=null;lastSig='';render()}
+function analyticsHTML(){
+ const all=allPatients().map(r=>({r,res:computeResult(r)}));const tri={green:28,amber:11,red:3},dom={near:15,mid:12,far:19},lng={kn:31,hi:9,en:6};
+ all.forEach(({r,res})=>{tri[res.tri]++;if(res.dominant)dom[res.dominant]++;lng[r.lang]++});
+ const col={green:'var(--leaf)',amber:'var(--gold)',red:'var(--red)'};
+ const bars=(o,lab,c)=>{const tot=Object.values(o).reduce((a,b)=>a+b,0);return`<div class="hb">${Object.entries(o).map(([k,v])=>`<div class="r"><span>${lab(k)}</span><div class="tr"><i style="width:${Math.round(v/tot*100)}%;background:${c?c(k):'var(--teal)'}"></i></div><b>${v}</b></div>`).join('')}</div>`};
+ const total=Object.values(tri).reduce((a,b)=>a+b,0);
+ return`<h1>Analytics</h1><p class="muted">Last 30 days · anonymised</p><div class="stats"><div class="stat"><b>${total}</b><span>Profiles received</span></div><div class="stat"><b>12</b><span>Villages reached</span></div><div class="stat r"><b>${tri.red}</b><span>Urgent referrals</span></div><div class="stat g"><b>71%</b><span>Answers by voice</span></div></div>
+ <div class="d3" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px"><div class="box"><h3>Triage</h3>${bars(tri,k=>TRI_EN[k],k=>col[k])}</div><div class="box"><h3>Vision dominance</h3>${bars(dom,k=>ZN[k])}</div><div class="box"><h3>Language</h3>${bars(lng,k=>LANGS[k].name)}</div></div>
+ <div class="box"><h3>Most common findings</h3>${bars({'Presbyopia':22,'Reduced distance acuity':17,'Readymade glasses in use':14,'Diabetes without eye exam':9,'Night glare':8},k=>k)}</div>`}
+function centresHTML(){const tl={store:'Optical store',camp:'Eye camp',hospital:'Hospital',video:'Teleconsultation'};
+ return`<h1>Referral centres</h1><p class="muted" style="margin-bottom:16px">Where patients go for final refraction, fitting or urgent care.</p><div class="tw"><table><thead><tr><th>Centre</th><th>Type</th><th>Distance</th><th>Details</th><th>This week</th></tr></thead><tbody>${CENTRES.map(c=>`<tr><td><b>${c.name}</b></td><td>${tl[c.type]}</td><td>${c.km?c.km+' km':'Remote'}</td><td>${c.detail}</td><td>${c.load}</td></tr>`).join('')}</tbody></table></div>`}
+function dDock(){const tg=(act,on,lab,sub)=>`<button class="tog" data-act="${act}" aria-pressed="${on}"><span>${lab}<small>${sub}</small></span><i></i></button>`;
+ return`<div class="dock ${S.dockOpen?'':'min'}"><button class="dh" data-act="dock"><span class="lv ${S.docAuto?'on':''}"></span>Demo controls</button>${S.dockOpen?`<div class="db">${tg('docAuto',S.docAuto,'Auto-review','Opens new profiles, replies and books a video call')}${tg('portal',true,'Optometrist portal','Switch off to return to the patient app')}<div class="row" style="justify-content:space-between;margin-top:8px"><span class="xs muted">Engine log</span><button class="lnk xs" data-act="reset">Reset demo</button></div><ol class="dlog" id="dlog">${logItems()}</ol></div>`:''}</div>`}
+
+/* ============ render loop ============ */
+function render(){
+ S.tok++;const m0=document.getElementById('main'),sc=m0?m0.scrollTop:0;
+ let h;
+ if(S.page==='portal'){h=`<main class="main" id="main">${portalHTML()}</main>`+(S.d.logged?dDock():'')+(S.d.meet?meetModal():'')}
+ else{const p=S.p;let inner;
+  switch(p.screen){case'consent':inner=`<div class="wrap n">${consentHTML()}</div>`;break;case'interview':inner=`<div class="wrap n">${interviewHTML()}</div>`;break;
+   case'testsIntro':inner=`<div class="wrap n"><div class="card center">${mascot(90)}<h2 class="h2" style="margin-top:12px">${p.mode==='full'?t('testsIntro'):t('card3')}</h2><p class="muted">${t('testsSub')}</p><ul class="tlist">${TESTS.map((k,i)=>`<li><button class="${p.tests[k]?'done':''}" data-act="openTest" data-v="${k}"><span class="blob c-${PAL[i%PAL.length]}">${ic(p.tests[k]?'check':TEST_IC[k])}</span>${t('s_'+k)}</button></li>`).join('')}</ul><div style="margin-top:20px"><button class="btn p big" data-act="startTests">${Object.keys(p.tests).length?t('resumeTests'):t('startTests')} ${ic('fwd')}</button></div></div></div>`;break;
+   case'test':inner=`<div class="wrap">${testHTML()}</div>`;break;
+   case'testsDone':inner=`<div class="wrap n"><div class="card center" style="padding:44px 24px">${mascot(110)}<h2 class="h2" style="margin-top:14px">${t('testsDone')}</h2><p class="muted">${t('testsDoneSub')}</p><div style="margin-top:22px"><button class="btn p big" data-act="finalize">${t('seeProfile')} ${ic('fwd')}</button></div></div></div>`;break;
+   case'result':inner=`<div class="wrap">${resultHTML()}</div>`;break;case'messages':inner=`<div class="wrap n">${messagesHTML()}</div>`;break;
+   default:inner=`<div class="wrap">${homeHTML()}</div>`}
+  h=pHeader()+`<main class="main" id="main">${inner}</main>`+pDock()+(p.modal==='urgent'?urgentModal():p.modal==='login'?loginModal():'')}
+ document.getElementById('app').innerHTML=h;
+ const m1=document.getElementById('main');if(m1)m1.scrollTop=sc;
+ afterRender()}
+function afterRender(){
+ if(S.page==='patient'){ensureCamera();if(S.p.screen==='test'&&S.p.cur==='color')drawPlate();speakForScreen()}
+ else{if(S.stream){S.stream.getTracks().forEach(t=>t.stop());S.stream=null}const ds=document.getElementById('dsearch');if(ds&&S.d.q){const q=S.d.q.toLowerCase();document.querySelectorAll('tr.rw').forEach(r=>{r.style.display=r.dataset.s.includes(q)?'':'none'})}}
+ scheduleAuto()}
+function speakKey(){const p=S.p;if(p.modal)return null;
+ switch(p.screen){
+  case'consent':return['consent',t('consentSay')];
+  case'interview':{const q=nextQ();if(!q)return null;const last=p.qhist[p.qhist.length-1];let lead='';if(last&&QMAP[last].sec!==q.sec)lead=t('secIn_'+q.sec)+' ';else if(q.lead)lead=tx(q.lead)+' ';return['q:'+q.id+':'+p.qhist.length,lead+tx(q.t)]}
+  case'testsIntro':return['ti',t('testsIntro')+'. '+t('testsSub')];
+  case'test':{const s=p.ts,id=p.cur;
+   if(id==='va')return['va'+s.eye,(s.eye==='R'?t('coverLeft'):t('coverRight'))+'. '+t('whereGap')];
+   if(id==='setup')return['setup'+s.phase,s.phase==='card'?t('calibTitle'):t('distTitle')];
+   if(id==='near')return['near',t('nearTitle')+'. '+t('canRead')];if(id==='np')return['np',t('npTitle')+'. '+t('npBody')];
+   if(id==='contrast')return['ct',t('contrastQ')];if(id==='color')return['col',t('colorQ')];
+   if(id==='amsler')return['am'+s.eye,(s.eye==='R'?t('coverLeft'):t('coverRight'))+'. '+t('amslerQ')];
+   if(id==='astig')return['as',t('astigQ')];if(id==='pd')return['pd',t('pdTitle')];return null}
+  case'testsDone':return['td',t('testsDone')];
+  case'result':{const r=p.result;if(!r||p.status)return null;return['res',(r.dominant?t('mostly',{z:t('za_'+r.dominant)})+' ':'')+t('triD_'+r.tri)]}}
+ return null}
+function speakForScreen(){const k=speakKey();if(!k||!k[1])return;if(S._spoken===k[0]+S.lang)return;S._spoken=k[0]+S.lang;speak(k[1])}
+
+/* ============ guided demos ============ */
+function scheduleAuto(){
+ const tok=S.tok,go2=(ms,fn)=>setTimeout(()=>{if(tok===S.tok)fn()},ms*S.speed);
+ if(S.page==='portal'){if(!S.docAuto)return;const G=(ms,fn)=>go2(ms,()=>{if(S.docAuto)fn()});
+  if(!S.d.logged)return G(1200,()=>{S.d.logged=true;log('Optometrist signed in');render()});
+  if(S.d.meet){const m=S.d.meet;if(!m._auto){m._auto=1;G(3500,()=>{m.link='';sendInvite();S.docAuto=false;toast('Auto-review complete');render()})}return}
+  const live=allPatients().find(r=>r.live&&r.status==='new');
+  if(live&&!(S.d.screen==='detail'&&S.d.sel===live.id))return G(2400,()=>openRec(live.id));
+  const cur=S.d.screen==='detail'&&findRec(S.d.sel);
+  if(cur&&cur.live&&cur.status==='review')return G(6000,sendReply);
+  if(cur&&cur.live&&cur.status==='replied'&&!cur.invite)return G(2500,()=>{S.d.meet=defaultMeet(cur);render()});
+  return}
+ if(!S.autopilot)return;const G=(ms,fn)=>go2(ms,()=>{if(S.autopilot)fn()});
+ const p=S.p,qDelay=q=>S.voiceOn?Math.max(1900,Math.min(5000,tx(q.t).length*65)):1300;
+ if(p.modal==='urgent')return G(3500,()=>{p.modal=null;render()});
+ if(p.modal==='login'){const L=p.login;return G(1500,()=>{if(L.step==='phone'){const e=document.getElementById('l_phone');if(e)e.value=PERSONA.phone}else if(L.step==='otp'){const e=document.getElementById('l_otp');if(e)e.value=L.code}else{const i=LI[S.lang],a=document.getElementById('l_name'),b=document.getElementById('l_village');if(a)a.value=PERSONA.name[i];if(b)b.value=PERSONA.village[i]}setTimeout(()=>{if(S.autopilot&&p.modal==='login')loginNext()},900*S.speed)})}
+ if((p.reply||p.invite)&&p.screen!=='messages'&&p.status!=='sent')return G(2800,()=>{p.unread=false;go('messages')});
+ switch(p.screen){
+  case'home':G(2000,()=>{if(S.lang!=='kn'){S.lang='kn';log('Language set to Kannada','voice')}startMode('full')});break;
+  case'consent':G(3600,agreeNow);break;
+  case'interview':{if(p.listening||p.pick)break;const q=nextQ();if(!q)break;
+   if((q.type==='multi'||q.type==='scene')&&p.multiSel&&p.heard&&p.heard.q===q.id){G(1200,confirmMulti);break}
+   G(qDelay(q),startListen);break}
+  case'testsIntro':G(2400,nextTest);break;
+  case'test':autoTest(G);break;
+  case'testsDone':G(1800,finalize);break;
+  case'result':if(!p.status)G(5000,openSend);else if(p.status==='sent'&&!S._hinted){S._hinted=1;toast('Open the optometrist portal (Demo controls) to review this report')}break;
+  case'messages':if(p.reply&&!p.autoPlayed){p.autoPlayed=true;p.unread=false;G(900,playReply);if(p.invite)G(12000,()=>{S.autopilot=false;toast('Guided demo complete');render()})}else if(p.invite&&p.autoPlayed)G(4000,()=>{S.autopilot=false;toast('Guided demo complete');render()});break}}
+function autoTest(G){const p=S.p,s=p.ts,id=p.cur,wrong=d=>Object.keys(DIRS).find(x=>x!==d);
+ switch(id){case'setup':if(s.phase==='card')G(1800,setupNext);break;
+  case'va':G(1200,()=>vaAns(s.level<=PERSONA.va[s.eye]?s.dir:wrong(s.dir)));break;
+  case'contrast':G(1100,()=>cAns(s.level<=PERSONA.contrast?s.dir:wrong(s.dir)));break;
+  case'near':G(1600,()=>nearAns(s.level<=PERSONA.near?'yes':'no'));break;
+  case'np':if(s.phase==='ready')G(1400,npStart);else if(s.phase==='done')G(1800,npDone);break;
+  case'color':G(1700,()=>colorAns(String(PLATES[s.i].n)));break;
+  case'amsler':G(2000,()=>amslerDone('clear'));break;case'astig':G(2200,astigSame);break;
+  case'pd':if(s.phase==='ready')G(1500,pdMeasure);else if(s.phase==='done')G(2000,pdDone);break}}
+
+/* ============ test actions ============ */
+function vaAns(v){const s=S.p.ts;if(v===s.dir){s.trial++;if(s.trial>=2){s.best=s.level;s.level++;s.trial=0;if(s.level>=VA.length)return finishEye()}s.dir=randDir(s.dir);render()}else finishEye()}
+function finishEye(){const s=S.p.ts;S.p.vaTmp=S.p.vaTmp||{};S.p.vaTmp[s.eye]=s.best;log('Acuity '+(s.eye==='R'?'right':'left')+' eye: '+vaStr(s.best));
+ if(s.eye==='R'){S.p.ts={eye:'L',level:0,trial:0,dir:randDir(),best:-1};render()}else{const r={R:S.p.vaTmp.R,L:s.best};S.p.vaTmp=null;doneTest('va',r,'R '+vaStr(r.R)+', L '+vaStr(r.L))}}
+function cAns(v){const s=S.p.ts;if(v===s.dir){s.trial++;if(s.trial>=2){s.best=s.level;s.level++;s.trial=0;if(s.level>=CONTRAST.length)return cDone()}s.dir=randDir(s.dir);render()}else cDone()}
+function cDone(){const s=S.p.ts,pct=s.best<0?100:CONTRAST[s.best];doneTest('contrast',{pct},'lowest contrast '+pct+'%')}
+function nearAns(v){const s=S.p.ts;if(v==='yes'){if(s.level>=NEAR.length-1)return doneTest('near',{level:s.level},'reads '+NEAR[s.level]);s.level++;render()}else doneTest('near',{level:s.level-1},s.level?'smallest read '+NEAR[s.level-1]:'could not read N24')}
+function npStart(){const s=S.p.ts;s.phase='moving';s.cm=60;render();clearInterval(S.iv);
+ S.iv=setInterval(()=>{if(S.p.screen!=='test'||S.p.cur!=='np'||s.phase!=='moving'){clearInterval(S.iv);return}s.cm-=0.5;const el=document.getElementById('npv'),bar=document.getElementById('npbar');if(el)el.textContent=Math.round(s.cm)+' cm';if(bar)bar.style.width=Math.max(0,(s.cm-8)/52*100)+'%';if((S.autopilot&&s.cm<=PERSONA.np)||s.cm<=8)npBlur()},90*S.speed)}
+function npBlur(){const s=S.p.ts;if(s.phase!=='moving')return;clearInterval(S.iv);s.phase='done';const amp=100/s.cm;s.add=Math.max(0,Math.min(3,Math.round((2.5-amp/2)*4)/4));log('Near point '+Math.round(s.cm)+' cm: reading add ≈ +'+s.add.toFixed(2),'rule');render()}
+function npDone(){const s=S.p.ts;doneTest('np',{cm:Math.round(s.cm),add:s.add},'near point '+Math.round(s.cm)+' cm')}
+function colorAns(v){const s=S.p.ts;if(String(PLATES[s.i].n)===v)s.c++;s.i++;if(s.i>=PLATES.length)return doneTest('color',{c:s.c,n:PLATES.length},s.c+' of '+PLATES.length);render()}
+function amslerDone(v){const s=S.p.ts,n=v==='clear'?0:s.marks.length;if(s.eye==='R'){S.p.ts={eye:'L',marks:[],R:n};render()}else doneTest('amsler',{R:s.R,L:n},'R '+s.R+', L '+n)}
+function astigSame(){doneTest('astig',{res:'none'},'no line darker')}
+function astigLine(k){k=+k;doneTest('astig',{res:'possible',clock:k,axis:k*30},'axis ≈ '+k*30+'°')}
+function pdMeasure(){const s=S.p.ts;s.phase='measuring';render();setTimeout(()=>{if(S.p.cur!=='pd')return;s.phase='done';s.pd=S.autopilot?PERSONA.pd:Math.round((58+Math.random()*9)*2)/2;s.conf=88;log('Pupil distance '+s.pd.toFixed(1)+' mm','rule');render()},2400*S.speed)}
+function pdDone(){const s=S.p.ts;doneTest('pd',{pd:s.pd,conf:s.conf},s.pd.toFixed(1)+' mm')}
+function setupNext(){const s=S.p.ts;S.p._px=s.w/85.6;s.phase='dist';s.dist=72;s.ok=false;render();clearInterval(S.iv);
+ S.iv=setInterval(()=>{if(S.p.cur!=='setup'||s.phase!=='dist'){clearInterval(S.iv);return}s.dist=Math.max(40,s.dist-1);const el=document.getElementById('distv');if(el)el.textContent=s.dist+' cm';
+  if(s.dist<=41&&!s.ok){s.ok=true;clearInterval(S.iv);const ok=document.getElementById('distok');if(ok)ok.innerHTML=`<span class="ok">${ic('check','s')} ${t('distOk')}</span>`;const b=document.getElementById('setupDone');if(b)b.disabled=false;
+   if(S.autopilot){const tok=S.tok;setTimeout(()=>{if(tok===S.tok&&S.autopilot)setupDone()},1300*S.speed)}}},70*S.speed)}
+function setupDone(){const px=S.p._px||3.78;doneTest('setup',{pxmm:px},px.toFixed(2)+' px/mm, 40 cm')}
+
+/* ============ actions ============ */
+function agreeNow(){S.p.consented=true;log('Consent given by voice/tap');afterConsent()}
+function setHours(v){S.p.val=v;const h=document.getElementById('hv');if(h)h.textContent=v;const q=nextQ();const icn=q&&q.id==='phone'?'mobile':q&&q.id==='outdoor'?'sun':'book';const s=document.getElementById('suns');if(s)[...s.children].forEach((c,i)=>{c.classList.toggle('on',i<v);c.innerHTML=i<v?`<svg viewBox="0 0 24 24">${ICO[icn]}</svg>`:''});const r=document.getElementById('hrange')||document.getElementById('arange');if(r&&+r.value!==v)r.value=v}
+const ACT={
+ home:()=>{stopSpeak();clearInterval(S.iv);S.p.listening=false;go('home')},
+ mode:v=>startMode(v),
+ setLang:v=>{S.lang=v;document.documentElement.lang=v;S._spoken=null;log('Language: '+LANGS[v].name,'voice');render()},
+ voice:()=>{S.voiceOn=!S.voiceOn;if(!S.voiceOn)stopSpeak();else S._spoken=null;render()},
+ dock:()=>{S.dockOpen=!S.dockOpen;render()},
+ auto:()=>{S.autopilot=!S.autopilot;log(S.autopilot?'Guided demo started: Ramappa, 55, farmer from Hosahalli, speaks Kannada':'Guided demo stopped');render()},
+ docAuto:()=>{S.docAuto=!S.docAuto;log(S.docAuto?'Auto-review on':'Auto-review off');render()},
+ net:()=>toggleNet(),
+ portal:()=>{location.hash=S.page==='portal'?'':'optometrist'},
+ reset:()=>{stopSpeak();clearInterval(S.iv);saveShared({subs:{}});Object.assign(S,{p:freshP(),seeds:seedPatients(),log:[],lang:'en',online:true,autopilot:false,docAuto:false,_spoken:null,_hinted:0});S.d=Object.assign(S.d,{tab:'queue',screen:'queue',sel:null,filter:'all',q:'',meet:null});lastSig='';render()},
+ agree:()=>agreeNow(),
+ replay:()=>{S._spoken=null;speakForScreen()},
+ opt:v=>{const q=nextQ();if(!q||S.p.pick)return;if(q.type==='single'){S.p.pick=v;render();setTimeout(()=>setAnswer(q.id,v),380);return}
+  let sel=(S.p.multiSel||[]).slice();if(v===q.excl)sel=sel.includes(v)?[]:[v];else{sel=sel.filter(x=>x!==q.excl);sel=sel.includes(v)?sel.filter(x=>x!==v):[...sel,v]}S.p.multiSel=sel;render()},
+ sitem:v=>{let sel=(S.p.multiSel||[]).slice();sel=sel.includes(v)?sel.filter(x=>x!==v):[...sel,v];S.p.multiSel=sel;render()},
+ sceneClear:()=>{const q=nextQ();if(q)setAnswer(q.id,[])},
+ qnext:()=>{const q=nextQ();if(!q)return;if(q.type==='hours'||q.type==='age')return setAnswer(q.id,S.p.val==null?initVal(q):S.p.val);confirmMulti()},
+ hset:v=>setHours(+v),
+ aset:v=>setHours(Math.max(5,Math.min(95,(S.p.val==null?40:S.p.val)+ +v))),
+ aval:v=>setHours(+v),
+ qback:()=>{const id=S.p.qhist.pop();if(id){const prev=S.p.answers[id];delete S.p.answers[id];S.p.multiSel=Array.isArray(prev)?prev.slice():null;S.p.val=typeof prev==='number'?prev:null;delete S.p.voiceAns[id];prune();S.p.ackAt=0}render()},
+ mic:()=>startListen(),
+ micDir:act=>{const opts=['up','down','left','right'].map(v=>({v,l:T[v],kw:[v,{up:'upar',down:'neeche',left:'baayen',right:'daayen'}[v]]}));
+  if(!recognize(alts=>{if(!alts){toast(t('notUnderstood'));return}const m=matchOpts(alts,opts);if(m.length)(act==='vaAns'?vaAns:cAns)(m[0]);else toast(t('notUnderstood'))}))toast(t('voiceFail'))},
+ urgentClose:()=>{S.p.modal=null;stopSpeak();if(!nextQ())finishInterview();else render()},
+ callHosp:()=>toast(t('calling')),
+ startTests:()=>nextTest(),openTest:v=>openTest(v),
+ vaAns:v=>vaAns(v),cAns:v=>cAns(v),nearAns:v=>nearAns(v),npStart:()=>npStart(),npBlur:()=>npBlur(),npDone:()=>npDone(),colorAns:v=>colorAns(v),
+ amslerCell:v=>{const s=S.p.ts;v=+v;s.marks=s.marks.includes(v)?s.marks.filter(x=>x!==v):[...s.marks,v];const b=document.querySelector(`[data-act="amslerCell"][data-v="${v}"]`);if(b)b.setAttribute('aria-pressed',s.marks.includes(v));const d=document.querySelector('[data-act="amslerDone"][data-v="marked"]');if(d)d.disabled=!s.marks.length},
+ amslerDone:v=>amslerDone(v),astigSame:()=>astigSame(),astigLine:v=>astigLine(v),pdMeasure:()=>pdMeasure(),pdDone:()=>pdDone(),setupNext:()=>setupNext(),setupDone:()=>setupDone(),
+ finalize:()=>finalize(),
+ listenProfile:()=>{const r=S.p.result;if(r)speak((r.dominant?t('mostly',{z:t('za_'+r.dominant)})+' ':'')+t('triD_'+r.tri)+' '+r.tips.slice(0,2).map(k=>tx(TIPS[k][1])).join(' '))},
+ share:()=>toast(t('shared')),
+ send:()=>openSend(),loginNext:()=>loginNext(),loginCancel:()=>{S.p.modal=null;S.p.login=null;render()},
+ report:()=>go('result'),
+ msgs:()=>{S.p.unread=false;go('messages')},
+ playReply:()=>playReply(),directions:()=>toast(t('dirToast')),
+ docLogin:()=>{S.d.logged=true;log('Optometrist signed in');render()},
+ docLogout:()=>{S.d.logged=false;render()},
+ dtab:v=>{S.d.tab=v;if(v==='queue')S.d.screen='queue';render()},
+ dopen:v=>openRec(v),dback:()=>{S.d.screen='queue';render()},dfilter:v=>{S.d.filter=v;render()},
+ dsend:()=>sendReply(),
+ dreopen:()=>{updateRec(S.d.sel,x=>{x.reply=null;x.status='review'});lastSig='';render()},
+ dmeet:()=>{const r=findRec(S.d.sel);if(r){S.d.meet=defaultMeet(r);render()}},
+ gcalOpened:(v,el,e)=>{log('Google Calendar invite opened for '+(findRec(S.d.meet.id)||{}).name,'net');return 'native'},
+ meetClose:()=>{S.d.meet=null;render()},
+ meetSend:()=>sendInvite(),
+};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el||el.disabled)return;const f=ACT[el.dataset.act];if(!f)return;
+ if(el.tagName==='A'){f(el.dataset.v,el,e);return}e.preventDefault();f(el.dataset.v,el,e)});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('tr[data-act]')){e.preventDefault();ACT.dopen(e.target.dataset.v)}
+ if(e.key==='Enter'&&S.p.modal==='login'&&e.target.id&&e.target.id.startsWith('l_')){e.preventDefault();loginNext()}});
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.id==='hrange'||el.id==='arange')setHours(+el.value);
+ if(el.id==='cardw'){S.p.ts.w=+el.value;const b=document.getElementById('cardbox');if(b)b.style.width=el.value+'px';const p=document.getElementById('pxmm');if(p)p.textContent='1 mm = '+(el.value/85.6).toFixed(2)+' px'}
+ if(el.id==='l_phone'&&S.p.login)S.p.login.phone=el.value;if(el.id==='l_otp'&&S.p.login){S.p.login.otp=el.value;if(el.value.length===4)setTimeout(loginNext,200)}
+ if(el.id==='l_name'&&S.p.login)S.p.login.name=el.value;if(el.id==='l_village'&&S.p.login)S.p.login.village=el.value;
+ if(el.id==='dsearch'){S.d.q=el.value;const q=el.value.toLowerCase();document.querySelectorAll('tr.rw').forEach(r=>{r.style.display=r.dataset.s.includes(q)?'':'none'})}
+ if(el.id==='r_notes'){const r=findRec(S.d.sel);if(r)r._draftNotes=el.value}
+ if(el.id&&el.id.startsWith('r_'))updPreview();if(el.id&&el.id.startsWith('m_'))updMeet()});
+document.addEventListener('change',e=>{const el=e.target;if((el.id&&el.id.startsWith('r_'))||el.name==='r_coat')updPreview();if(el.id&&el.id.startsWith('m_'))updMeet()});
+function updPreview(){const r=findRec(S.d.sel),f=readForm(),el=document.getElementById('r_prevtxt');if(r&&f&&el)el.textContent=replyText(r.name,f,r.lang)}
+render();
+</script>
+</body>
+</html>
