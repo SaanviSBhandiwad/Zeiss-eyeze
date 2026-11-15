@@ -69,8 +69,30 @@ export const TIPS={
 
 TIPS.dust=['',['Wear protective glasses when there is dust, smoke or flying chips at work.','काम पर धूल, धुआँ या उड़ते टुकड़े हों तो सुरक्षा चश्मा पहनें।','ಕೆಲಸದಲ್ಲಿ ಧೂಳು, ಹೊಗೆ ಅಥವಾ ಹಾರುವ ಚೂರುಗಳಿದ್ದರೆ ರಕ್ಷಣಾ ಕನ್ನಡಕ ಧರಿಸಿ.']];
 
+/* Agreed shape of p.tests (see Person 2/3 agreement). A skipped or failed test is stored as {} — never null or 0. */
+const TEST_FIELDS={setup:['pxmm'],va:['R','L'],near:['level'],np:['cm','add'],contrast:['pct'],color:['c','n'],amsler:['R','L'],astig:[],pd:['mm']};
+const isNum=v=>typeof v==='number'&&Number.isFinite(v);
+/** Returns only the tests that hold a usable measurement, so {} (skipped/failed) reads as "not done".
+ *  Also accepts the older prototype/seed shape pd:{pd,conf} and exposes it as pd:{mm,conf}. Never mutates the input. */
+export function cleanTests(raw){
+ const out={};
+ if(!raw||typeof raw!=='object')return out;
+ for(const k of Object.keys(raw)){
+  let v=raw[k];
+  if(!v||typeof v!=='object'||Array.isArray(v))continue;
+  if(k==='pd'&&!isNum(v.mm)&&isNum(v.pd))v={...v,mm:v.pd};
+  const need=TEST_FIELDS[k];
+  if(need){
+   if(!need.every(f=>isNum(v[f])))continue;
+   if(k==='astig'&&!(v.res==='none'||(v.res==='possible'&&isNum(v.axis))))continue;
+  }else if(!Object.keys(v).length)continue;
+  out[k]=v;
+ }
+ return out;
+}
+
 export function computeResult(r){
- const a=r.answers||{},te=r.tests||{},age=+a.age||+r.age||0;
+ const a=r.answers||{},te=cleanTests(r.tests),age=+a.age||+r.age||0;
  const hasProfile=a.work!==undefined;
  const z=zonesOf(a);
  let dom=null,dominant=null;
@@ -153,7 +175,10 @@ export function computeResult(r){
  return{dom,dominant,tri,reasons,flags,lens,why,coat,next,centre,tips:[...new Set(tips)].slice(0,6)};
 }
 
-export function testRows(te,lang){
+/* The agreed pd shape {mm} carries no per-measurement confidence, so the portal shows a fixed value like the other tests. */
+const PD_CONF=72;
+export function testRows(rawTests,lang){
+ const te=cleanTests(rawTests);
  const L=lang||'en',rows=[];
  const add=(k,v,ok,conf)=>rows.push({k,label:tx(T['t_'+k],L),v,st:ok===null?'na':ok?'good':'warn',conf});
  add('va',te.va?'R '+(te.va.R<0?'<6/60':VA[te.va.R])+'  ·  L '+(te.va.L<0?'<6/60':VA[te.va.L]):'',te.va?(te.va.R>=5&&te.va.L>=5):null,82);
@@ -163,7 +188,7 @@ export function testRows(te,lang){
  add('color',te.color?te.color.c+' / '+te.color.n:'',te.color?te.color.c===te.color.n:null,68);
  add('amsler',te.amsler?(te.amsler.R+te.amsler.L===0?(L==='en'?'No distortion':'—'):'R '+te.amsler.R+'  ·  L '+te.amsler.L):'',te.amsler?te.amsler.R+te.amsler.L===0:null,77);
  add('astig',te.astig?(te.astig.res==='none'?(L==='en'?'Not indicated':'—'):'Axis ≈ '+te.astig.axis+'°'):'',te.astig?te.astig.res==='none':null,60);
- add('pd',te.pd?te.pd.pd.toFixed(1)+' mm':'',te.pd?true:null,te.pd?te.pd.conf:0);
+ add('pd',te.pd?te.pd.mm.toFixed(1)+' mm':'',te.pd?true:null,te.pd?(isNum(te.pd.conf)?te.pd.conf:PD_CONF):0);
  return rows;
 }
 export const ZN={near:'Near',mid:'Intermediate',far:'Distance'};
