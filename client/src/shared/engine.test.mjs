@@ -101,3 +101,12 @@ test('seed patients: all produce a result and fully rendered test rows', () => {
     for (const r of rows) assert.notEqual(r.st, 'na', `${p.name} ${r.k}`);
   }
 });
+
+import { nearAddFromCm } from './engine.js';
+test('nearAddFromCm: prototype formula, rounded to 0.25 D and limited to 0..3', () => {
+  const cases = [[60, 1.75], [50, 1.5], [40, 1.25], [30, 0.75], [25, 0.5], [20, 0], [10, 0]];
+  for (const [cm, add] of cases) assert.equal(nearAddFromCm(cm), add, cm + ' cm');
+  assert.ok(nearAddFromCm(1000) >= 0 && nearAddFromCm(1000) <= 3);
+  assert.equal(nearAddFromCm(0), null);
+  assert.equal(nearAddFromCm(NaN), null);
+});

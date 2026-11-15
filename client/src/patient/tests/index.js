@@ -6,3 +6,4 @@ export { default as AmslerGrid } from './AmslerGrid.jsx';
 export { default as AstigmatismDial } from './AstigmatismDial.jsx';
 export * from './constants.js';
 export * from './utils.jsx';
+export { default as NearPoint } from './NearPoint.jsx';
