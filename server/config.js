@@ -12,8 +12,9 @@ export const config = {
 
   supabase: {
     url: env.SUPABASE_URL || '',
-    anonKey: env.SUPABASE_ANON_KEY || '',
-    serviceKey: env.SUPABASE_SERVICE_ROLE_KEY || '',
+    // Accepts Supabase's new key names (publishable / secret) or the legacy ones (anon / service_role).
+    anonKey: env.SUPABASE_PUBLISHABLE_KEY || env.SUPABASE_ANON_KEY || '',
+    serviceKey: env.SUPABASE_SECRET_KEY || env.SUPABASE_SERVICE_ROLE_KEY || '',
   },
 
   sarvam: {

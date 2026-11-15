@@ -45,7 +45,7 @@ In the patient app, **Demo controls → Guided demo** plays Ramappa's whole jour
 5. Create an optometrist and load the mock patients:
    ```bash
    cd server
-   npm run create-optometrist -- doctor@example.com 'a-strong-password' "Dr. Anjali Rao"
+   npm run create-optometrist -- doctor@example.com "a-strong-password" "Dr. Anjali Rao"
    npm run seed
    ```
 

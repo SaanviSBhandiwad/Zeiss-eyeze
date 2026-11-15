@@ -91,17 +91,23 @@ export async function startRecording({ onDone, maxMs = 9000, onLevel } = {}) {
 
   // crude voice-activity detection for auto-stop
   const ctx = new AudioContext();
+  ctx.resume().catch(() => {}); // Chrome may start it suspended, which would read silence
   const an = ctx.createAnalyser(); an.fftSize = 1024;
   ctx.createMediaStreamSource(stream).connect(an);
   const buf = new Float32Array(an.fftSize);
-  const t0 = Date.now(); let heard = false, quietSince = 0, stopped = false;
+  // The speech threshold adapts to the room: a few times the background level, never below 0.012.
+  // (A fixed 0.03 missed quiet laptop mics, so every answer was dropped as silence.)
+  const t0 = Date.now(); let heard = false, quietSince = 0, stopped = false, floor = 0, peak = 0;
   const iv = setInterval(() => {
     an.getFloatTimeDomainData(buf);
     let s = 0; for (const x of buf) s += x * x;
     const rms = Math.sqrt(s / buf.length), now = Date.now();
     onLevel?.(rms);
-    if (rms > 0.03) { heard = true; quietSince = 0; } else if (heard && !quietSince) quietSince = now;
-    if ((heard && quietSince && now - quietSince > 1300) || now - t0 > maxMs || (!heard && now - t0 > 6000)) stop();
+    peak = Math.max(peak, rms);
+    if (now - t0 < 400) { floor = Math.max(floor, rms); return; } // first 0.4 s: measure background noise
+    const speech = Math.max(0.012, floor * 3);
+    if (rms > speech) { heard = true; quietSince = 0; } else if (heard && !quietSince) quietSince = now;
+    if ((heard && quietSince && now - quietSince > 1300) || now - t0 > maxMs || (!heard && now - t0 > 7000)) stop();
   }, 100);
 
   rec.onstop = async () => {
@@ -109,7 +115,11 @@ export async function startRecording({ onDone, maxMs = 9000, onLevel } = {}) {
     stream.getTracks().forEach(t => t.stop());
     ctx.close().catch(() => {});
     const blob = new Blob(parts, { type: rec.mimeType || 'audio/webm' });
-    onDone?.(heard && blob.size ? await toWav(blob).catch(() => null) : null);
+    // Send anything with some sound in it and let Sarvam decide; drop only true silence.
+    const keep = blob.size > 0 && (heard || peak > 0.006);
+    console.info('[Eyeze voice]', { heard, peak: +peak.toFixed(4), floor: +floor.toFixed(4), bytes: blob.size, sent: keep });
+    if (!keep) return onDone?.(null);
+    onDone?.(await toWav(blob).catch(e => { console.warn('[Eyeze voice] could not convert recording:', e); return null; }));
   };
   function stop() { if (stopped) return; stopped = true; if (rec.state !== 'inactive') rec.stop(); }
   rec.start();
