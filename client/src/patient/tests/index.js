@@ -9,3 +9,4 @@ export * from './utils.jsx';
 export { default as NearPoint } from './NearPoint.jsx';
 export { default as PupilDistance } from './PupilDistance.jsx';
 export { default as SetupCalibration } from './SetupCalibration.jsx';
+export { default as NearReading } from './NearReading.jsx';

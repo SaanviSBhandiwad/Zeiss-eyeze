@@ -375,3 +375,8 @@ setupRefBad:['That did not look right. Check the 30 cm distance and try again.',
 setupScaleSaved:['Camera calibrated on this phone','इस फ़ोन पर कैमरा कैलिब्रेट है','ಈ ಫೋನಿನಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಕ್ಯಾಲಿಬ್ರೇಟ್ ಆಗಿದೆ'],
 setupScaleDefault:['Camera not calibrated (distance good to about ±15%)','कैमरा कैलिब्रेट नहीं है (दूरी लगभग ±15% तक सही)','ಕ್ಯಾಮೆರಾ ಕ್ಯಾಲಿಬ್ರೇಟ್ ಆಗಿಲ್ಲ (ದೂರ ಸುಮಾರು ±15% ವರೆಗೆ ಸರಿ)'],
 });
+
+/* ---- near reading test (Person 3) ---- */
+Object.assign(T,{
+nearAskSkip:['Skip this test','यह जाँच छोड़ें','ಈ ಪರೀಕ್ಷೆ ಬಿಡಿ'],
+});
