@@ -421,6 +421,11 @@ export function doneTest(id, result) {
   if (next) openTest(next); else finalize(); // compute the result, then show it
 }
 
+export function retakeTests() {
+  setP({ tests: {}, cur: null, ts: null, result: null });
+  go('testsIntro');
+}
+
 /* ---------------- demo controls ---------------- */
 export function toggleOffline() {
   const off = !app.get().simOffline;

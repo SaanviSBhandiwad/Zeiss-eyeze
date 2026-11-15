@@ -246,10 +246,13 @@ export function TestRunner() {
             </li>
           ))}
         </ul>
-        <div style={{ marginTop: 20 }}>
+        <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
           <button className="btn p big" onClick={A.startTests}>
             {anyDone ? 'Resume tests' : 'Start tests'} <Icon n="fwd" />
           </button>
+          {anyDone && (
+            <button className="btn" onClick={A.retakeTests}>Retake all tests</button>
+          )}
         </div>
       </div></div>
     );
@@ -325,7 +328,11 @@ export function Result() {
               </div>
             ))}</div> : <button className="btn o" onClick={() => A.startMode('profile')}><Icon n="mic" c="s" /> {tt('card2')}</button>}
           </section>
-          <section className="sec"><h2>{tt('testShort')}</h2><p className="muted small">{tt('testsSoon')}</p></section>
+          <section className="sec"><h2>{tt('testShort')}</h2>
+            {Object.keys(p.tests || {}).length > 0
+              ? <button className="btn o" onClick={A.retakeTests}><Icon n="eye" c="s" /> Retake tests</button>
+              : <button className="btn o" onClick={() => A.go('testsIntro')}><Icon n="eye" c="s" /> Take tests</button>}
+          </section>
           <section className="sec"><h2>{tt('lensFor')}</h2>
             <div className="lensc"><span className="blob"><Icon n="glasses" c="l" /></span><div>
               <b>{tx(LENS[r.lens], lang)}</b><p>{tt('lens_' + r.lens)}</p>
