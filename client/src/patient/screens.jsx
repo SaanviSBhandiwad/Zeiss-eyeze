@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  QMAP, SCENE, SEC_COL, PAL, LENS, COAT, NEXT, CMAP, DOC, TIPS, TIP_IC, visibleQs, ansLabel, tx, replyText,
+  QMAP, SCENE, SEC_COL, PAL, LENS, COAT, NEXT, CMAP, DOC, TIPS, TIP_IC, visibleQs, ansLabel, tx, replyText, testRows,
 } from '../shared/index.js';
 import { ICO } from '../lib/icons.js';
 import { Icon, Mascot, toast, ago, fmtDate, fmtTime } from '../lib/ui.jsx';
@@ -329,9 +329,25 @@ export function Result() {
             ))}</div> : <button className="btn o" onClick={() => A.startMode('profile')}><Icon n="mic" c="s" /> {tt('card2')}</button>}
           </section>
           <section className="sec"><h2>{tt('testShort')}</h2>
-            {Object.keys(p.tests || {}).length > 0
-              ? <button className="btn o" onClick={A.retakeTests}><Icon n="eye" c="s" /> Retake tests</button>
-              : <button className="btn o" onClick={() => A.go('testsIntro')}><Icon n="eye" c="s" /> Take tests</button>}
+            {testRows(p.tests || {}, lang).some(x => x.st !== 'na')
+              ? <>
+                <div className="tw"><table><tbody>
+                  {testRows(p.tests || {}, lang).map(x => (
+                    <tr key={x.k}>
+                      <td>{x.label}</td>
+                      <td><b>{x.v || '—'}</b></td>
+                      <td><span className={'chip ' + x.st}>{tt(x.st === 'na' ? 'notDone' : x.st === 'good' ? 'good' : 'attention')}</span></td>
+                    </tr>
+                  ))}
+                </tbody></table></div>
+                <p className="muted small" style={{ marginTop: 8 }}>{tt('testsNote')}</p>
+              </>
+              : <p className="muted small">{tt('noTestsYet')}</p>}
+            <div style={{ marginTop: 10 }}>
+              {Object.keys(p.tests || {}).length > 0
+                ? <button className="btn o" onClick={A.retakeTests}><Icon n="eye" c="s" /> Retake tests</button>
+                : <button className="btn o" onClick={() => A.go('testsIntro')}><Icon n="eye" c="s" /> Take tests</button>}
+            </div>
           </section>
           <section className="sec"><h2>{tt('lensFor')}</h2>
             <div className="lensc"><span className="blob"><Icon n="glasses" c="l" /></span><div>
