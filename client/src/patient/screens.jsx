@@ -7,7 +7,7 @@ import { Icon, Mascot, toast, ago, fmtDate, fmtTime } from '../lib/ui.jsx';
 import { useStore } from '../lib/store.js';
 import * as A from './state.js';
 import { TESTS, TEST_IC } from './tests/constants.js';
-import { CardCalibration, AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial, NearPoint, PupilDistance } from './tests/index.js';
+import { AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial, NearPoint, PupilDistance, SetupCalibration } from './tests/index.js';
 
 const { app, tt } = A;
 const useP = () => useStore(app, s => s.p);
@@ -199,7 +199,7 @@ export function Interview() {
 
 /* ---------------- tests ---------------- */
 const TEST_COMPONENTS = {
-  setup: CardCalibration,
+  setup: SetupCalibration,
   va: AcuityRings,
   np: NearPoint,
   pd: PupilDistance,
