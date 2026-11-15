@@ -391,7 +391,7 @@ export function speakKey(s) {
 export function startTests() {
   const p = P();
   const next = TESTS.find(k => !p.tests[k]);
-  if (next) openTest(next); else go('testsDone');
+  if (next) openTest(next); else finalize(); // compute the result, then show it
 }
 
 export function openTest(id) {
@@ -418,7 +418,7 @@ export function doneTest(id, result) {
   const tests = { ...P().tests, [id]: result };
   setP({ tests, cur: null, ts: null });
   const next = TESTS.find(k => !tests[k]);
-  if (next) openTest(next); else go('testsDone');
+  if (next) openTest(next); else finalize(); // compute the result, then show it
 }
 
 /* ---------------- demo controls ---------------- */
