@@ -15,7 +15,7 @@ function Header() {
   const p = useStore(app, s => s.p);
   return (
     <header className="hdr"><div className="hdr-in">
-      <button className="logo" onClick={A.goHome}><Mascot s={38} /><span>Eyeze</span></button>
+      <button className="logo" onClick={A.goHome}><img src="/logo.png" alt="Eyeze" style={{ height: 38, width: 'auto' }} /></button>
       <div className="hdr-r">
         {off && <span className="offpill"><Icon n="nowifi" c="s" /> {tt('offline')}</span>}
         <div className="lchips" role="group" aria-label={tt('chooseLang')}>
