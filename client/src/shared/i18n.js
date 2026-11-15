@@ -314,3 +314,21 @@ export function t(k, lang = 'en', vars) {
 /** Pick the lang entry from an [en, hi, kn] array. */
 export function tx(arr, lang = 'en') { return arr[LI[lang]] || arr[0]; }
 
+
+/* ---- added for the camera tests (Person 3). Hindi and Kannada need a native-speaker review before release. ---- */
+Object.assign(T,{
+camStarting:['Starting the camera…','कैमरा चालू हो रहा है…','ಕ್ಯಾಮೆರಾ ಆರಂಭವಾಗುತ್ತಿದೆ…'],
+camLoadingModel:['Getting ready. This can take a few seconds…','तैयारी हो रही है, कुछ सेकंड लग सकते हैं…','ಸಿದ್ಧತೆ ನಡೆಯುತ್ತಿದೆ, ಕೆಲವು ಸೆಕೆಂಡು ಬೇಕಾಗಬಹುದು…'],
+camNoFace:['Show your face to the camera','अपना चेहरा कैमरे के सामने लाएँ','ನಿಮ್ಮ ಮುಖವನ್ನು ಕ್ಯಾಮೆರಾದ ಮುಂದೆ ತನ್ನಿ'],
+camPrivacy:['The camera picture stays on your phone. It is never sent or saved.','कैमरे की तस्वीर आपके फ़ोन में ही रहती है। वह कहीं भेजी या सहेजी नहीं जाती।','ಕ್ಯಾಮೆರಾ ಚಿತ್ರ ನಿಮ್ಮ ಫೋನಿನಲ್ಲೇ ಇರುತ್ತದೆ. ಅದನ್ನು ಎಲ್ಲಿಗೂ ಕಳುಹಿಸುವುದಿಲ್ಲ, ಉಳಿಸುವುದಿಲ್ಲ.'],
+camRetry:['Try again','फिर कोशिश करें','ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ'],
+camSkip:['Skip this test','यह जाँच छोड़ें','ಈ ಪರೀಕ್ಷೆ ಬಿಡಿ'],
+camDenied:['Camera permission is needed for this test. Allow the camera in your browser settings, then try again. You can also skip this test.','इस जाँच के लिए कैमरे की अनुमति चाहिए। ब्राउज़र की सेटिंग में कैमरा चालू करके फिर कोशिश करें। आप यह जाँच छोड़ भी सकते हैं।','ಈ ಪರೀಕ್ಷೆಗೆ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಬೇಕು. ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ನಲ್ಲಿ ಕ್ಯಾಮೆರಾಕ್ಕೆ ಅನುಮತಿ ನೀಡಿ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ. ಈ ಪರೀಕ್ಷೆಯನ್ನು ಬಿಟ್ಟುಬಿಡಲೂ ಬಹುದು.'],
+camNoCamera:['No camera was found on this device. You can skip this test.','इस फ़ोन में कैमरा नहीं मिला। आप यह जाँच छोड़ सकते हैं।','ಈ ಸಾಧನದಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಸಿಗಲಿಲ್ಲ. ಈ ಪರೀಕ್ಷೆಯನ್ನು ಬಿಟ್ಟುಬಿಡಬಹುದು.'],
+camBusy:['The camera is being used by another app. Close that app and try again.','कैमरा किसी दूसरे ऐप में चल रहा है। उसे बंद करके फिर कोशिश करें।','ಕ್ಯಾಮೆರಾವನ್ನು ಬೇರೆ ಆ್ಯಪ್ ಬಳಸುತ್ತಿದೆ. ಅದನ್ನು ಮುಚ್ಚಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+camInsecure:['The camera works only on a secure (https) page. Open the app from its https link.','कैमरा सिर्फ़ सुरक्षित (https) पेज पर चलता है। ऐप को उसके https लिंक से खोलें।','ಕ್ಯಾಮೆರಾ ಸುರಕ್ಷಿತ (https) ಪುಟದಲ್ಲಿ ಮಾತ್ರ ಕೆಲಸ ಮಾಡುತ್ತದೆ. ಆ್ಯಪ್ ಅನ್ನು ಅದರ https ಲಿಂಕ್‌ನಿಂದ ತೆರೆಯಿರಿ.'],
+camUnsupported:['This browser cannot use the camera. Try Chrome or Safari, or skip this test.','यह ब्राउज़र कैमरा इस्तेमाल नहीं कर सकता। Chrome या Safari आज़माएँ, या यह जाँच छोड़ दें।','ಈ ಬ್ರೌಸರ್ ಕ್ಯಾಮೆರಾ ಬಳಸಲು ಸಾಧ್ಯವಿಲ್ಲ. Chrome ಅಥವಾ Safari ಬಳಸಿ, ಇಲ್ಲವೇ ಈ ಪರೀಕ್ಷೆಯನ್ನು ಬಿಟ್ಟುಬಿಡಿ.'],
+camFailed:['The camera could not be started. Try again, or skip this test.','कैमरा चालू नहीं हो सका। फिर कोशिश करें, या यह जाँच छोड़ दें।','ಕ್ಯಾಮೆರಾ ಆರಂಭಿಸಲು ಆಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ, ಇಲ್ಲವೇ ಈ ಪರೀಕ್ಷೆಯನ್ನು ಬಿಟ್ಟುಬಿಡಿ.'],
+camModel:['The face-reading files could not be loaded. Try again, or skip this test.','चेहरा पढ़ने वाली फ़ाइलें लोड नहीं हो सकीं। फिर कोशिश करें, या यह जाँच छोड़ दें।','ಮುಖ ಗುರುತಿಸುವ ಫೈಲ್‌ಗಳು ಲೋಡ್ ಆಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ, ಇಲ್ಲವೇ ಈ ಪರೀಕ್ಷೆಯನ್ನು ಬಿಟ್ಟುಬಿಡಿ.'],
+camModelNet:['Could not download the face-reading files. Check your internet and try again.','चेहरा पढ़ने वाली फ़ाइलें डाउनलोड नहीं हो सकीं। इंटरनेट जाँचें और फिर कोशिश करें।','ಮುಖ ಗುರುತಿಸುವ ಫೈಲ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಆಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+});

@@ -4,3 +4,6 @@ dist/
 .env.*
 !.env.example
 server/.storage/
+
+# MediaPipe wasm runtime, copied from node_modules by client/scripts/copy-mediapipe-wasm.mjs
+client/public/mediapipe/
