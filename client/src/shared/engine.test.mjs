@@ -110,3 +110,9 @@ test('nearAddFromCm: prototype formula, rounded to 0.25 D and limited to 0..3', 
   assert.equal(nearAddFromCm(0), null);
   assert.equal(nearAddFromCm(NaN), null);
 });
+
+test('computeResult: a measured PD adds an uncorrected-near-PD flag; a skipped PD does not', () => {
+  const withPd = computeResult(person({ pd: { mm: 62.5 } }));
+  assert.ok(withPd.flags.some(f => f.includes('62.5 mm') && f.includes('not corrected for eye convergence')));
+  assert.ok(!computeResult(person({ pd: {} })).flags.some(f => f.includes('PD')));
+});

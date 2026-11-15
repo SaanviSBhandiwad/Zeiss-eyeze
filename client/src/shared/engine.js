@@ -148,6 +148,7 @@ export function computeResult(r){
  if(a.night==='glare')flags.push('Night glare while driving');
  if(a.dust==='yes')flags.push('Dust or smoke exposure at work');
  if(a.surgery==='cataract')flags.push('Previous cataract surgery');
+ if(te.pd)flags.push('Phone-camera PD '+te.pd.mm.toFixed(1)+' mm is a near-viewing PD, not corrected for eye convergence (about 2 mm lower than distance PD). Confirm before ordering lenses');
  if(te.astig&&te.astig.res==='possible')flags.push('Possible astigmatism, axis ≈ '+te.astig.axis+'°');
  let lens,why=[];
  if(tri==='red'){lens='defer';why.push('Red flag — refer before refraction')}

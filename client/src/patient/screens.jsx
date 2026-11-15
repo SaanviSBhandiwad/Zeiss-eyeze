@@ -7,7 +7,7 @@ import { Icon, Mascot, toast, ago, fmtDate, fmtTime } from '../lib/ui.jsx';
 import { useStore } from '../lib/store.js';
 import * as A from './state.js';
 import { TESTS, TEST_IC } from './tests/constants.js';
-import { CardCalibration, AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial, NearPoint } from './tests/index.js';
+import { CardCalibration, AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial, NearPoint, PupilDistance } from './tests/index.js';
 
 const { app, tt } = A;
 const useP = () => useStore(app, s => s.p);
@@ -202,6 +202,7 @@ const TEST_COMPONENTS = {
   setup: CardCalibration,
   va: AcuityRings,
   np: NearPoint,
+  pd: PupilDistance,
   contrast: ContrastTest,
   color: ColourPlates,
   amsler: AmslerGrid,
