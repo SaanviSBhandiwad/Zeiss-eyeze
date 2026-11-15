@@ -359,3 +359,19 @@ pdFailRange:['The result looked wrong, so it was not saved. Please try again.','
 pdNote:['Measured with the phone camera, about ±3 mm. The optometrist will confirm.','फ़ोन कैमरे से नापा गया, लगभग ±3 मिमी। ऑप्टोमेट्रिस्ट पुष्टि करेंगे।','ಫೋನ್ ಕ್ಯಾಮೆರಾದಿಂದ ಅಳೆಯಲಾಗಿದೆ, ಸುಮಾರು ±3 ಮಿ.ಮೀ. ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ದೃಢಪಡಿಸುತ್ತಾರೆ.'],
 pdAgain:['Measure again','फिर से नापें','ಮತ್ತೆ ಅಳೆಯಿರಿ'],
 });
+
+/* ---- setup calibration (Person 3) ---- */
+Object.assign(T,{
+calib2Title:['Hold a bank or Aadhaar card against the screen','बैंक या आधार कार्ड को स्क्रीन से सटाकर रखें','ಬ್ಯಾಂಕ್ ಅಥವಾ ಆಧಾರ್ ಕಾರ್ಡ್ ಅನ್ನು ಪರದೆಗೆ ಹಿಡಿಯಿರಿ'],
+calib2Body:['Turn the card so its short side lies across the screen. Move the slider until the bar is exactly as wide as the card.','कार्ड की छोटी भुजा स्क्रीन के आर-पार रखें। स्लाइडर तब तक हिलाएँ जब तक पट्टी कार्ड जितनी चौड़ी न हो जाए।','ಕಾರ್ಡ್‌ನ ಚಿಕ್ಕ ಬದಿ ಪರದೆಯ ಅಡ್ಡಕ್ಕೆ ಬರುವಂತೆ ಹಿಡಿಯಿರಿ. ಪಟ್ಟಿ ಕಾರ್ಡ್‌ನಷ್ಟೇ ಅಗಲವಾಗುವವರೆಗೆ ಸ್ಲೈಡರ್ ಸರಿಸಿ.'],
+setupFarther:['Move the phone a little farther away (about 40 cm).','फ़ोन को थोड़ा दूर करें (लगभग 40 सेमी)।','ಫೋನನ್ನು ಸ್ವಲ್ಪ ದೂರ ಹಿಡಿಯಿರಿ (ಸುಮಾರು 40 ಸೆಂ.ಮೀ.).'],
+setupCloser:['Move the phone a little closer (about 40 cm).','फ़ोन को थोड़ा पास लाएँ (लगभग 40 सेमी)।','ಫೋನನ್ನು ಸ್ವಲ್ಪ ಹತ್ತಿರ ತನ್ನಿ (ಸುಮಾರು 40 ಸೆಂ.ಮೀ.).'],
+setupNoCam:['Continue without the camera check','कैमरा जाँच के बिना आगे बढ़ें','ಕ್ಯಾಮೆರಾ ಪರಿಶೀಲನೆ ಇಲ್ಲದೆ ಮುಂದುವರಿಯಿರಿ'],
+setupRefBtn:['Improve distance accuracy (needs a 30 cm ruler or an A4 sheet)','दूरी की सटीकता बढ़ाएँ (30 सेमी का स्केल या A4 कागज़ चाहिए)','ದೂರದ ನಿಖರತೆ ಹೆಚ್ಚಿಸಿ (30 ಸೆಂ.ಮೀ. ಸ್ಕೇಲ್ ಅಥವಾ A4 ಹಾಳೆ ಬೇಕು)'],
+setupRefBody:['Hold the phone at one end of a 30 cm ruler (or the long side of an A4 sheet) and put your eyes at the other end. Look at the camera, keep still, then press Calibrate.','फ़ोन को 30 सेमी के स्केल (या A4 कागज़ की लंबी भुजा) के एक सिरे पर रखें और आँखें दूसरे सिरे पर। कैमरे को देखें, हिलें नहीं, फिर कैलिब्रेट दबाएँ।','ಫೋನನ್ನು 30 ಸೆಂ.ಮೀ. ಸ್ಕೇಲ್ (ಅಥವಾ A4 ಹಾಳೆಯ ಉದ್ದದ ಬದಿ) ಒಂದು ತುದಿಯಲ್ಲಿ ಹಿಡಿದು, ಕಣ್ಣುಗಳನ್ನು ಇನ್ನೊಂದು ತುದಿಯಲ್ಲಿ ಇಡಿ. ಕ್ಯಾಮೆರಾ ನೋಡಿ, ಅಲುಗಾಡಬೇಡಿ, ನಂತರ ಕ್ಯಾಲಿಬ್ರೇಟ್ ಒತ್ತಿ.'],
+setupCalibrate:['Calibrate','कैलिब्रेट करें','ಕ್ಯಾಲಿಬ್ರೇಟ್ ಮಾಡಿ'],
+setupRefOk:['Camera calibrated and saved on this phone.','कैमरा कैलिब्रेट हो गया और इस फ़ोन में सहेजा गया।','ಕ್ಯಾಮೆರಾ ಕ್ಯಾಲಿಬ್ರೇಟ್ ಆಗಿ ಈ ಫೋನಿನಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ.'],
+setupRefBad:['That did not look right. Check the 30 cm distance and try again.','यह ठीक नहीं लगा। 30 सेमी की दूरी जाँचें और फिर कोशिश करें।','ಇದು ಸರಿಯಾಗಿ ಕಾಣಲಿಲ್ಲ. 30 ಸೆಂ.ಮೀ. ದೂರ ಪರಿಶೀಲಿಸಿ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+setupScaleSaved:['Camera calibrated on this phone','इस फ़ोन पर कैमरा कैलिब्रेट है','ಈ ಫೋನಿನಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಕ್ಯಾಲಿಬ್ರೇಟ್ ಆಗಿದೆ'],
+setupScaleDefault:['Camera not calibrated (distance good to about ±15%)','कैमरा कैलिब्रेट नहीं है (दूरी लगभग ±15% तक सही)','ಕ್ಯಾಮೆರಾ ಕ್ಯಾಲಿಬ್ರೇಟ್ ಆಗಿಲ್ಲ (ದೂರ ಸುಮಾರು ±15% ವರೆಗೆ ಸರಿ)'],
+});
