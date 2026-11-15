@@ -76,10 +76,18 @@ export function goHome() { stopSpeak(); setP({ listening: 'idle' }); go('home');
 export function setLang(l) { app.set({ lang: l }); document.documentElement.lang = l; log('Language: ' + LANGS[l].name, 'voice'); }
 
 export function startMode(m) {
-  setP({ mode: m });
-  log('Started: ' + ({ full: 'full eye check', profile: 'talk with Drishti', tests: 'eye test only' })[m]);
+  if (m === 'tests') {
+    // Eye test only: skip interview entirely, always go straight to tests
+    setP({ mode: m });
+    log('Started: eye test only');
+    if (!P().consented) return go('consent');
+    go('testsIntro');
+    return;
+  }
+  // full / profile: always restart the interview from scratch
+  setP({ mode: m, answers: {}, qhist: [], fired: {}, multiSel: null, pick: null, val: null, text: '', voiceAns: {}, result: null });
+  log('Started: ' + (m === 'full' ? 'full eye check' : 'talk with Drishti'));
   if (!P().consented) return go('consent');
-  if (m === 'tests') { go('testsIntro'); return; }
   afterConsent();
 }
 
