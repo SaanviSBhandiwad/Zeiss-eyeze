@@ -332,3 +332,14 @@ camFailed:['The camera could not be started. Try again, or skip this test.','क
 camModel:['The face-reading files could not be loaded. Try again, or skip this test.','चेहरा पढ़ने वाली फ़ाइलें लोड नहीं हो सकीं। फिर कोशिश करें, या यह जाँच छोड़ दें।','ಮುಖ ಗುರುತಿಸುವ ಫೈಲ್‌ಗಳು ಲೋಡ್ ಆಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ, ಇಲ್ಲವೇ ಈ ಪರೀಕ್ಷೆಯನ್ನು ಬಿಟ್ಟುಬಿಡಿ.'],
 camModelNet:['Could not download the face-reading files. Check your internet and try again.','चेहरा पढ़ने वाली फ़ाइलें डाउनलोड नहीं हो सकीं। इंटरनेट जाँचें और फिर कोशिश करें।','ಮುಖ ಗುರುತಿಸುವ ಫೈಲ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಆಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
 });
+
+/* ---- near point test (Person 3) ---- */
+Object.assign(T,{
+npReady:['Hold the phone at arm’s length with your face in view, then press Start.','फ़ोन को हाथ भर की दूरी पर रखें, चेहरा कैमरे में दिखे, फिर शुरू दबाएँ।','ಫೋನನ್ನು ಕೈ ಉದ್ದದಲ್ಲಿ ಹಿಡಿಯಿರಿ, ಮುಖ ಕ್ಯಾಮೆರಾದಲ್ಲಿ ಕಾಣಲಿ, ನಂತರ ಪ್ರಾರಂಭ ಒತ್ತಿ.'],
+npStartFar:['Move the phone farther away to start (about arm’s length).','शुरू करने के लिए फ़ोन को थोड़ा दूर करें (लगभग हाथ भर)।','ಪ್ರಾರಂಭಿಸಲು ಫೋನನ್ನು ಸ್ವಲ್ಪ ದೂರ ಹಿಡಿಯಿರಿ (ಸುಮಾರು ಕೈ ಉದ್ದ).'],
+npLost:['Your face is not in view. Keep your face in the camera and try again.','आपका चेहरा कैमरे में नहीं दिख रहा। चेहरा कैमरे में रखें और फिर कोशिश करें।','ನಿಮ್ಮ ಮುಖ ಕ್ಯಾಮೆರಾದಲ್ಲಿ ಕಾಣುತ್ತಿಲ್ಲ. ಮುಖವನ್ನು ಕ್ಯಾಮೆರಾದಲ್ಲಿ ಇಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+npBad:['That distance did not look right. Please try again.','यह दूरी ठीक नहीं लगी। कृपया फिर कोशिश करें।','ಆ ದೂರ ಸರಿಯಾಗಿ ಕಾಣಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+npClear:['The words stayed clear up to {cm} cm','शब्द {cm} सेमी तक साफ़ रहे','ಪದಗಳು {cm} ಸೆಂ.ಮೀ. ವರೆಗೆ ಸ್ಪಷ್ಟವಾಗಿದ್ದವು'],
+npAdd:['Estimated reading help: +{add} D. The optometrist will confirm.','अनुमानित पढ़ने का नंबर: +{add} D। ऑप्टोमेट्रिस्ट इसकी पुष्टि करेंगे।','ಅಂದಾಜು ಓದುವ ಸಹಾಯ: +{add} D. ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ದೃಢಪಡಿಸುತ್ತಾರೆ.'],
+npAgain:['Measure again','फिर से नापें','ಮತ್ತೆ ಅಳೆಯಿರಿ'],
+});

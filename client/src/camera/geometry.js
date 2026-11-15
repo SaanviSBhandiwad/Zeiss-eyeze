@@ -137,3 +137,17 @@ export function summarize(values) {
   const m = median(clean);
   return { n: clean.length, median: m, spread: 1.4826 * median(clean.map(v => Math.abs(v - m))) };
 }
+
+/** Median of `pick(m)` over the frames in `history` ([{ t, m }], t in performance.now() ms) from the last windowMs,
+ *  keeping only frames where keep(m) is true. Returns { n, value } (value is null when n is 0). */
+export function recentMedian(history, now, windowMs, pick, keep = () => true) {
+  const vals = [];
+  for (let i = history.length - 1; i >= 0; i--) {
+    const e = history[i];
+    if (now - e.t > windowMs) break;
+    if (!keep(e.m)) continue;
+    const v = pick(e.m);
+    if (Number.isFinite(v)) vals.push(v);
+  }
+  return { n: vals.length, value: median(vals) };
+}

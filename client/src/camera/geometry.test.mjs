@@ -201,3 +201,12 @@ test('calibration: plausibility range and px per mm', () => {
   near(cameraPxPerMm(0.714, 720, 1280, 400), (0.714 * 1280) / 400, 1e-9);
   assert.equal(cameraPxPerMm(0.714, 720, 1280, 0), null);
 });
+
+import { recentMedian } from './geometry.js';
+test('recentMedian: only the window, only kept frames, ignores non-finite', () => {
+  const h = [{ t: 0, m: { d: 100 } }, { t: 900, m: { d: 400 } }, { t: 950, m: { d: 402 } }, { t: 980, m: { d: 9000, bad: true } }, { t: 990, m: { d: NaN } }];
+  const r = recentMedian(h, 1000, 200, m => m.d, m => !m.bad);
+  assert.equal(r.n, 2); assert.equal(r.value, 401);
+  assert.deepEqual(recentMedian([], 1000, 200, m => m.d), { n: 0, value: null });
+  assert.equal(recentMedian(h, 1000, 5000, m => m.d, m => !m.bad).n, 3);
+});

@@ -91,6 +91,14 @@ export function cleanTests(raw){
  return out;
 }
 
+/** Near-point blur distance (cm) to estimated reading add (dioptres). Ported unchanged from the prototype's npBlur():
+ *  accommodation amplitude = 100 / cm, add = 2.5 - amplitude / 2, rounded to 0.25 D and limited to 0 to 3 D. */
+export function nearAddFromCm(cm){
+ if(!(cm>0))return null;
+ const amp=100/cm;
+ return Math.max(0,Math.min(3,Math.round((2.5-amp/2)*4)/4));
+}
+
 export function computeResult(r){
  const a=r.answers||{},te=cleanTests(r.tests),age=+a.age||+r.age||0;
  const hasProfile=a.work!==undefined;
