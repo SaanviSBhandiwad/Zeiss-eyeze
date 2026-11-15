@@ -2,6 +2,8 @@
 import {
   Q, QMAP, SCENE, LANGS, PERSONA, visibleQs, ansLabel, computeResult, matchAnswer, replyText, t, tx, TIPS, ZN, TRI_EN,
 } from '../shared/index.js';
+import { TESTS } from './tests/constants.js';
+import { randDir } from './tests/utils.jsx';
 import { createStore } from '../lib/store.js';
 import { api, absUrl, getConfig } from '../lib/api.js';
 import { getToken, sendOtp, verifyOtp, signOut } from '../lib/auth.js';
@@ -17,6 +19,7 @@ export function freshP() {
     screen: 'home', mode: null, consented: false, answers: {}, qhist: [], fired: {}, multiSel: null, pick: null, val: null,
     text: '', heard: null, voiceAns: {}, listening: 'idle', modal: null, login: null, result: null, pid: null,
     profileId: null, status: null, reply: null, unread: false, info: {}, assisted: false, ackAt: 0, sentAt: null, autoPlayed: false,
+    tests: {}, cur: null, ts: null,
   };
 }
 
@@ -120,7 +123,7 @@ function finishInterview() {
 
 export function finalize() {
   const p = P();
-  const result = computeResult({ answers: p.answers, tests: {}, age: p.answers.age });
+  const result = computeResult({ answers: p.answers, tests: p.tests, age: p.answers.age });
   const pid = p.pid || newPid();
   setP({ result, pid });
   log('Report ' + pid + ': ' + (result.dominant ? ZN[result.dominant].toLowerCase() + '-dominant, ' : '') + 'triage ' + TRI_EN[result.tri].toUpperCase(), result.tri === 'red' ? 'alert' : 'rule');
@@ -306,7 +309,7 @@ export async function sendProfile() {
     if (!token) { setP({ info: { ...p.info, name: '' } }); return openSend(); }
     const r = await api('/profiles', {
       method: 'POST', token,
-      body: { pid, name: p.info.name, village: p.info.village, lang: s.lang, answers: p.answers, tests: {}, voiceAns: p.voiceAns, assisted: p.assisted },
+      body: { pid, name: p.info.name, village: p.info.village, lang: s.lang, answers: p.answers, tests: p.tests, voiceAns: p.voiceAns, assisted: p.assisted },
     });
     setP({ status: 'sent', profileId: r.profile.id });
     toast(tt('sentToast'));
@@ -382,6 +385,40 @@ export function speakKey(s) {
     }
   }
   return null;
+}
+
+/* ---------------- tests ---------------- */
+export function startTests() {
+  const p = P();
+  const next = TESTS.find(k => !p.tests[k]);
+  if (next) openTest(next); else go('testsDone');
+}
+
+export function openTest(id) {
+  setP({ cur: id, ts: initTest(id) });
+  go('test');
+}
+
+function initTest(id) {
+  switch (id) {
+    case 'setup':    return { phase: 'card', w: Math.round(85.6 * 3.78), ok: false };
+    case 'va':       return { eye: 'R', level: 0, trial: 0, dir: randDir(), best: -1, vaTmp: null };
+    case 'contrast': return { level: 0, trial: 0, dir: randDir(), best: -1 };
+    case 'near':     return { level: 0 };
+    case 'np':       return { phase: 'ready', cm: 60 };
+    case 'color':    return { i: 0, c: 0 };
+    case 'amsler':   return { eye: 'R', marks: [], R: 0 };
+    case 'astig':    return {};
+    case 'pd':       return { phase: 'ready' };
+    default:         return {};
+  }
+}
+
+export function doneTest(id, result) {
+  const tests = { ...P().tests, [id]: result };
+  setP({ tests, cur: null, ts: null });
+  const next = TESTS.find(k => !tests[k]);
+  if (next) openTest(next); else go('testsDone');
 }
 
 /* ---------------- demo controls ---------------- */

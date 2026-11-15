@@ -6,6 +6,8 @@ import { ICO } from '../lib/icons.js';
 import { Icon, Mascot, toast, ago, fmtDate, fmtTime } from '../lib/ui.jsx';
 import { useStore } from '../lib/store.js';
 import * as A from './state.js';
+import { TESTS, TEST_IC } from './tests/constants.js';
+import { CardCalibration, AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial } from './tests/index.js';
 
 const { app, tt } = A;
 const useP = () => useStore(app, s => s.p);
@@ -195,18 +197,92 @@ export function Interview() {
   );
 }
 
-/* ---------------- tests placeholder (phase 3) ---------------- */
-export function TestsSoon() {
-  useLang();
+/* ---------------- tests ---------------- */
+const TEST_COMPONENTS = {
+  setup: CardCalibration,
+  va: AcuityRings,
+  contrast: ContrastTest,
+  color: ColourPlates,
+  amsler: AmslerGrid,
+  astig: AstigmatismDial,
+};
+
+function TestSteps({ cur, tests }) {
   return (
-    <div className="wrap n"><div className="card center" style={{ padding: '44px 24px' }}>
-      <Mascot s={90} />
-      <h2 className="h2" style={{ marginTop: 12 }}>{tt('testsIntro')}</h2>
-      <p className="muted" style={{ marginTop: 8 }}>{tt('testsSoon')}</p>
-      <div style={{ marginTop: 22 }}><button className="btn p big" onClick={A.finalize}>{tt('seeProfile')} <Icon n="fwd" /></button></div>
-    </div></div>
+    <div className="tsteps">
+      {TESTS.map(k => (
+        <span key={k} className={k === cur ? 'cur' : tests[k] ? 'done' : ''} title={k}>
+          <Icon n={tests[k] && k !== cur ? 'check' : TEST_IC[k]} />
+        </span>
+      ))}
+    </div>
   );
 }
+
+export function TestRunner() {
+  const p = useP();
+  const cur = p.cur, ts = p.ts, tests = p.tests || {};
+
+  if (!cur) {
+    // intro / menu
+    const anyDone = Object.keys(tests).length > 0;
+    return (
+      <div className="wrap n"><div className="card center" style={{ padding: '44px 24px' }}>
+        <Mascot s={90} />
+        <h2 className="h2" style={{ marginTop: 12 }}>{tt('testsIntro')}</h2>
+        <p className="muted" style={{ marginTop: 8 }}>{tt('testsSoon')}</p>
+        <ul className="tlist" style={{ marginTop: 16, listStyle: 'none', padding: 0 }}>
+          {TESTS.map((k, i) => (
+            <li key={k}>
+              <button className={tests[k] ? 'done' : ''} onClick={() => A.openTest(k)}>
+                <span className={`blob c-${PAL[i % PAL.length]}`}>
+                  <Icon n={tests[k] ? 'check' : TEST_IC[k]} />
+                </span>
+                {k}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div style={{ marginTop: 20 }}>
+          <button className="btn p big" onClick={A.startTests}>
+            {anyDone ? 'Resume tests' : 'Start tests'} <Icon n="fwd" />
+          </button>
+        </div>
+      </div></div>
+    );
+  }
+
+  const n = TESTS.indexOf(cur) + 1;
+  const Comp = TEST_COMPONENTS[cur];
+
+  const inner = Comp
+    ? <Comp state={ts || {}} onDone={result => A.doneTest(cur, result)} />
+    : (
+      <div className="card center" style={{ padding: 32 }}>
+        <p>{cur} — coming soon</p>
+        <button className="btn p" style={{ marginTop: 16 }} onClick={() => A.doneTest(cur, {})}>Skip</button>
+      </div>
+    );
+
+  return (
+    <div className="wrap n">
+      <TestSteps cur={cur} tests={tests} />
+      <div className="tgrid">
+        <div className="tinfo">
+          <div className="row">
+            <Mascot s={52} />
+            <span className="muted small">Test {n} of {TESTS.length}</span>
+          </div>
+          <h2>{cur}</h2>
+        </div>
+        {inner}
+      </div>
+    </div>
+  );
+}
+
+// Keep original export name so PatientApp.jsx import doesn't break
+export { TestRunner as TestsSoon };
 
 /* ---------------- result ---------------- */
 export function Result() {
