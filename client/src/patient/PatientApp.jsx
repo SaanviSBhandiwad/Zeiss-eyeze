@@ -141,7 +141,7 @@ export default function PatientApp() {
   useEffect(() => { document.documentElement.lang = s.lang; }, [s.lang]);
   useEffect(() => () => stopSpeak(), []);
 
-  const Screen = { consent: Consent, interview: Interview, testsIntro: TestsSoon, result: Result, messages: Messages }[p.screen] || Home;
+  const Screen = { consent: Consent, interview: Interview, testsIntro: TestsSoon, test: TestsSoon, testsDone: Result, result: Result, messages: Messages }[p.screen] || Home;
   return (
     <>
       <Header />
