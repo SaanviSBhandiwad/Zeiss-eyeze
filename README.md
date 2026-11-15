@@ -36,6 +36,43 @@ In the patient app, **Demo controls → Guided demo** plays Ramappa's whole jour
 
 `GET /api/config` shows which services are live: `{"mode":"demo","sarvam":false,"storage":"local"}`.
 
+## Phase 3: camera tests (near point, pupil distance, setup)
+
+These use the phone's front camera and MediaPipe Face Landmarker. Everything runs in the browser; camera frames are never uploaded or saved.
+
+**One-time setup**
+
+1. Download the model once and commit it: `client/public/models/face_landmarker.task`
+   (https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task, about 4 MB).
+   Without it the camera tests show "could not load" and offer to skip.
+2. `npm install` in `client/`. `npm run dev` and `npm run build` copy the wasm runtime into `public/mediapipe/` automatically (git-ignored).
+
+**Testing on a phone:** the camera only works over https (or localhost). `http://192.168.x.x:5173` will not work. Use the Render deploy, or `ngrok http 5173`.
+Add `?camdebug=1` to the URL to overlay the detected irises and the raw numbers (iris px, distance, PD, head turn, eye openness).
+
+**What each test stores** (agreed `p.tests` shape; a skipped or failed test stores `{}`, never null or 0):
+
+| test | stored | how |
+|---|---|---|
+| `setup` | `{ pxmm }` | card slider (card's short side, 53.98 mm). Optional camera step coaches to 40 cm and can calibrate the camera at 30 cm |
+| `near` | `{ level }` | reading chart, print scaled by `setup.pxmm` |
+| `np` | `{ cm, add }` | distance from iris size when the person taps "blurry"; `add` from `nearAddFromCm()` (prototype formula) |
+| `pd` | `{ mm }` | iris-centre separation scaled by the iris (11.7 mm). Median of 20 clean frames. Outside 40 to 80 mm = failed |
+
+The camera scale is kept on the device (localStorage `eyeze_camscale_v1`), not in `p.tests`.
+
+**Known limits.** Without the 30 cm calibration, distance is only good to about ±15% (it assumes a 70° field of view). PD is good to about ±3 mm and is a near-viewing PD: the eyes converge on the camera, so it reads about 2 mm below distance PD. It is stored uncorrected, and `computeResult` flags this for the optometrist. Quality gates (head turn 10°, eye openness 0.14, minimum iris 12 px) are starting values: tune them on real phones with `?camdebug=1`.
+
+**Two-phone checklist**
+
+1. Open the Render URL on a phone, run Setup: match a card, reach 40 cm, optionally calibrate with a ruler.
+2. Run `np` with a tape measure: tap "blurry" at 30 cm and check the stored `cm`.
+3. Run `pd` and compare with a PD ruler or an optician's reading.
+4. Deny the camera permission once: each test must show a message and let you skip.
+5. Send the report and open it on the laptop portal: the Phone screening table and the flags should show your results.
+
+`npm test` in `client/` runs the unit tests (engine and camera geometry).
+
 ## Phase 1: Supabase
 
 1. Create a Supabase project in **Mumbai (ap-south-1)**.
