@@ -77,12 +77,18 @@ export function setLang(l) { app.set({ lang: l }); document.documentElement.lang
 
 export function startMode(m) {
   setP({ mode: m });
-  log('Started: ' + ({ full: 'full eye check', profile: 'talk with Drishti' })[m]);
+  log('Started: ' + ({ full: 'full eye check', profile: 'talk with Drishti', tests: 'eye test only' })[m]);
   if (!P().consented) return go('consent');
+  if (m === 'tests') { go('testsIntro'); return; }
   afterConsent();
 }
 
-export function agree() { setP({ consented: true }); log('Consent given by voice/tap'); afterConsent(); }
+export function agree() {
+  setP({ consented: true });
+  log('Consent given by voice/tap');
+  if (P().mode === 'tests') { go('testsIntro'); return; }
+  afterConsent();
+}
 
 function afterConsent() {
   if (nextQ()) { setP({ val: initVal(nextQ()) }); go('interview'); }
@@ -118,7 +124,7 @@ export function setAnswer(id, val) {
 }
 
 function finishInterview() {
-  if (P().mode === 'full') { say(tt('profileDone')); go('testsIntro'); } else finalize();
+  if (P().mode === 'full' || P().mode === 'tests') { say(tt('profileDone')); go('testsIntro'); } else finalize();
 }
 
 export function finalize() {

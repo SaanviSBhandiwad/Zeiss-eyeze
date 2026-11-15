@@ -37,7 +37,7 @@ export function Home() {
       <div className="bigcards">
         <button className="bc t1" onClick={() => A.startMode('full')}><span className="ico"><Icon n="eye" c="l" /></span><b>{tt('fullCheck')}</b><span><Icon n="clock" c="s" /> {tt('mins', { n: 12 })}</span></button>
         <button className="bc t2" onClick={() => A.startMode('profile')}><span className="ico"><Icon n="mic" c="l" /></span><b>{tt('card2')}</b><span><Icon n="clock" c="s" /> {tt('mins', { n: 5 })}</span></button>
-        <button className="bc t3" aria-disabled="true" style={{ opacity: 0.6 }} onClick={() => toast(tt('testsSoon'))}><span className="ico"><Icon n="mobile" c="l" /></span><b>{tt('card3')}</b><span><Icon n="clock" c="s" /> {tt('mins', { n: 7 })}</span></button>
+        <button className="bc t3" onClick={() => A.startMode('tests')}><span className="ico"><Icon n="mobile" c="l" /></span><b>{tt('card3')}</b><span><Icon n="clock" c="s" /> {tt('mins', { n: 7 })}</span></button>
       </div>
       <div className="how">{how.map(([i, c], k) => <div key={i}><span className={'ico c-' + c}><Icon n={i} /></span><b>{tt('hw' + (k + 1))}</b><span>{tt('hs' + (k + 1))}</span></div>)}</div>
       <p className="foot">{tt('disclaimer')}<br /><a href="/optometrist">Optometrist login</a></p>
@@ -233,7 +233,7 @@ export function TestRunner() {
       <div className="wrap n"><div className="card center" style={{ padding: '44px 24px' }}>
         <Mascot s={90} />
         <h2 className="h2" style={{ marginTop: 12 }}>{tt('testsIntro')}</h2>
-        <p className="muted" style={{ marginTop: 8 }}>{tt('testsSoon')}</p>
+        <p className="muted" style={{ marginTop: 8 }}>Complete all tests in order, or tap any to jump to it.</p>
         <ul className="tlist" style={{ marginTop: 16, listStyle: 'none', padding: 0 }}>
           {TESTS.map((k, i) => (
             <li key={k}>
