@@ -7,3 +7,4 @@ export { default as AstigmatismDial } from './AstigmatismDial.jsx';
 export * from './constants.js';
 export * from './utils.jsx';
 export { default as NearPoint } from './NearPoint.jsx';
+export { default as PupilDistance } from './PupilDistance.jsx';

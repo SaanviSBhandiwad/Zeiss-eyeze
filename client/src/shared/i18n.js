@@ -343,3 +343,19 @@ npClear:['The words stayed clear up to {cm} cm','शब्द {cm} सेमी 
 npAdd:['Estimated reading help: +{add} D. The optometrist will confirm.','अनुमानित पढ़ने का नंबर: +{add} D। ऑप्टोमेट्रिस्ट इसकी पुष्टि करेंगे।','ಅಂದಾಜು ಓದುವ ಸಹಾಯ: +{add} D. ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ದೃಢಪಡಿಸುತ್ತಾರೆ.'],
 npAgain:['Measure again','फिर से नापें','ಮತ್ತೆ ಅಳೆಯಿರಿ'],
 });
+
+/* ---- pupil distance test (Person 3). pdBody replaces the older "hold a card under your nose" text: the phone now measures from the iris. ---- */
+Object.assign(T,{
+pdBody:['Take off your glasses. Hold the phone at arm’s length, look straight at the camera and keep still.','चश्मा उतार दें। फ़ोन को हाथ भर की दूरी पर रखें, सीधे कैमरे में देखें और हिलें नहीं।','ಕನ್ನಡಕ ತೆಗೆಯಿರಿ. ಫೋನನ್ನು ಕೈ ಉದ್ದದಲ್ಲಿ ಹಿಡಿದು, ನೇರವಾಗಿ ಕ್ಯಾಮೆರಾ ನೋಡಿ, ಅಲುಗಾಡಬೇಡಿ.'],
+pdHintYaw:['Turn your face straight toward the camera.','अपना चेहरा सीधे कैमरे की ओर करें।','ನಿಮ್ಮ ಮುಖವನ್ನು ನೇರವಾಗಿ ಕ್ಯಾಮೆರಾ ಕಡೆ ತಿರುಗಿಸಿ.'],
+pdHintBlink:['Keep your eyes open and look at the camera.','आँखें खुली रखें और कैमरे को देखें।','ಕಣ್ಣು ತೆರೆದಿಡಿ ಮತ್ತು ಕ್ಯಾಮೆರಾ ನೋಡಿ.'],
+pdHintCloser:['Move the phone a little closer.','फ़ोन को थोड़ा पास लाएँ।','ಫೋನನ್ನು ಸ್ವಲ್ಪ ಹತ್ತಿರ ತನ್ನಿ.'],
+pdHintFarther:['Move the phone a little farther away.','फ़ोन को थोड़ा दूर करें।','ಫೋನನ್ನು ಸ್ವಲ್ಪ ದೂರ ಹಿಡಿಯಿರಿ.'],
+pdHintClip:['Keep both eyes fully inside the picture.','दोनों आँखें पूरी तरह तस्वीर के अंदर रखें।','ಎರಡೂ ಕಣ್ಣುಗಳು ಚಿತ್ರದ ಒಳಗೇ ಇರಲಿ.'],
+pdHold:['Hold still…','हिलें नहीं…','ಅಲುಗಾಡಬೇಡಿ…'],
+pdFailTimeout:['We could not get a steady reading. Please try again.','स्थिर माप नहीं मिल सका। कृपया फिर कोशिश करें।','ಸ್ಥಿರ ಅಳತೆ ಸಿಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+pdFailShaky:['The reading moved too much. Hold still and try again.','माप बहुत हिल गया। स्थिर रहकर फिर कोशिश करें।','ಅಳತೆ ತುಂಬಾ ಅಲುಗಾಡಿತು. ಸ್ಥಿರವಾಗಿದ್ದು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+pdFailRange:['The result looked wrong, so it was not saved. Please try again.','नतीजा ठीक नहीं लगा, इसलिए सहेजा नहीं गया। कृपया फिर कोशिश करें।','ಫಲಿತಾಂಶ ಸರಿಯಾಗಿ ಕಾಣಲಿಲ್ಲ, ಆದ್ದರಿಂದ ಉಳಿಸಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'],
+pdNote:['Measured with the phone camera, about ±3 mm. The optometrist will confirm.','फ़ोन कैमरे से नापा गया, लगभग ±3 मिमी। ऑप्टोमेट्रिस्ट पुष्टि करेंगे।','ಫೋನ್ ಕ್ಯಾಮೆರಾದಿಂದ ಅಳೆಯಲಾಗಿದೆ, ಸುಮಾರು ±3 ಮಿ.ಮೀ. ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ದೃಢಪಡಿಸುತ್ತಾರೆ.'],
+pdAgain:['Measure again','फिर से नापें','ಮತ್ತೆ ಅಳೆಯಿರಿ'],
+});
