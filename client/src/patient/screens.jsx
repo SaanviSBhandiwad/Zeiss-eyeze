@@ -169,7 +169,9 @@ export function Interview() {
         <OtherInput value={p.text} />
       )}
     </>;
-    showNext = q.type === 'multi'; canNext = sel.length > 0;
+    // show Next for multi, OR for single when Others is selected (needs text then submit)
+    showNext = q.type === 'multi' || otherSel;
+    canNext = otherSel ? p.text.trim().length > 0 : sel.length > 0;
   } else if (q.type === 'hours') {
     body = <HoursDial q={q} v={p.val ?? A.initVal(q)} />; showNext = canNext = true;
   } else if (q.type === 'age') {
