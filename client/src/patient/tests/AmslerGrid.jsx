@@ -43,7 +43,7 @@ export default function AmslerGrid({ state, onDone }) {
         <button className="btn" style={{ flex: 1 }} disabled={marks.length === 0} onClick={() => finishEye(marks.length)}>
           Done marking
         </button>
-        <button className="btn p" style={{ flex: 1 }} onClick={() => finishEye(0)}>
+        <button className="btn p" style={{ flex: 1 }} disabled={marks.length > 0} onClick={() => finishEye(0)}>
           All straight
         </button>
       </div>
