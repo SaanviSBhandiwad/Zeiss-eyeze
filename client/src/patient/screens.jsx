@@ -26,19 +26,36 @@ export function Home() {
           <div className="row wr"><button className="btn p big" onClick={() => A.startMode('full')}>{tt('start')} <Icon n="fwd" /></button></div>
         </div>
         <svg className="heroart" viewBox="0 0 400 360" aria-hidden="true">
+          {/* bg blobs */}
           <circle cx="200" cy="180" r="155" fill="var(--teal-soft)" opacity="0.85"/>
-          <circle cx="62" cy="72" r="30" fill="var(--indigo-soft)"/><circle cx="338" cy="296" r="42" fill="var(--teal-soft)" opacity="0.6"/>
+          <circle cx="62" cy="72" r="30" fill="var(--indigo-soft)"/>
+          <circle cx="338" cy="296" r="42" fill="var(--teal-soft)" opacity="0.6"/>
           <circle cx="346" cy="62" r="18" fill="var(--gold-soft)"/>
-          <path d="M330 85l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="var(--teal)" opacity="0.75"/>
-          <path d="M66 243l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="var(--indigo)" opacity="0.6"/>
-          <circle cx="362" cy="180" r="5" fill="var(--gold)" opacity="0.9"/>
-          <circle cx="40" cy="200" r="4" fill="var(--teal)" opacity="0.5"/>
+          {/* sparkle stars — 4-pointed, staggered */}
+          <g className="hero-sp sp1"><path d="M330 85l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="var(--gold)"/></g>
+          <g className="hero-sp sp2"><path d="M66 243l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z" fill="var(--teal)"/></g>
+          <g className="hero-sp sp3"><circle cx="362" cy="180" r="5" fill="var(--gold)"/></g>
+          <g className="hero-sp sp4"><circle cx="40" cy="200" r="4" fill="var(--indigo)"/></g>
+          <g className="hero-sp sp5"><path d="M310 260l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="var(--indigo)" opacity="0.7"/></g>
+          {/* eye white */}
           <path d="M68 185c33-57 78-86 132-86s99 29 132 86c-33 57-78 86-132 86S101 242 68 185z" fill="var(--surface)"/>
           <path d="M68 185c33-57 78-86 132-86s99 29 132 86c-33 57-78 86-132 86S101 242 68 185z" fill="none" stroke="var(--teal)" strokeWidth="5" strokeLinejoin="round"/>
+          {/* iris + pupil */}
           <circle cx="200" cy="185" r="58" fill="var(--teal)"/>
           <circle cx="200" cy="185" r="26" fill="#0d47a1"/>
-          <circle cx="218" cy="168" r="13" fill="rgba(255,255,255,0.4)"/><circle cx="183" cy="203" r="7" fill="rgba(255,255,255,0.15)"/>
-          <g stroke="var(--teal)" strokeWidth="3.5" strokeLinecap="round"><line x1="200" y1="96" x2="200" y2="82"/><line x1="168" y1="104" x2="163" y2="91"/><line x1="232" y1="104" x2="237" y2="91"/></g>
+          <circle cx="218" cy="168" r="13" fill="rgba(255,255,255,0.4)"/>
+          <circle cx="183" cy="203" r="7" fill="rgba(255,255,255,0.15)"/>
+          {/* lashes */}
+          <g stroke="var(--teal)" strokeWidth="3.5" strokeLinecap="round">
+            <line x1="200" y1="96" x2="200" y2="82"/>
+            <line x1="168" y1="104" x2="163" y2="91"/>
+            <line x1="232" y1="104" x2="237" y2="91"/>
+          </g>
+          {/* eyelid for blink — clips over the eye shape */}
+          <clipPath id="eyeclip">
+            <path d="M68 185c33-57 78-86 132-86s99 29 132 86c-33 57-78 86-132 86S101 242 68 185z"/>
+          </clipPath>
+          <path className="hero-lid" d="M68 185c33-57 78-86 132-86s99 29 132 86" fill="var(--teal-soft)" clipPath="url(#eyeclip)" style={{transformOrigin:'200px 185px'}}/>
         </svg>
       </div>
       <div className="bigcards">
