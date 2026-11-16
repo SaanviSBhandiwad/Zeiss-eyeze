@@ -26,12 +26,19 @@ export function Home() {
           <div className="row wr"><button className="btn p big" onClick={() => A.startMode('full')}>{tt('start')} <Icon n="fwd" /></button></div>
         </div>
         <svg className="heroart" viewBox="0 0 400 360" aria-hidden="true">
-          <circle cx="200" cy="180" r="160" fill="var(--teal-soft)" /><circle cx="80" cy="80" r="40" fill="var(--gold-soft)" />
-          <circle cx="335" cy="290" r="44" fill="var(--indigo-soft)" /><circle cx="330" cy="70" r="22" fill="var(--coral-soft)" />
-          <path d="M70 185c32-56 76-84 130-84s98 28 130 84c-32 56-76 84-130 84S102 241 70 185z" fill="var(--surface)" stroke="var(--teal)" strokeWidth="6" />
-          <circle cx="200" cy="185" r="54" fill="#4f46e5" /><circle cx="200" cy="185" r="54" fill="none" stroke="#f59e0b" strokeWidth="8" strokeDasharray="10 9" />
-          <circle cx="200" cy="185" r="24" fill="#13233a" /><circle cx="216" cy="168" r="11" fill="#fff" />
-          <g fill="none" stroke="var(--gold)" strokeWidth="5" strokeLinecap="round"><path d="M200 70v-22M120 92l-14-16M280 92l14-16" /></g>
+          <circle cx="200" cy="180" r="155" fill="var(--teal-soft)" opacity="0.85"/>
+          <circle cx="62" cy="72" r="30" fill="var(--indigo-soft)"/><circle cx="338" cy="296" r="42" fill="var(--teal-soft)" opacity="0.6"/>
+          <circle cx="346" cy="62" r="18" fill="var(--gold-soft)"/>
+          <path d="M330 85l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="var(--teal)" opacity="0.75"/>
+          <path d="M66 243l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="var(--indigo)" opacity="0.6"/>
+          <circle cx="362" cy="180" r="5" fill="var(--gold)" opacity="0.9"/>
+          <circle cx="40" cy="200" r="4" fill="var(--teal)" opacity="0.5"/>
+          <path d="M68 185c33-57 78-86 132-86s99 29 132 86c-33 57-78 86-132 86S101 242 68 185z" fill="var(--surface)"/>
+          <path d="M68 185c33-57 78-86 132-86s99 29 132 86c-33 57-78 86-132 86S101 242 68 185z" fill="none" stroke="var(--teal)" strokeWidth="5" strokeLinejoin="round"/>
+          <circle cx="200" cy="185" r="58" fill="var(--teal)"/>
+          <circle cx="200" cy="185" r="26" fill="#0d47a1"/>
+          <circle cx="218" cy="168" r="13" fill="rgba(255,255,255,0.4)"/><circle cx="183" cy="203" r="7" fill="rgba(255,255,255,0.15)"/>
+          <g stroke="var(--teal)" strokeWidth="3.5" strokeLinecap="round"><line x1="200" y1="96" x2="200" y2="82"/><line x1="168" y1="104" x2="163" y2="91"/><line x1="232" y1="104" x2="237" y2="91"/></g>
         </svg>
       </div>
       <div className="bigcards">
@@ -117,6 +124,7 @@ export function Interview() {
 
   if (q.type === 'single' || q.type === 'multi') {
     const sel = q.type === 'multi' ? (p.multiSel || []) : (p.pick ? [p.pick] : []);
+    const otherSel = sel.includes('other');
     body = <>
       {q.type === 'multi' && <p className="muted center" style={{ margin: '-8px 0 12px' }}>{tt('tapAll')}</p>}
       <div className={`tiles ${q.o.length === 4 || q.o.length === 2 ? 'c2' : ''}`}>
@@ -125,7 +133,21 @@ export function Interview() {
             <span className="tick"><Icon n="check" /></span><span className={'blob c-' + PAL[i % PAL.length]}><Icon n={o.ic} /></span>{tx(o.l, lang)}
           </button>
         ))}
+        <button className="tile" aria-pressed={otherSel} onClick={() => A.tapOpt('other')}>
+          <span className="tick"><Icon n="check" /></span>
+          <span className="blob" style={{ background: 'var(--surface-2)', fontSize: 28, lineHeight: 1 }}>✏️</span>
+          Others
+        </button>
       </div>
+      {otherSel && (
+        <input
+          style={{ width: '100%', minHeight: 54, padding: '0 16px', fontSize: 18, borderRadius: 16, border: '2px solid var(--teal)', background: 'var(--surface-2)', marginTop: 12, boxSizing: 'border-box' }}
+          placeholder="Describe your answer here…"
+          value={p.text}
+          autoFocus
+          onChange={e => A.setText(e.target.value)}
+        />
+      )}
     </>;
     showNext = q.type === 'multi'; canNext = sel.length > 0;
   } else if (q.type === 'hours') {
@@ -198,6 +220,11 @@ export function Interview() {
 }
 
 /* ---------------- tests ---------------- */
+const TEST_NAMES = {
+  setup: 'Setup', va: 'Far Vision', near: 'Near Reading', np: 'Near Point',
+  contrast: 'Contrast', color: 'Colour Vision', amsler: 'Grid Test', astig: 'Astigmatism', pd: 'Eye Distance',
+};
+
 const TEST_COMPONENTS = {
   setup: SetupCalibration,
   va: AcuityRings,
@@ -233,7 +260,7 @@ export function TestRunner() {
       <div className="wrap n"><div className="card center" style={{ padding: '44px 24px' }}>
         <Mascot s={90} />
         <h2 className="h2" style={{ marginTop: 12 }}>{tt('testsIntro')}</h2>
-        <p className="muted" style={{ marginTop: 8 }}>Complete all tests in order, or tap any to jump to it.</p>
+        <p className="muted" style={{ marginTop: 8 }}>Each test takes 1–2 minutes. Tap any test below to begin, or start them all in order.</p>
         <ul className="tlist" style={{ marginTop: 16, listStyle: 'none', padding: 0 }}>
           {TESTS.map((k, i) => (
             <li key={k}>
@@ -241,7 +268,7 @@ export function TestRunner() {
                 <span className={`blob c-${PAL[i % PAL.length]}`}>
                   <Icon n={tests[k] ? 'check' : TEST_IC[k]} />
                 </span>
-                {k}
+                {TEST_NAMES[k] || k}
               </button>
             </li>
           ))}
@@ -279,7 +306,7 @@ export function TestRunner() {
             <Mascot s={52} />
             <span className="muted small">Test {n} of {TESTS.length}</span>
           </div>
-          <h2>{cur}</h2>
+          <h2>{TEST_NAMES[cur] || cur}</h2>
         </div>
         {inner}
       </div>
