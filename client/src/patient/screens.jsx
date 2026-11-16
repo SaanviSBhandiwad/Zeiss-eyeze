@@ -71,6 +71,20 @@ export function Consent() {
 }
 
 /* ---------------- interview ---------------- */
+function OtherInput({ value }) {
+  const ref = useRef(null);
+  useEffect(() => { ref.current?.focus(); }, []);
+  return (
+    <input
+      ref={ref}
+      style={{ width: '100%', minHeight: 54, padding: '0 16px', fontSize: 18, borderRadius: 16, border: '2px solid var(--teal)', background: 'var(--surface-2)', marginTop: 12, boxSizing: 'border-box' }}
+      placeholder="Describe your answer here…"
+      value={value}
+      onChange={e => A.setText(e.target.value)}
+    />
+  );
+}
+
 function BubbleLead({ q, p }) {
   const [, force] = useState(0);
   useEffect(() => { const i = setTimeout(() => force(x => x + 1), 2600); return () => clearTimeout(i); }, [p.ackAt]);
@@ -140,13 +154,7 @@ export function Interview() {
         </button>
       </div>
       {otherSel && (
-        <input
-          style={{ width: '100%', minHeight: 54, padding: '0 16px', fontSize: 18, borderRadius: 16, border: '2px solid var(--teal)', background: 'var(--surface-2)', marginTop: 12, boxSizing: 'border-box' }}
-          placeholder="Describe your answer here…"
-          value={p.text}
-          autoFocus
-          onChange={e => A.setText(e.target.value)}
-        />
+        <OtherInput value={p.text} />
       )}
     </>;
     showNext = q.type === 'multi'; canNext = sel.length > 0;
@@ -170,7 +178,7 @@ export function Interview() {
           </div>
         ))}
       </div>
-      <div className="center" style={{ marginTop: 14 }}><button className="btn o" onClick={A.sceneClear}><Icon n="check" c="s" /> {tt('allClear')}</button></div>
+      {sel.length === 0 && <div className="center" style={{ marginTop: 14 }}><button className="btn o" onClick={A.sceneClear}><Icon n="check" c="s" /> {tt('allClear')}</button></div>}
     </>;
     showNext = true; canNext = sel.length > 0;
   } else if (q.type === 'text') {
