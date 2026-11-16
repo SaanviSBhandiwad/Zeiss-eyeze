@@ -116,3 +116,37 @@ test('computeResult: a measured PD adds an uncorrected-near-PD flag; a skipped P
   assert.ok(withPd.flags.some(f => f.includes('62.5 mm') && f.includes('not corrected for eye convergence')));
   assert.ok(!computeResult(person({ pd: {} })).flags.some(f => f.includes('PD')));
 });
+
+// ---- triage must reflect the tests the patient really did (regression: every patient came out "Urgent") ----
+const GOOD = { va: { R: 6, L: 6 }, contrast: { pct: 3 }, color: { c: 3, n: 3 }, amsler: { R: 0, L: 0 }, astig: { res: 'none' } };
+
+test('triage: a patient with normal results and no interview answers is routine (green), not urgent', () => {
+  const r = computeResult({ answers: {}, tests: GOOD });
+  assert.equal(r.tri, 'green');
+  assert.deepEqual(r.reasons, []);
+});
+
+test('triage: "worse than 6/60 in both eyes" is the only test result that makes a report urgent on its own', () => {
+  assert.equal(computeResult({ answers: {}, tests: { ...GOOD, va: { R: -1, L: -1 } } }).tri, 'red');
+  assert.notEqual(computeResult({ answers: {}, tests: { ...GOOD, va: { R: -1, L: 4 } } }).tri, 'red');
+  assert.equal(computeResult({ answers: {}, tests: { ...GOOD, contrast: { pct: 100 }, color: { c: 0, n: 3 }, amsler: { R: 5, L: 0 } } }).tri, 'amber');
+});
+
+test('triage: a red-flag answer that arrives as a lone string such as "none" is not spread into letters', () => {
+  for (const a of [{ redflag: 'none' }, { cc_sudden: 'none' }, { redflag: ['none'] }, {}]) {
+    assert.equal(computeResult({ answers: { age: 30, ...a }, tests: {} }).tri, 'green', JSON.stringify(a));
+  }
+  assert.equal(computeResult({ answers: { age: 30, redflag: ['flashes'] }, tests: {} }).tri, 'red');
+  assert.equal(computeResult({ answers: { age: 30, redflag: 'flashes' }, tests: {} }).tri, 'red');
+});
+
+test('testRows: Hindi and Kannada patients see words, not a dash, for "no distortion" and "astigmatism not indicated"', () => {
+  for (const lang of ['hi', 'kn']) {
+    const by = Object.fromEntries(testRows({ amsler: { R: 0, L: 0 }, astig: { res: 'none' } }, lang).map(r => [r.k, r]));
+    assert.ok(by.amsler.v.length > 1 && by.amsler.v !== '—', lang + ' amsler: ' + by.amsler.v);
+    assert.ok(by.astig.v.length > 1 && by.astig.v !== '—', lang + ' astig: ' + by.astig.v);
+    assert.equal(by.amsler.st, 'good'); assert.equal(by.astig.st, 'good');
+  }
+  const en = Object.fromEntries(testRows({ amsler: { R: 0, L: 0 }, astig: { res: 'none' } }, 'en').map(r => [r.k, r]));
+  assert.equal(en.amsler.v, 'No distortion'); assert.equal(en.astig.v, 'Not indicated');
+});

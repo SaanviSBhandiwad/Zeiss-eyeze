@@ -290,6 +290,10 @@ linkSoon:['The link will come by SMS before the call.','कॉल से पह�
 newVid:['Your optometrist booked a video call','आपके ऑप्टोमेट्रिस्ट ने वीडियो कॉल तय की','ನಿಮ್ಮ ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ವೀಡಿಯೊ ಕರೆ ನಿಗದಿಪಡಿಸಿದ್ದಾರೆ'],
 howYou:['How you use your eyes','आप आँखों का उपयोग कैसे करते हैं','ನೀವು ಕಣ್ಣುಗಳನ್ನು ಹೇಗೆ ಬಳಸುತ್ತೀರಿ'],
 lensFor:['Glasses that may suit you','आपके लिए सही चश्मा','ನಿಮಗೆ ಹೊಂದುವ ಕನ್ನಡಕ'],
+noDistortion:['No distortion','कोई विकृति नहीं','ಯಾವುದೇ ವಿರೂಪ ಇಲ್ಲ'],
+notIndicated:['Not indicated','संकेत नहीं','ಸೂಚನೆ ಇಲ್ಲ'],
+noTestsYet:['No phone tests taken yet.','अभी तक कोई फ़ोन जाँच नहीं हुई।','ಇನ್ನೂ ಯಾವುದೇ ಫೋನ್ ಪರೀಕ್ಷೆ ಮಾಡಿಲ್ಲ.'],
+testsNote:['Screening only. Your optometrist reviews these results.','केवल जाँच। आपके ऑप्टोमेट्रिस्ट इन नतीजों को देखेंगे।','ಕೇವಲ ಪರೀಕ್ಷೆ. ನಿಮ್ಮ ದೃಷ್ಟಿ ತಜ್ಞರು ಈ ಫಲಿತಾಂಶಗಳನ್ನು ಪರಿಶೀಲಿಸುತ್ತಾರೆ.'],
 testShort:['Your tests','आपकी जाँच','ನಿಮ್ಮ ಪರೀಕ್ಷೆಗಳು'],
 helpL:['I’m a health worker helping this person','मैं स्वास्थ्य कार्यकर्ता हूँ और मदद कर रही हूँ','ನಾನು ಸಹಾಯ ಮಾಡುತ್ತಿರುವ ಆರೋಗ್ಯ ಕಾರ್ಯಕರ್ತೆ'],
 });
