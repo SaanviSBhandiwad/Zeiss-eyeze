@@ -119,7 +119,8 @@ export function computeResult(r){
  const amber=s=>{if(tri!=='red')tri='amber';reasons.push(s)};
  const red=s=>{tri='red';reasons.unshift(s)};
  const rfLbl=v=>optLabel({o:RF},v,'en').toLowerCase();
- const rf=[...(a.cc_sudden||[]),...(a.redflag||[])].filter(x=>x!=='none');
+ const arr=v=>Array.isArray(v)?v:(v===undefined||v===null||v===''?[]:[v]); /* a lone string such as 'none' must not be spread into letters */
+ const rf=[...arr(a.cc_sudden),...arr(a.redflag)].filter(x=>x!=='none');
  if(rf.length)red('Red-flag symptom: '+[...new Set(rf)].map(rfLbl).join(', '));
  if(a.cc_irrit==='pain')red('Red eye with pain — rule out acute glaucoma, uveitis or keratitis');
  if(te.va&&te.va.R<0&&te.va.L<0)red('Very low vision in both eyes (worse than 6/60)');
@@ -195,8 +196,8 @@ export function testRows(rawTests,lang){
  add('np',te.np?'+'+te.np.add.toFixed(2)+' D ('+te.np.cm+' cm)':'',te.np?te.np.add<0.75:null,70);
  add('contrast',te.contrast?te.contrast.pct+'%':'',te.contrast?te.contrast.pct<=6:null,74);
  add('color',te.color?te.color.c+' / '+te.color.n:'',te.color?te.color.c===te.color.n:null,68);
- add('amsler',te.amsler?(te.amsler.R+te.amsler.L===0?(L==='en'?'No distortion':'—'):'R '+te.amsler.R+'  ·  L '+te.amsler.L):'',te.amsler?te.amsler.R+te.amsler.L===0:null,77);
- add('astig',te.astig?(te.astig.res==='none'?(L==='en'?'Not indicated':'—'):'Axis ≈ '+te.astig.axis+'°'):'',te.astig?te.astig.res==='none':null,60);
+ add('amsler',te.amsler?(te.amsler.R+te.amsler.L===0?tx(T.noDistortion,L):'R '+te.amsler.R+'  ·  L '+te.amsler.L):'',te.amsler?te.amsler.R+te.amsler.L===0:null,77);
+ add('astig',te.astig?(te.astig.res==='none'?tx(T.notIndicated,L):'Axis ≈ '+te.astig.axis+'°'):'',te.astig?te.astig.res==='none':null,60);
  add('pd',te.pd?te.pd.mm.toFixed(1)+' mm':'',te.pd?true:null,te.pd?(isNum(te.pd.conf)?te.pd.conf:PD_CONF):0);
  return rows;
 }

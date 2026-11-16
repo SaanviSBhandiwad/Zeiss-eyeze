@@ -1,4 +1,4 @@
-import { VA } from './constants.js';
+import { VA, DIRS } from './constants.js';
 
 export function randDir(exclude) {
   const dirs = ['up','right','down','left'];
@@ -11,7 +11,7 @@ export function vaStr(i) {
 }
 
 export function LandoltRing({ dir, size, alpha = 1 }) {
-  const deg = {up:0,right:90,down:180,left:270}[dir];
+  const deg = DIRS[dir];
   return (
     <svg width={size} height={size} viewBox="-2.6 -2.6 5.2 5.2" role="img" aria-label="Landolt ring">
       <g transform={`rotate(${deg})`}>
