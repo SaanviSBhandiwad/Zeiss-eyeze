@@ -228,10 +228,8 @@ export function Interview() {
 }
 
 /* ---------------- tests ---------------- */
-const TEST_NAMES = {
-  setup: 'Setup', va: 'Far Vision', near: 'Near Reading', np: 'Near Point',
-  contrast: 'Contrast', color: 'Colour Vision', amsler: 'Grid Test', astig: 'Astigmatism', pd: 'Eye Distance',
-};
+const TEST_KEYS = { setup: 't_setup', va: 't_va', near: 't_near', np: 't_np', contrast: 't_contrast', color: 't_color', amsler: 't_amsler', astig: 't_astig', pd: 't_pd' };
+const testName = k => tt(TEST_KEYS[k]) || k;
 
 const TEST_COMPONENTS = {
   setup: SetupCalibration,
@@ -249,7 +247,7 @@ function TestSteps({ cur, tests }) {
   return (
     <div className="tsteps">
       {TESTS.map(k => (
-        <span key={k} className={k === cur ? 'cur' : tests[k] ? 'done' : ''} title={k}>
+        <span key={k} className={k === cur ? 'cur' : tests[k] ? 'done' : ''} title={testName(k)}>
           <Icon n={tests[k] && k !== cur ? 'check' : TEST_IC[k]} />
         </span>
       ))}
@@ -268,7 +266,7 @@ export function TestRunner() {
       <div className="wrap n"><div className="card center" style={{ padding: '44px 24px' }}>
         <Mascot s={90} />
         <h2 className="h2" style={{ marginTop: 12 }}>{tt('testsIntro')}</h2>
-        <p className="muted" style={{ marginTop: 8 }}>Each test takes 1–2 minutes. Tap any test below to begin, or start them all in order.</p>
+        <p className="muted" style={{ marginTop: 8 }}>{tt('testsSub2')}</p>
         <ul className="tlist" style={{ marginTop: 16, listStyle: 'none', padding: 0 }}>
           {TESTS.map((k, i) => (
             <li key={k}>
@@ -276,17 +274,17 @@ export function TestRunner() {
                 <span className={`blob c-${PAL[i % PAL.length]}`}>
                   <Icon n={tests[k] ? 'check' : TEST_IC[k]} />
                 </span>
-                {TEST_NAMES[k] || k}
+                {testName(k)}
               </button>
             </li>
           ))}
         </ul>
         <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
           <button className="btn p big" onClick={A.startTests}>
-            {anyDone ? 'Resume tests' : 'Start tests'} <Icon n="fwd" />
+            {anyDone ? tt('resumeTests') : tt('startTests')} <Icon n="fwd" />
           </button>
           {anyDone && (
-            <button className="btn" onClick={A.retakeTests}>Retake all tests</button>
+            <button className="btn" onClick={A.retakeTests}>{tt('retakeTests')}</button>
           )}
         </div>
       </div></div>
@@ -314,7 +312,7 @@ export function TestRunner() {
             <Mascot s={52} />
             <span className="muted small">Test {n} of {TESTS.length}</span>
           </div>
-          <h2>{TEST_NAMES[cur] || cur}</h2>
+          <h2>{testName(cur)}</h2>
         </div>
         {inner}
       </div>
@@ -365,8 +363,8 @@ export function Result() {
           </section>
           <section className="sec"><h2>{tt('testShort')}</h2>
             {Object.keys(p.tests || {}).length > 0
-              ? <button className="btn o" onClick={A.retakeTests}><Icon n="eye" c="s" /> Retake tests</button>
-              : <button className="btn o" onClick={() => A.go('testsIntro')}><Icon n="eye" c="s" /> Take tests</button>}
+              ? <button className="btn o" onClick={A.retakeTests}><Icon n="eye" c="s" /> {tt('retakeTestsShort')}</button>
+              : <button className="btn o" onClick={() => A.go('testsIntro')}><Icon n="eye" c="s" /> {tt('takeTests')}</button>}
           </section>
           <section className="sec"><h2>{tt('lensFor')}</h2>
             <div className="lensc"><span className="blob"><Icon n="glasses" c="l" /></span><div>
