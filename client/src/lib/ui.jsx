@@ -13,12 +13,12 @@ export function Mascot({ s = 56, cls = '' }) {
   return (
     <div className={`mascot ${cls} ${speaking ? 'speaking' : ''}`} style={{ '--s': s + 'px' }}>
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="32" cy="32" r="31" fill="var(--teal)" />
+        <circle cx="32" cy="32" r="31" fill="#2563eb" />
         <path d="M8 32c6-10 14-15 24-15s18 5 24 15c-6 10-14 15-24 15S14 42 8 32z" fill="#fff" />
         <g className="pup">
-          <circle cx="32" cy="32" r="10" fill="#4f46e5" />
-          <circle cx="32" cy="32" r="10" fill="none" stroke="#f59e0b" strokeWidth="2.4" strokeDasharray="2.6 2.6" />
-          <circle cx="32" cy="32" r="4.4" fill="#13233a" />
+          <circle cx="32" cy="32" r="10" fill="#1d4ed8" />
+          <circle cx="32" cy="32" r="10" fill="none" stroke="#93c5fd" strokeWidth="2.4" strokeDasharray="2.6 2.6" />
+          <circle cx="32" cy="32" r="4.4" fill="#0d47a1" />
           <circle cx="35.5" cy="28.5" r="2.2" fill="#fff" />
         </g>
         <path d="M22 52q10 6 20 0" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" />

@@ -147,7 +147,10 @@ export function finalize() {
 export function tapOpt(v) {
   const p = P(), q = nextQ(p);
   if (!q || p.pick) return;
-  if (q.type === 'single') { setP({ pick: v }); setTimeout(() => setAnswer(q.id, v), 380); return; }
+  if (q.type === 'single') {
+    if (v === 'other') { setP({ pick: v }); return; } // wait for user to type then submit
+    setP({ pick: v }); setTimeout(() => setAnswer(q.id, v), 380); return;
+  }
   let sel = (p.multiSel || []).slice();
   if (v === q.excl) sel = sel.includes(v) ? [] : [v];
   else { sel = sel.filter(x => x !== q.excl); sel = sel.includes(v) ? sel.filter(x => x !== v) : [...sel, v]; }
@@ -173,6 +176,8 @@ export function qnext() {
   if (!q) return;
   if (q.type === 'hours' || q.type === 'age') return setAnswer(q.id, p.val == null ? initVal(q) : p.val);
   if (q.type === 'text') return setAnswer(q.id, p.text.trim());
+  // single + Others: save the typed text as the answer
+  if (q.type === 'single' && p.pick === 'other') return setAnswer(q.id, p.text.trim() || 'other');
   confirmMulti();
 }
 
