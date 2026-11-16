@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   QMAP, SCENE, SEC_COL, PAL, LENS, COAT, NEXT, CMAP, DOC, TIPS, TIP_IC, visibleQs, ansLabel, tx, replyText, testRows,
 } from '../shared/index.js';
