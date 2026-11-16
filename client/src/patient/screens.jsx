@@ -51,11 +51,6 @@ export function Home() {
             <line x1="168" y1="104" x2="163" y2="91"/>
             <line x1="232" y1="104" x2="237" y2="91"/>
           </g>
-          {/* eyelid for blink — clips over the eye shape */}
-          <clipPath id="eyeclip">
-            <path d="M68 185c33-57 78-86 132-86s99 29 132 86c-33 57-78 86-132 86S101 242 68 185z"/>
-          </clipPath>
-          <path className="hero-lid" d="M68 185c33-57 78-86 132-86s99 29 132 86" fill="var(--teal-soft)" clipPath="url(#eyeclip)" style={{transformOrigin:'200px 185px'}}/>
         </svg>
       </div>
       <div className="bigcards">
