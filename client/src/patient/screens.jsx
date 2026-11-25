@@ -18,6 +18,8 @@ const useLang = () => useStore(app, s => s.lang);
 export function Home() {
   useLang();
   const [showChildEntry, setShowChildEntry] = useState(false);
+  const signedIn = useStore(app, s => s.signedIn), mine = useStore(app, s => s.mine);
+  const name = mine?.[0]?.name;
   const how = [['mic', 'teal'], ['list', 'indigo'], ['eye', 'gold'], ['file', 'sky'], ['users', 'coral']];
   return (
     <div className="wrap">
@@ -26,6 +28,10 @@ export function Home() {
           <h1 dangerouslySetInnerHTML={{ __html: tt('heroH2') }} />
           <p>{tt('heroP2')}</p>
           <div className="row wr"><button className="btn p big" onClick={() => A.startMode('full')}>{tt('start')} <Icon n="fwd" /></button></div>
+          {signedIn
+            ? <div className="back-card"><b>{tt('welcomeBack', { name: name ? ', ' + name : '' })}</b>
+                <button className="btn sm p" onClick={A.openMyReports}><Icon n="list" c="s" /> {tt('seeMyReports')}</button></div>
+            : <button className="status-lnk" onClick={A.openStatusLogin}>{tt('checkStatus')}</button>}
         </div>
         <svg className="heroart" viewBox="0 0 400 360" aria-hidden="true">
           {/* bg blobs */}
@@ -67,7 +73,7 @@ export function Home() {
       </div>
       {showChildEntry && <ChildModeEntry onClose={() => setShowChildEntry(false)} />}
       <div className="how">{how.map(([i, c], k) => <div key={i}><span className={'ico c-' + c}><Icon n={i} /></span><b>{tt('hw' + (k + 1))}</b><span>{tt('hs' + (k + 1))}</span></div>)}</div>
-      <p className="foot">{tt('disclaimer')}<br /><a href="/optometrist">Optometrist login</a></p>
+      <p className="foot">{tt('disclaimer')}<br /><a href="/optometrist">{tt('optLogin')}</a></p>
     </div>
   );
 }
@@ -433,6 +439,7 @@ export function Result() {
                 </li>
               ))}</ol>
               {st === 'replied' && <button className="btn w" onClick={() => { A.setP({ unread: false }); A.go('messages'); }}>{tt('viewReply')}</button>}
+              {p.invite && <a className="btn p w" style={{ marginTop: 10 }} href={p.invite.meetLink} target="_blank" rel="noopener noreferrer"><Icon n="video" c="s" /> {tt('joinMeet')}</a>}
             </>}
           <p className="disc">{tt('disclaimer')}</p>
         </div></aside>
@@ -441,18 +448,40 @@ export function Result() {
   );
 }
 
+/* ---------------- video call (Google Meet) ---------------- */
+export function InviteCard({ inv, lang }) {
+  const LOC = { en: 'en-IN', hi: 'hi-IN', kn: 'kn-IN' }[lang] || 'en-IN';
+  const when = new Date(inv.startsAt).toLocaleString(LOC, { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+  return (
+    <article className="msgc vid">
+      <div className="mh">
+        <span className="blob c-indigo"><Icon n="video" /></span>
+        <div style={{ flex: 1 }}><b style={{ fontFamily: 'var(--fd)', fontSize: 20 }}>{tt('vidTitle')}</b><div className="small muted">{tt('newVid')}</div></div>
+      </div>
+      <div className="mb">
+        <div className="kv"><span className="blob c-teal"><Icon n="clock" /></span><div><div className="k">{tt('vidWhen')}</div><div className="v">{when} · {inv.durationMin} min</div></div></div>
+        <div className="row wr" style={{ marginTop: 14 }}>
+          <a className="btn p w big" href={inv.meetLink} target="_blank" rel="noopener noreferrer"><Icon n="video" /> {tt('joinMeet')}</a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 /* ---------------- messages ---------------- */
 export function Messages() {
   const p = useP(), lang = useLang();
   const r = p.reply;
   if (!r) return (
-    <div className="wrap n"><h1 className="h2">{tt('messages')}</h1>
-      <div className="card center" style={{ padding: 48 }}><Icon n="inbox" c="xl" /><p className="muted" style={{ marginTop: 12 }}>{tt('noMsg')}</p></div></div>
+    <div className="wrap n"><h1 className="h2" style={{ marginBottom: 16 }}>{tt('messages')}</h1>
+      {p.invite ? <InviteCard inv={p.invite} lang={lang} />
+        : <div className="card center" style={{ padding: 48 }}><Icon n="inbox" c="xl" /><p className="muted" style={{ marginTop: 12 }}>{tt('noMsg')}</p></div>}</div>
   );
   const c = CMAP[r.centre];
   return (
     <div className="wrap n">
       <h1 className="h2" style={{ marginBottom: 16 }}>{tt('messages')}</h1>
+      {p.invite && <InviteCard inv={p.invite} lang={lang} />}
       <article className="msgc">
         <div className="mh">
           <span className="av">AR</span>

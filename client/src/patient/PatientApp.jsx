@@ -8,12 +8,14 @@ import { stopSpeak } from '../lib/voice.js';
 import * as A from './state.js';
 import { Home, Consent, Interview, TestsSoon, Result, Messages,
          ChildParentQ, ChildPractice, ChildTestRunner, ChildReward } from './screens.jsx';
+import { MyReports } from './MyReports.jsx';
 
 const { app, tt } = A;
 
 function Header() {
   const lang = useStore(app, s => s.lang), voiceOn = useStore(app, s => s.voiceOn), off = useStore(app, s => s.simOffline);
   const p = useStore(app, s => s.p);
+  const signedIn = useStore(app, s => s.signedIn);
   return (
     <header className="hdr"><div className="hdr-in">
       <button className="logo" onClick={A.goHome}><img src="/logo.png" alt="Eyeze" style={{ height: 38, width: 'auto' }} /></button>
@@ -22,8 +24,10 @@ function Header() {
         <div className="lchips" role="group" aria-label={tt('chooseLang')}>
           {Object.entries(LANGS).map(([k, l]) => <button key={k} aria-pressed={lang === k} onClick={() => A.setLang(k)}>{l.label}</button>)}
         </div>
+        {signedIn && <button className="ib" aria-label={tt('myReports')} title={tt('myReports')} onClick={A.openMyReports}><Icon n="list" /></button>}
         {p.result && <button className="ib" aria-label={tt('myReport')} title={tt('myReport')} onClick={() => A.go('result')}><Icon n="file" /></button>}
-        {p.reply && <button className="ib" aria-label={tt('messages')} onClick={() => { A.setP({ unread: false }); A.go('messages'); }}><Icon n="bell" />{p.unread && <span className="dot" />}</button>}
+        {(p.reply || p.invite) && <button className="ib" aria-label={tt('messages')} onClick={() => { A.setP({ unread: false }); A.go('messages'); }}><Icon n="bell" />{p.unread && <span className="dot" />}</button>}
+        <Link className="optl" to="/optometrist" title={tt('optLogin')} aria-label={tt('optLogin')}><Icon n="lock" c="s" /><span>{tt('optShort')}</span></Link>
         <button className="ib" aria-label={'Voice ' + (voiceOn ? 'on' : 'off')} onClick={() => { app.set({ voiceOn: !voiceOn }); if (voiceOn) stopSpeak(); }}><Icon n={voiceOn ? 'spk' : 'mute'} /></button>
       </div>
     </div></header>
@@ -80,8 +84,8 @@ function LoginModal() {
   </>;
   return (
     <div className="mbg"><div className="sheet" role="dialog" aria-labelledby="lgt">
-      <div className="row" style={{ marginBottom: 10 }}><Mascot s={48} /><h2 className="h2" id="lgt" style={{ margin: 0 }}>{tt('loginTitle')}</h2></div>
-      <p className="muted" style={{ marginBottom: 16 }}>{tt('loginSub')}</p>
+      <div className="row" style={{ marginBottom: 10 }}><Mascot s={48} /><h2 className="h2" id="lgt" style={{ margin: 0 }}>{tt(Lg.purpose === 'reports' ? 'statusTitle' : 'loginTitle')}</h2></div>
+      <p className="muted" style={{ marginBottom: 16 }}>{tt(Lg.purpose === 'reports' ? 'statusSub' : 'loginSub')}</p>
       {b}
     </div></div>
   );
@@ -125,6 +129,9 @@ export default function PatientApp() {
     return () => h && clearTimeout(h);
   }, [s]);
 
+  // Returning patient? Restore their phone session (no login for first-time users).
+  useEffect(() => { A.checkSession(); }, []);
+
   // Live updates for the sent report.
   useEffect(() => {
     if (!p.profileId) return;
@@ -150,6 +157,7 @@ export default function PatientApp() {
     testsDone: Result,
     result: Result,
     messages: Messages,
+    reports: MyReports,
     childParentQ: ChildParentQ,
     childPractice: ChildPractice,
     childTest: ChildTestRunner,

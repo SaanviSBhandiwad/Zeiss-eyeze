@@ -12,6 +12,8 @@ createRoot(document.getElementById('app')).render(
       <Routes>
         <Route path="/optometrist" element={<Portal />} />
         <Route path="/optometrist/p/:id" element={<Portal />} />
+        <Route path="/optometrist/analytics" element={<Portal view="analytics" />} />
+        <Route path="/optometrist/centres" element={<Portal view="centres" />} />
         <Route path="*" element={<PatientApp />} />
       </Routes>
       <Toasts />

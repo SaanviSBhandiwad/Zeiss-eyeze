@@ -34,6 +34,13 @@ export const config = {
     secretAccessKey: env.AWS_SECRET_ACCESS_KEY || '',
   },
 
+  /** Google Calendar + Meet (phase 3). OAuth client from console.cloud.google.com. */
+  google: {
+    clientId: env.GOOGLE_CLIENT_ID || '',
+    clientSecret: env.GOOGLE_CLIENT_SECRET || '',
+    redirectUri: env.GOOGLE_REDIRECT_URI || '',
+  },
+
   demo: {
     /** Signs demo-mode tokens and local audio URLs. Random per boot if unset. */
     secret: env.DEMO_SECRET || crypto.randomBytes(32).toString('hex'),
@@ -45,4 +52,5 @@ export const config = {
 export const useSupabase = !!(config.supabase.url && config.supabase.serviceKey);
 export const useSarvam = !!config.sarvam.key;
 export const useS3 = !!config.aws.bucket;
+export const useGoogle = !!(config.google.clientId && config.google.clientSecret && config.google.redirectUri);
 export const mode = useSupabase ? 'supabase' : 'demo';

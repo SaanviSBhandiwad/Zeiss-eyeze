@@ -18,6 +18,7 @@ export function subscribe(role, onChange) {
       const ch = s.channel('eyeze-' + role + '-' + Math.random().toString(36).slice(2))
         .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => onChange())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'replies' }, () => onChange())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'consultations' }, () => onChange())
         .subscribe();
       stop = () => s.removeChannel(ch);
     } else {

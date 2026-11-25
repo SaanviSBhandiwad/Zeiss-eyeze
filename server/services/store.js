@@ -21,19 +21,24 @@ const toReply = r => r && ({
   audioKey: r.audio_key || null, at: Date.parse(r.created_at),
 });
 
+const toInvite = c => c && ({
+  id: c.id, startsAt: Date.parse(c.starts_at), durationMin: c.duration_min, meetLink: c.meet_link, at: Date.parse(c.created_at),
+});
+
 function toProfile(row) {
   const live = (row.replies || []).filter(r => !r.retracted_at).sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
+  const calls = (row.consultations || []).sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
   return {
     id: row.id, pid: row.pid, patientId: row.patient_id, name: row.name, age: row.age, gender: row.gender || '',
     village: row.village || '', phone: row.phone || '', lang: row.lang, answers: row.answers || {}, tests: row.tests || {},
     voiceAns: row.voice_ans || {}, noteEn: row.note_en || '', triage: row.triage, status: row.status,
     assisted: row.assisted, ts: Date.parse(row.created_at), live: true,
-    reply: row.status === 'replied' ? toReply(live[0]) : null, invite: null,
+    reply: row.status === 'replied' ? toReply(live[0]) : null, invite: toInvite(calls[0]) || null,
   };
 }
 
 const must = ({ data, error }) => { if (error) throw new Error(error.message); return data; };
-const SEL = '*, replies(*)';
+const SEL = '*, replies(*), consultations(*)';
 
 const supa = {
   async upsertPatient(p) {
@@ -72,6 +77,25 @@ const supa = {
     must(await admin.from('replies').update({ retracted_at: new Date().toISOString() }).eq('profile_id', id).is('retracted_at', null));
     await supa.setStatus(id, 'review');
   },
+
+  /* Google Meet: the doctor's Google connection and booked calls. */
+  async getGoogle(optometristId) {
+    return must(await admin.from('google_tokens').select('refresh_token').eq('optometrist_id', optometristId).maybeSingle())?.refresh_token || null;
+  },
+  async saveGoogle(optometristId, refreshToken) {
+    must(await admin.from('google_tokens').upsert({ optometrist_id: optometristId, refresh_token: refreshToken, updated_at: new Date().toISOString() }));
+  },
+  async deleteGoogle(optometristId) {
+    must(await admin.from('google_tokens').delete().eq('optometrist_id', optometristId));
+  },
+  async addConsultation(c) {
+    must(await admin.from('consultations').insert({
+      profile_id: c.profileId, optometrist_id: c.optometristId, starts_at: new Date(c.startsAt).toISOString(),
+      duration_min: c.durationMin, meet_link: c.meetLink, calendar_event_id: c.eventId,
+    }));
+    // Touch the profile so the portal's realtime listener refetches as well.
+    must(await admin.from('profiles').update({ updated_at: new Date().toISOString() }).eq('id', c.profileId));
+  },
 };
 
 /* ------------------------------------------------------------------ */
@@ -79,6 +103,7 @@ const supa = {
 /* ------------------------------------------------------------------ */
 const mem = new Map();
 const patients = new Map();
+const googleTokens = new Map(); // optometristId -> refresh token (demo mode only, lost on restart)
 function resetMemory() {
   mem.clear();
   for (const s of seedPatients()) mem.set(s.id, { ...s, patientId: null, voiceAns: {}, noteEn: '', live: false });
@@ -100,6 +125,13 @@ const memory = {
   async setStatus(id, status) { const p = mem.get(id); if (p) { p.status = status; emit(p); } },
   async addReply(id, r) { const p = mem.get(id); if (p) { p.reply = { ...r, id: crypto.randomUUID(), at: Date.now() }; p.status = 'replied'; emit(p); } },
   async clearReply(id) { const p = mem.get(id); if (p) { p.reply = null; p.status = 'review'; emit(p); } },
+  async getGoogle(id) { return googleTokens.get(id) || null; },
+  async saveGoogle(id, token) { googleTokens.set(id, token); },
+  async deleteGoogle(id) { googleTokens.delete(id); },
+  async addConsultation(c) {
+    const p = mem.get(c.profileId);
+    if (p) { p.invite = { id: crypto.randomUUID(), startsAt: +new Date(c.startsAt), durationMin: c.durationMin, meetLink: c.meetLink, at: Date.now() }; emit(p); }
+  },
   async reset() { resetMemory(); changes.emit('change', { profileId: null, patientId: null }); },
 };
 

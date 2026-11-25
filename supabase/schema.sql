@@ -78,6 +78,16 @@ create table if not exists public.consultations (
   created_at timestamptz not null default now()
 );
 
+-- Google connection per optometrist (phase 3, Google Meet). Server only: RLS on, no policies,
+-- so the browser can never read the refresh token.
+create table if not exists public.google_tokens (
+  optometrist_id uuid primary key references public.optometrists (id) on delete cascade,
+  refresh_token text not null,
+  updated_at timestamptz not null default now()
+);
+alter table public.google_tokens enable row level security;
+create index if not exists consultations_profile_idx on public.consultations (profile_id, created_at desc);
+
 -- ---------------------------------------------------------------------------
 -- Row-level security
 -- The Express server uses the service-role key (bypasses RLS) and checks roles itself.

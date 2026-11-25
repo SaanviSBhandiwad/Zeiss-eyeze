@@ -1,0 +1,20 @@
+/* My reports + returning-patient bits on home + optometrist entry in the header.
+   Separate file so it doesn't collide with other branches editing styles.css. */
+.mr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.mr-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.mr-card .msgc{margin:12px 0 4px;box-shadow:none}
+.mr-h{display:flex;align-items:center;gap:12px}
+.mr-t{font-family:var(--fd);font-size:19px;display:block}
+.mr-st{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:5px 12px;border-radius:999px;font-weight:700;font-size:14px;background:var(--teal-soft);color:var(--ink)}
+.mr-st.replied{background:var(--gold-soft)}
+.mr-tg{display:block;margin-top:10px;font-weight:700}
+.mr-reply{display:grid;gap:12px;margin-top:10px}
+
+.back-card{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--teal-soft);border-radius:20px;padding:14px 18px;margin:18px 0 0}
+.back-card b{font-family:var(--fd);font-size:18px}
+.back-card .btn{margin-left:auto}
+.status-lnk{margin-top:14px;font-weight:600;background:none;border:0;padding:6px 0;color:var(--teal);text-decoration:underline;cursor:pointer;font-size:16px;min-height:44px}
+
+.optl{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:12px;border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font-weight:700;font-size:14px;white-space:nowrap}
+.optl:hover{border-color:var(--teal);color:var(--teal)}
+@media (max-width:640px){.optl span{display:none}.optl{padding:0 10px}}

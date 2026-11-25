@@ -18,7 +18,7 @@ export function freshP() {
   return {
     screen: 'home', mode: null, consented: false, answers: {}, qhist: [], fired: {}, multiSel: null, pick: null, val: null,
     text: '', heard: null, voiceAns: {}, listening: 'idle', modal: null, login: null, result: null, pid: null,
-    profileId: null, status: null, reply: null, unread: false, info: {}, assisted: false, ackAt: 0, sentAt: null, autoPlayed: false,
+    profileId: null, status: null, reply: null, invite: null, unread: false, info: {}, assisted: false, ackAt: 0, sentAt: null, autoPlayed: false,
     tests: {}, cur: null, ts: null,
     // CHILD MODE
     childAge: null,       // '3-5' or '6-10' (age band chosen at start)
@@ -44,6 +44,7 @@ const saved = load();
 
 export const app = createStore({
   lang: saved?.lang || 'en', voiceOn: true, simOffline: false, autopilot: false, dockOpen: false, log: [],
+  signedIn: false, mine: null, mineErr: false, // returning patients: phone session + all their reports
   p: saved?.p || freshP(),
 });
 
@@ -85,7 +86,24 @@ export function goHome() { stopSpeak(); setP({ listening: 'idle' }); go('home');
 
 export function setLang(l) { app.set({ lang: l }); document.documentElement.lang = l; log('Language: ' + LANGS[l].name, 'voice'); }
 
+/**
+ * After a report has been sent, a new check must be a new report: new ID, no old status/reply.
+ * (Reusing the old ID made the second send fail, because report IDs are unique.)
+ * Keeps language, consent and the patient's name/village/phone. The old report stays in "My reports".
+ */
+function newReportIfSent() {
+  const p = P();
+  if (!p.profileId && !p.status) return;
+  setP({
+    pid: null, profileId: null, status: null, reply: null, invite: null, unread: false, sentAt: null, autoPlayed: false,
+    result: null, answers: {}, qhist: [], fired: {}, multiSel: null, pick: null, val: null, text: '', voiceAns: {},
+    tests: {}, cur: null, ts: null,
+  });
+  log('New report started (previous one is in My reports)');
+}
+
 export function startMode(m) {
+  newReportIfSent();
   if (m === 'tests') {
     // Eye test only: skip interview entirely, always go straight to tests
     setP({ mode: m });
@@ -289,6 +307,11 @@ export async function openSend() {
   if (!p.result) { if (p.mode === 'child') finalizeChild(); else finalize(); } // CHILD MODE guard
   const token = await getToken('patient');
   if (token && p.info.name) return sendProfile();
+  if (token) { // signed in earlier (e.g. to check status): just confirm name and village
+    const last = app.get().mine?.[0];
+    setP({ modal: 'login', login: { step: 'name', phone: '', otp: '', name: last?.name || '', village: last?.village || '', demoCode: null, busy: false } });
+    return;
+  }
   setP({ modal: 'login', login: { step: 'phone', phone: '', otp: '', name: p.info.name || '', village: p.info.village || '', demoCode: null, busy: false } });
   log('Login requested only now, at the moment of sending');
 }
@@ -313,13 +336,20 @@ export async function loginNext() {
       updateLogin({ busy: true });
       await verifyOtp(Lg.phone, Lg.otp.trim()).catch(e => { toast(tt('badOtp')); throw e; });
       toast(tt('verified'));
+      app.set({ signedIn: true });
+      if (Lg.purpose === 'reports') { // "Check status": no name step, straight to the list
+        setP({ modal: null, login: null, info: { ...P().info, phone: '+91 ' + Lg.phone.slice(0, 5) + ' ' + Lg.phone.slice(5) } });
+        go('reports'); loadMine();
+        return;
+      }
       updateLogin({ step: 'name', busy: false });
       return;
     }
     if (Lg.step === 'name') {
       const name = Lg.name.trim();
       if (!name) return toast(tt('needName'));
-      setP({ info: { name, village: Lg.village.trim(), phone: '+91 ' + Lg.phone.slice(0, 5) + ' ' + Lg.phone.slice(5) }, modal: null, login: null });
+      const phone = Lg.phone ? '+91 ' + Lg.phone.slice(0, 5) + ' ' + Lg.phone.slice(5) : P().info.phone || '';
+      setP({ info: { name, village: Lg.village.trim(), phone }, modal: null, login: null });
       return sendProfile();
     }
   } catch { updateLogin({ busy: false }); }
@@ -345,6 +375,7 @@ export async function sendProfile() {
         : { pid, name: p.info.name, village: p.info.village, lang: s.lang, answers: p.answers, tests: p.tests, voiceAns: p.voiceAns, assisted: p.assisted },
     });
     setP({ status: 'sent', profileId: r.profile.id });
+    app.set({ signedIn: true }); loadMine(); // stays signed in so they can check status later
     toast(tt('sentToast'));
     log('Uploaded to optometrist queue with ' + TRI_EN[r.profile.triage].toUpperCase() + ' priority', 'net');
   } catch (e) {
@@ -381,6 +412,10 @@ export async function refreshMine() {
     if (newReply) { patch.reply = r.reply; patch.unread = true; patch.autoPlayed = false; toast(tt('newMsg')); log('Reply received from optometrist', 'net'); }
     else if (r.reply) patch.reply = r.reply; // refresh signed audio URL
     if (!r.reply && p.reply) patch.reply = null;
+    // Video call booked by the optometrist (Google Meet).
+    const inv = r.invite || null;
+    if (inv && (!p.invite || p.invite.id !== inv.id)) { patch.invite = inv; patch.unread = true; toast(tt('newVid')); log('Video call booked: ' + new Date(inv.startsAt).toLocaleString(), 'net'); }
+    else if (!inv && p.invite) patch.invite = null;
     if (Object.keys(patch).length) setP(patch);
   } catch { /* offline: try again on the next event */ }
 }
@@ -455,6 +490,7 @@ export function doneTest(id, result) {
 }
 
 export function retakeTests() {
+  newReportIfSent();
   setP({ tests: {}, cur: null, ts: null, result: null });
   go('testsIntro');
 }
@@ -559,6 +595,47 @@ function finalizeChild() {
   go('result');
 }
 
+/* ---------------- returning patients: session + My reports ---------------- */
+/** Is there a saved patient session (phone OTP)? Supabase keeps it across visits. */
+export async function checkSession() {
+  const signedIn = !!(await getToken('patient').catch(() => null));
+  app.set({ signedIn });
+  if (signedIn) loadMine();
+}
+
+/** Fetch all of this patient's reports, newest first. */
+export async function loadMine() {
+  const token = await getToken('patient').catch(() => null);
+  if (!token) return app.set({ signedIn: false, mine: null });
+  try {
+    const { profiles } = await api('/profiles/mine', { token });
+    app.set({ mine: profiles, mineErr: false });
+    const last = profiles[0];
+    if (last && !P().info.name) setP({ info: { ...P().info, name: last.name, village: last.village || '' } });
+  } catch (e) {
+    if (e.status === 401) app.set({ signedIn: false, mine: null });
+    else app.set({ mineErr: true });
+  }
+}
+
+/** "Sent a report before? Check its status": phone + OTP only, no name step. */
+export function openStatusLogin() {
+  setP({ modal: 'login', login: { purpose: 'reports', step: 'phone', phone: '', otp: '', name: '', village: '', demoCode: null, busy: false } });
+}
+
+export function openMyReports() {
+  if (!app.get().signedIn) return openStatusLogin();
+  go('reports'); loadMine();
+}
+
+export async function patientSignOut() {
+  await signOut('patient');
+  app.set({ signedIn: false, mine: null });
+  setP({ info: {} }); // next send asks for the phone number again
+  toast(tt('signedOut'));
+  goHome();
+}
+
 /* ---------------- demo controls ---------------- */
 export function toggleOffline() {
   const off = !app.get().simOffline;
@@ -578,7 +655,7 @@ export async function resetDemo() {
   const cfg = await getConfig();
   if (cfg.mode === 'demo') await api('/events/reset', { method: 'POST' }).catch(() => {});
   await signOut('patient');
-  app.set({ p: freshP(), log: [], lang: 'en', simOffline: false, autopilot: false });
+  app.set({ p: freshP(), log: [], lang: 'en', simOffline: false, autopilot: false, signedIn: false, mine: null });
 }
 
 /** Guided demo: plays Ramappa's journey. Returns a cancel function. */
