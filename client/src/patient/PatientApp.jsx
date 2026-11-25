@@ -94,6 +94,17 @@ function LoginModal() {
   );
 }
 
+/* Demo controls (guided demo, simulate offline, engine log, reset) are hidden unless the page is opened with
+   ?demo=1, e.g. https://eyeze.onrender.com/?demo=1. Remembered for the rest of the browser session. */
+const showDock = (() => {
+  try {
+    const q = new URLSearchParams(window.location.search).get('demo');
+    if (q === '1') sessionStorage.setItem('eyeze_demo', '1');
+    if (q === '0') sessionStorage.removeItem('eyeze_demo');
+    return sessionStorage.getItem('eyeze_demo') === '1';
+  } catch { return false; }
+})();
+
 function Dock() {
   const s = useStore(app);
   const tg = (on, onClick, lab, sub) => <button className="tog" aria-pressed={on} onClick={onClick}><span>{lab}<small>{sub}</small></span><i /></button>;
@@ -170,7 +181,7 @@ export default function PatientApp() {
     <>
       <Header />
       <main className="main" id="main"><Screen /></main>
-      <Dock />
+      {showDock && <Dock />}
       {p.modal === 'urgent' && <UrgentModal />}
       {p.modal === 'login' && <LoginModal />}
     </>

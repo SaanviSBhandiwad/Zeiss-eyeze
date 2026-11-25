@@ -32,7 +32,7 @@ cd client && npm install && npm run dev        # app on http://localhost:5173
 - Optometrist portal: http://localhost:5173/optometrist (demo login is pre-filled)
 
 Open both in two tabs. Send a report from the patient app and it appears in the portal instantly; the reply appears back in the patient app.
-In the patient app, **Demo controls → Guided demo** plays Ramappa's whole journey in Kannada hands-free. Keep this mode for judging in case the venue Wi-Fi or an API fails.
+In the patient app, open it with `?demo=1` (e.g. `https://eyeze.onrender.com/?demo=1`) to show **Demo controls**; **Guided demo** plays Ramappa's whole journey in Kannada hands-free. Keep this mode for judging in case the venue Wi-Fi or an API fails.
 
 `GET /api/config` shows which services are live: `{"mode":"demo","sarvam":false,"storage":"local"}`.
 
