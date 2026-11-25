@@ -34,6 +34,9 @@ export function Home() {
             ? <div className="back-card"><b>{tt('welcomeBack', { name: name ? ', ' + name : '' })}</b>
                 <button className="btn sm p" onClick={A.openMyReports}><Icon n="list" c="s" /> {tt('seeMyReports')}</button></div>
             : <button className="status-lnk" onClick={A.openStatusLogin}>{tt('checkStatus')}</button>}
+          {wa && <a className="wa-hero" href={wa.href} target="_blank" rel="noopener noreferrer">
+            <span className="wa-ic"><Icon n="whatsapp" /></span>{tt('waChat')}
+          </a>}
         </div>
         <svg className="heroart" viewBox="0 0 400 360" aria-hidden="true">
           {/* bg blobs */}

@@ -640,3 +640,7 @@ tr.rw.live td{background:var(--gold-soft)}
  .hdr-in:has(.hdr-r > :nth-child(6)) .logo{display:none}
  .hdr-in:has(.hdr-r > :nth-child(6)) .hdr-r{margin-left:0;width:100%;justify-content:space-between}
 }
+.wa-hero{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 18px 8px 8px;border-radius:999px;background:#25d366;color:#fff;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 6px 16px -6px rgba(37,211,102,.6)}
+.wa-hero:hover{background:#1fb855}
+.wa-hero .wa-ic{width:36px;height:36px;border-radius:50%;background:#fff;color:#1fa855;display:grid;place-items:center}
+.hero > div > .wa-hero{display:flex;width:max-content}
