@@ -191,6 +191,8 @@ export function computeResult(r){
 
 /* CHILD MODE */
 export const CHILD_BANDS=['3-5','6-10'];
+/** Lowest normal VA level by age band: 3-5 → 6/18 (index 3), 6-10 → 6/12 (index 4). */
+export const CHILD_VA_NORM={'3-5':3,'6-10':4};
 /** Parent-question ids and their allowed answers (the server keeps only these). */
 export const CHILD_Q={sq_tv:['yes','no','sometimes'],sq_squint:['yes','no','sometimes'],sq_turn:['yes','no','unsure'],sq_family:['yes','no','unsure']};
 
@@ -204,7 +206,7 @@ function childResult(r){
  const red=s=>{tri='red';reasons.unshift(s)};
  if(te.va){
   // Age 3-5: normal is 6/18 or better (index 3); age 6-10: 6/12 or better (index 4)
-  const threshold=band==='3-5'?3:4;
+  const threshold=CHILD_VA_NORM[band]??4;
   if(te.va.R<threshold||te.va.L<threshold)amber('Visual acuity below age-normal in at least one eye (R '+vaStr(te.va.R)+', L '+vaStr(te.va.L)+')');
   // 2 or more lines between eyes: possible amblyopia
   if(Math.abs(te.va.R-te.va.L)>=2)red('Significant difference between eyes — possible amblyopia (lazy eye)');
@@ -224,8 +226,9 @@ function childResult(r){
  const next=tri==='red'?'hospital':tri==='amber'?'camp':'store';
  return{
   tri,reasons,flags,
-  lens:tri==='red'?'defer':'sv_dist',
-  why:reasons.slice(0,2),
+  // A child's glasses power needs an in-person (cycloplegic) exam; a normal screen needs none.
+  lens:tri==='green'?'none':'defer',
+  why:reasons.length?reasons.slice(0,2):['Screening within normal limits for age'],
   coat:[],dom:null,dominant:null,
   next,
   centre:next==='hospital'?'dist':next==='camp'?'camp':'netra',
@@ -236,11 +239,22 @@ function childResult(r){
 
 /* The agreed pd shape {mm} carries no per-measurement confidence, so the portal shows a fixed value like the other tests. */
 const PD_CONF=72;
-export function testRows(rawTests,lang){
+/** Rows for the test-results table. opts.childAge ('3-5' | '6-10') applies the children's check rules:
+ *  age-normed VA (and a 2-line gap between eyes counts as needing review), and only the tests a child does are listed. */
+export function testRows(rawTests,lang,opts={}){
  const te=cleanTests(rawTests);
  const L=lang||'en',rows=[];
+ const band=CHILD_BANDS.includes(opts.childAge)?opts.childAge:null;
  const add=(k,v,ok,conf)=>rows.push({k,label:tx(T['t_'+k],L),v,st:ok===null?'na':ok?'good':'warn',conf});
- add('va',te.va?'R '+(te.va.R<0?'<6/60':VA[te.va.R])+'  ·  L '+(te.va.L<0?'<6/60':VA[te.va.L]):'',te.va?(te.va.R>=5&&te.va.L>=5):null,82);
+ const vaTxt=te.va?'R '+(te.va.R<0?'<6/60':VA[te.va.R])+'  ·  L '+(te.va.L<0?'<6/60':VA[te.va.L]):'';
+ if(band){
+  // CHILD MODE: normal for age, and no 2-line difference between the eyes (possible amblyopia)
+  const ok=te.va?Math.min(te.va.R,te.va.L)>=CHILD_VA_NORM[band]&&Math.abs(te.va.R-te.va.L)<2:null;
+  add('va',vaTxt+(te.va&&te.va.distChecked&&isNum(te.va.distCm)?'  ·  at '+te.va.distCm+' cm':''),ok,82);
+  add('amsler',te.amsler?(te.amsler.R+te.amsler.L===0?tx(T.noDistortion,L):'R '+te.amsler.R+'  ·  L '+te.amsler.L):'',te.amsler?te.amsler.R+te.amsler.L===0:null,77);
+  return rows;
+ }
+ add('va',vaTxt,te.va?(te.va.R>=5&&te.va.L>=5):null,82);
  add('near',te.near?(te.near.level<0?'> N24':NEAR[te.near.level]):'',te.near?te.near.level>=5:null,85);
  add('np',te.np?'+'+te.np.add.toFixed(2)+' D ('+te.np.cm+' cm)':'',te.np?te.np.add<0.75:null,70);
  add('contrast',te.contrast?te.contrast.pct+'%':'',te.contrast?te.contrast.pct<=6:null,74);

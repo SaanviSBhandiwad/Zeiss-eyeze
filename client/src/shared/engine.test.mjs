@@ -177,3 +177,20 @@ test('child: uncamera-checked distance is flagged for the optometrist', () => {
   const r = computeResult({ answers: { childAge: '6-10' }, tests: { va: { R: 5, L: 5, distCm: null, distChecked: false } } });
   assert.ok(r.flags.some(f => f.includes('not camera-checked')));
 });
+
+test('child testRows: age norms, eye-gap check, only child tests listed', () => {
+  const row = (tests, childAge) => testRows(tests, 'en', { childAge }).find(r => r.k === 'va');
+  assert.equal(row({ va: { R: 4, L: 4 } }, '6-10').st, 'good');          // 6/12 normal at 6-10…
+  assert.equal(row({ va: { R: 4, L: 4 } }).st, 'warn');                  // …but not for an adult
+  assert.equal(row({ va: { R: 3, L: 3 } }, '3-5').st, 'good');
+  assert.equal(row({ va: { R: 3, L: 3 } }, '6-10').st, 'warn');
+  assert.equal(row({ va: { R: 6, L: 4 } }, '6-10').st, 'warn');          // both normal, but 2 lines apart
+  assert.match(row({ va: { R: 5, L: 5, distCm: 41, distChecked: true } }, '6-10').v, /at 41 cm/);
+  assert.deepEqual(testRows({ va: { R: 5, L: 5 }, amsler: { R: 0, L: 0 } }, 'en', { childAge: '3-5' }).map(r => r.k), ['va', 'amsler']);
+  assert.equal(testRows({}, 'en', { childAge: 'bogus' }).length, 8);      // unknown band: adult table
+});
+
+test('child: normal screen suggests no glasses; anything else defers to an in-person exam', () => {
+  assert.equal(computeResult({ answers: { childAge: '6-10' }, tests: { va: { R: 4, L: 4 } } }).lens, 'none');
+  assert.equal(computeResult({ answers: { childAge: '6-10' }, tests: { va: { R: 3, L: 4 } } }).lens, 'defer');
+});

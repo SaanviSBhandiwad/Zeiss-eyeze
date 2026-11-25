@@ -163,7 +163,7 @@ function Detail({ list, reload }) {
   if (!list) return <p className="muted">Loading…</p>;
   if (!r) return <><button className="lnk" onClick={() => nav('/optometrist')}><Icon n="back" c="s" /> Patient queue</button><p className="muted" style={{ marginTop: 16 }}>This report was not found.</p></>;
 
-  const res = computeResult(r), rows = testRows(r.tests || {}, 'en'), rep = r.reply;
+  const res = computeResult(r), rows = testRows(r.tests || {}, 'en', { childAge: r.answers?.childAge }) /* child reports use age norms */, rep = r.reply;
   const vis = visibleQs(r.answers).filter(q => r.answers[q.id] !== undefined);
   const bx = res.tri === 'red' ? 'r' : res.tri === 'amber' ? 'a' : 'g';
   const reopen = async () => {

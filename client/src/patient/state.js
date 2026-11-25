@@ -531,6 +531,21 @@ export function doneChildTest(id, result) {
   scheduleChild(childAdvance);
 }
 
+/** Play the eye game again. Keeps the parent answers and hero; a fresh report (new id) replaces the result. */
+export function retakeChild() {
+  clearTimeout(childTimer); childTimer = null;
+  setP({ childTests: {}, result: null, reward: 0, score: 0, loot: [], cur: null, ts: null, status: null, sentAt: null, pid: null });
+  log("Children's check: retaking the eye game");
+  openChildTest('va');
+}
+
+/** Change the parent answers, then play the game again. */
+export function editParentAnswers() {
+  clearTimeout(childTimer); childTimer = null;
+  setP({ childTests: {}, result: null, reward: 0, score: 0, loot: [], cur: null, ts: null, status: null, sentAt: null, pid: null });
+  go('childParentQ');
+}
+
 function finalizeChild() {
   const p = P();
   const result = p.result || computeResult({

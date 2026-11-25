@@ -370,13 +370,13 @@ export function Result() {
       </div>
       <div className={'signal ' + r.tri}>
         <div className="lights" aria-hidden="true"><i className={'r ' + (r.tri === 'red' ? 'on' : '')} /><i className={'a ' + (r.tri === 'amber' ? 'on' : '')} /><i className={'g ' + (r.tri === 'green' ? 'on' : '')} /></div>
-        <div><b>{tt('tri_' + r.tri)}</b><p>{tt('triD_' + r.tri)}</p></div>
+        <div><b>{tt('tri_' + r.tri)}</b><p>{isChild && r.tri === 'green' ? 'Vision looks normal for age. An optometrist will review the results.' : tt('triD_' + r.tri)}</p></div>
       </div>
       {isChild && r.reasons.some(x => x.includes('amblyopia')) && <div className="instr"><Icon n="heart" /><span>{tt('amblyopiaNote')}</span></div>}
       <div className="rgrid">
         <div>
           <section className="sec"><h2>{isChild ? 'What we found' : tt('howYou')}</h2>
-            {isChild ? <ul className="muted" style={{ margin: 0, paddingLeft: 18 }}>{(r.reasons.length ? r.reasons : [tt('tri_green')]).map(x => <li key={x}>{x}</li>)}</ul>
+            {isChild ? <ul className="muted" style={{ margin: 0, paddingLeft: 18 }}>{(r.reasons.length ? r.reasons : ['Both eyes within the normal range for age', 'No concerns from the parent questions']).map(x => <li key={x}>{x}</li>)}</ul>
             : r.dom ? <div className="use">{['near', 'mid', 'far'].map(z => (
               <div key={z} className={`c-${zc[z][0]} ${r.dominant === z ? 'dom' : ''}`}>
                 {r.dominant === z && <span className="star"><Icon n="star" c="s" /></span>}
@@ -388,10 +388,10 @@ export function Result() {
             ))}</div> : <button className="btn o" onClick={() => A.startMode('profile')}><Icon n="mic" c="s" /> {tt('card2')}</button>}
           </section>
           <section className="sec"><h2>{tt('testShort')}</h2>
-            {testRows(tests, lang).some(x => x.st !== 'na')
+            {testRows(tests, lang, { childAge: isChild ? p.childAge : null }).some(x => x.st !== 'na')
               ? <>
                 <div className="tw"><table><tbody>
-                  {testRows(tests, lang).filter(x => !isChild || x.st !== 'na').map(x => (isChild && x.k === 'va' && tests.va ? { ...x, st: Math.min(tests.va.R, tests.va.L) >= (p.childAge === '3-5' ? 3 : 4) ? 'good' : 'warn' } : x)).map(x => (
+                  {testRows(tests, lang, { childAge: isChild ? p.childAge : null }).map(x => (
                     <tr key={x.k}>
                       <td>{x.label}</td>
                       <td><b>{x.v || '—'}</b></td>
@@ -402,6 +402,10 @@ export function Result() {
                 <p className="muted small" style={{ marginTop: 8 }}>{tt('testsNote')}</p>
               </>
               : <p className="muted small">{tt('noTestsYet')}</p>}
+            {isChild && <div className="row wr" style={{ marginTop: 10 }}>
+              <button className="btn o" onClick={A.retakeChild}><Icon n="eye" c="s" /> Play the eye game again</button>
+              <button className="lnk small" onClick={A.editParentAnswers}>Change parent answers</button>
+            </div>}
             {!isChild && <div style={{ marginTop: 10 }}>
               {Object.keys(p.tests || {}).length > 0
                 ? <button className="btn o" onClick={A.retakeTests}><Icon n="eye" c="s" /> {tt('retakeTestsShort')}</button>
