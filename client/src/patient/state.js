@@ -28,6 +28,8 @@ export function freshP() {
     practicePass: false,  // whether the child cleared the practice round
     reward: 0,            // stars earned so far (shown between rounds)
     score: 0,             // game coins (fun only, never used clinically)
+    hero: null,           // avatar the child picked (emoji), fun only
+    loot: [],             // creatures hatched on Egg Island, fun only
   };
 }
 
@@ -467,7 +469,7 @@ export function startChildMode(ageBand, childName) {
   // ageBand: '3-5' or '6-10'
   setP({
     mode: 'child', childAge: ageBand, childName: (childName || '').trim() || 'friend',
-    childTests: {}, parentAnswers: {}, practicePass: false, reward: 0, score: 0, result: null, cur: null, ts: null,
+    childTests: {}, parentAnswers: {}, practicePass: false, reward: 0, score: 0, hero: null, loot: [], result: null, cur: null, ts: null,
   });
   log("Started: children's check (ages " + ageBand + ')');
   if (!P().consented) return go('consent');
@@ -475,6 +477,8 @@ export function startChildMode(ageBand, childName) {
 }
 
 export const addScore = n => setP(p => ({ score: (p.score || 0) + n }));
+export const setHero = h => setP({ hero: h });
+export const addLoot = c => setP(p => ({ loot: [...(p.loot || []), c] }));
 
 export function setParentAnswer(id, val) {
   setP(p => ({ parentAnswers: { ...p.parentAnswers, [id]: val } }));
@@ -505,7 +509,7 @@ function initChildTest(id) {
 
 function scheduleChild(fn) {
   clearTimeout(childTimer);
-  childTimer = setTimeout(() => { childTimer = null; if (P().screen === 'childReward') fn(); }, 2000);
+  childTimer = setTimeout(() => { childTimer = null; if (P().screen === 'childReward') fn(); }, 3400); // long enough for the world-map hop / chest opening
 }
 
 /** Next step after the reward screen: the next test, or the result. */

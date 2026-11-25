@@ -28,3 +28,13 @@ export const sfx = {
   win: () => play([523, 659, 784, 1047, 784, 1047], { type: 'triangle', len: 0.2, gap: 0.12 }),
   boop: () => play([262], { len: 0.08, vol: 0.05 }),
 };
+
+Object.assign(sfx, {
+  chomp: () => play([220, 165], { type: 'square', len: 0.08, gap: 0.08, vol: 0.06 }),
+  hatch: () => play([784, 988, 1175, 1568], { type: 'triangle', len: 0.1, gap: 0.06, vol: 0.09 }),
+  whoosh: () => play([600, 450, 300], { len: 0.07, gap: 0.05, vol: 0.05 }),
+  tick: () => play([880], { type: 'square', len: 0.06, vol: 0.04 }),
+  go: () => play([1047, 1568], { type: 'square', len: 0.12, gap: 0.1, vol: 0.05 }),
+  chest: () => play([392, 523, 659, 784, 1047, 1319, 1568], { type: 'triangle', len: 0.18, gap: 0.08, vol: 0.1 }),
+  pick: () => play([523, 784], { type: 'square', len: 0.08, gap: 0.06, vol: 0.05 }),
+});
