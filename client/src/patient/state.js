@@ -18,7 +18,7 @@ export function freshP() {
   return {
     screen: 'home', mode: null, consented: false, answers: {}, qhist: [], fired: {}, multiSel: null, pick: null, val: null,
     text: '', heard: null, voiceAns: {}, listening: 'idle', modal: null, login: null, result: null, pid: null,
-    profileId: null, status: null, reply: null, unread: false, info: {}, assisted: false, ackAt: 0, sentAt: null, autoPlayed: false,
+    profileId: null, status: null, reply: null, invite: null, unread: false, info: {}, assisted: false, ackAt: 0, sentAt: null, autoPlayed: false,
     tests: {}, cur: null, ts: null,
   };
 }
@@ -367,6 +367,10 @@ export async function refreshMine() {
     if (newReply) { patch.reply = r.reply; patch.unread = true; patch.autoPlayed = false; toast(tt('newMsg')); log('Reply received from optometrist', 'net'); }
     else if (r.reply) patch.reply = r.reply; // refresh signed audio URL
     if (!r.reply && p.reply) patch.reply = null;
+    // Video call booked by the optometrist (Google Meet).
+    const inv = r.invite || null;
+    if (inv && (!p.invite || p.invite.id !== inv.id)) { patch.invite = inv; patch.unread = true; toast(tt('newVid')); log('Video call booked: ' + new Date(inv.startsAt).toLocaleString(), 'net'); }
+    else if (!inv && p.invite) patch.invite = null;
     if (Object.keys(patch).length) setP(patch);
   } catch { /* offline: try again on the next event */ }
 }

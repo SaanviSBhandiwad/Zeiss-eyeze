@@ -7,7 +7,7 @@ import { api, absUrl, getConfig } from '../lib/api.js';
 import { getToken, signInOptometrist, signOut } from '../lib/auth.js';
 import { subscribe } from '../lib/realtime.js';
 import { playUrl } from '../lib/voice.js';
-import { Icon, Mascot, toast, ago, fmtDate, useTick } from '../lib/ui.jsx';
+import { Icon, Mascot, toast, ago, fmtDate, fmtTime, useTick } from '../lib/ui.jsx';
 
 /* ---------------- data hook ---------------- */
 function useQueue(signedIn) {
@@ -225,9 +225,84 @@ function Detail({ list, reload }) {
             <div className="row wr"><button className="btn sm" onClick={reopen}>Edit and resend</button></div>
           </div>
         ) : <ReplyForm key={r.id} r={r} res={res} onSent={reload} />}
+        <MeetBox key={'meet-' + r.id} r={r} reload={reload} />
       </div></div>
     </div>
   </>;
+}
+
+/* ---------------- Google Meet ---------------- */
+let meetStatus = null; // cached { configured, connected } for this page load
+const pad = n => String(n).padStart(2, '0');
+/** Value for <input type="datetime-local"> in the doctor's local time. */
+const localInput = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+/** Next half hour, at least 30 minutes from now. */
+const nextSlot = () => { const d = new Date(Date.now() + 30 * 60_000); d.setMinutes(d.getMinutes() < 30 ? 30 : 60, 0, 0); return d; };
+
+function MeetBox({ r, reload }) {
+  const [st, setSt] = useState(meetStatus);
+  const [form, setForm] = useState(false);
+  const [when, setWhen] = useState(() => localInput(nextSlot()));
+  const [mins, setMins] = useState(15);
+  const [busy, setBusy] = useState(false);
+  const inv = r.invite;
+
+  const loadStatus = useCallback(async () => {
+    try { meetStatus = await api('/meet/status', { token: await getToken('optometrist') }); setSt(meetStatus); }
+    catch { setSt({ configured: false, connected: false }); }
+  }, []);
+  useEffect(() => { if (!meetStatus) loadStatus(); }, [loadStatus]);
+
+  const connect = async () => {
+    setBusy(true);
+    try { window.location.href = (await api('/meet/connect', { token: await getToken('optometrist') })).url; }
+    catch (e) { toast(e.message); setBusy(false); }
+  };
+  const book = async e => {
+    e.preventDefault();
+    const t = new Date(when);
+    if (!when || Number.isNaN(+t)) return toast('Choose a date and time');
+    setBusy(true);
+    try {
+      await api(`/meet/${r.id}`, { method: 'POST', token: await getToken('optometrist'), body: { startsAt: t.toISOString(), durationMin: mins } });
+      toast('Video call booked. The patient sees the Join button now.');
+      setForm(false); reload();
+    } catch (err) {
+      toast(err.message);
+      if (err.body?.reconnect) { meetStatus = null; loadStatus(); }
+    }
+    setBusy(false);
+  };
+  const copy = () => navigator.clipboard?.writeText(inv.meetLink).then(() => toast('Meet link copied'), () => toast(inv.meetLink));
+
+  if (!st) return null;
+  return (
+    <div className="box"><h3><Icon n="video" c="s" /> Video consultation</h3>
+      {inv && !form && <>
+        <p className="small"><b>{fmtDate(inv.startsAt)}, {fmtTime(inv.startsAt)}</b> · {inv.durationMin} min{inv.startsAt < Date.now() ? ' · time has passed' : ''}</p>
+        <p className="xs muted" style={{ wordBreak: 'break-all', margin: '6px 0 10px' }}>{inv.meetLink}</p>
+        <div className="row wr">
+          <a className="btn sm p" href={inv.meetLink} target="_blank" rel="noopener noreferrer">Open Meet</a>
+          <button className="btn sm" onClick={copy}>Copy link</button>
+          {st.connected && <button className="btn sm" onClick={() => setForm(true)}>Book another time</button>}
+        </div>
+      </>}
+      {!st.configured && !inv && <p className="small muted">Google Meet isn’t set up on the server yet. Add the GOOGLE_ settings to the API.</p>}
+      {st.configured && !st.connected && <>
+        <p className="small" style={{ marginBottom: 10 }}>Connect your Google account once. After that, booking a call creates a Calendar event with a Meet link automatically.</p>
+        <button className="btn sm p" onClick={connect} disabled={busy}>Connect Google Calendar</button>
+      </>}
+      {st.connected && (!inv || form) && <form onSubmit={book}>
+        <label className="fld"><span>Date and time</span><input type="datetime-local" value={when} min={localInput(new Date())} onChange={e => setWhen(e.target.value)} required /></label>
+        <label className="fld"><span>Length</span><select value={mins} onChange={e => setMins(+e.target.value)}>{[10, 15, 20, 30, 45].map(m => <option key={m} value={m}>{m} minutes</option>)}</select></label>
+        <div className="row wr">
+          <button className="btn sm p" disabled={busy}>{busy ? 'Booking…' : 'Book call'}</button>
+          {form && <button type="button" className="btn sm" onClick={() => setForm(false)}>Cancel</button>}
+        </div>
+        <p className="xs muted" style={{ marginTop: 8 }}>The patient gets a Join button in the app. Only the name and report ID go into your calendar.</p>
+      </form>}
+    </div>
+  );
 }
 
 /* ---------------- shell ---------------- */
@@ -239,6 +314,12 @@ export default function Portal() {
   const [list, reload] = useQueue(!!me);
 
   useEffect(() => {
+    const q = new URLSearchParams(window.location.search), g = q.get('google');
+    if (g) {
+      toast(g === 'connected' ? 'Google Calendar connected. You can book video calls now.' : g === 'cancelled' ? 'Google connection cancelled' : 'Could not connect Google: ' + (q.get('msg') || 'unknown error'));
+      meetStatus = null;
+      window.history.replaceState(null, '', window.location.pathname);
+    }
     getConfig().then(setCfg);
     (async () => {
       const token = await getToken('optometrist');

@@ -22,7 +22,7 @@ function Header() {
           {Object.entries(LANGS).map(([k, l]) => <button key={k} aria-pressed={lang === k} onClick={() => A.setLang(k)}>{l.label}</button>)}
         </div>
         {p.result && <button className="ib" aria-label={tt('myReport')} title={tt('myReport')} onClick={() => A.go('result')}><Icon n="file" /></button>}
-        {p.reply && <button className="ib" aria-label={tt('messages')} onClick={() => { A.setP({ unread: false }); A.go('messages'); }}><Icon n="bell" />{p.unread && <span className="dot" />}</button>}
+        {(p.reply || p.invite) && <button className="ib" aria-label={tt('messages')} onClick={() => { A.setP({ unread: false }); A.go('messages'); }}><Icon n="bell" />{p.unread && <span className="dot" />}</button>}
         <button className="ib" aria-label={'Voice ' + (voiceOn ? 'on' : 'off')} onClick={() => { app.set({ voiceOn: !voiceOn }); if (voiceOn) stopSpeak(); }}><Icon n={voiceOn ? 'spk' : 'mute'} /></button>
       </div>
     </div></header>
