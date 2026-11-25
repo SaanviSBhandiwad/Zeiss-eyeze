@@ -462,7 +462,8 @@ export function retakeTests() {
 /* ---------------- CHILD MODE ---------------- */
 // Game-framed screening for ages 3–10. Uses the same VA sizes and 2-correct-per-level rule as the adult tests.
 const CHILD_TESTS = ['va', 'amsler'];
-const childAnswers = p => ({ ...p.parentAnswers, age: p.childAge === '3-5' ? 4 : 8 });
+// childAge inside answers marks the report as a child's, for the server and the portal (see engine computeResult).
+const childAnswers = p => ({ ...p.parentAnswers, childAge: p.childAge, age: p.childAge === '3-5' ? 4 : 8 });
 let childTimer = null; // pending auto-advance from the reward screen
 
 export function startChildMode(ageBand, childName) {

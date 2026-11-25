@@ -102,7 +102,9 @@ export function nearAddFromCm(cm){
 export function computeResult(r){
  const a=r.answers||{},te=cleanTests(r.tests),age=+a.age||+r.age||0;
  // CHILD MODE: age-normed triage for the children's check (ages 3–10). Adult logic below is unchanged.
- if(r.isChild)return childResult(r);
+ // A child report is marked by answers.childAge, which the adult interview never sets. It lives inside answers so it
+ // survives the server's save and the portal's own computeResult(r) on the stored record.
+ if(r.isChild||CHILD_BANDS.includes(a.childAge))return childResult({...r,childAge:CHILD_BANDS.includes(r.childAge)?r.childAge:a.childAge});
  const hasProfile=a.work!==undefined;
  const z=zonesOf(a);
  let dom=null,dominant=null;
@@ -187,6 +189,11 @@ export function computeResult(r){
  return{dom,dominant,tri,reasons,flags,lens,why,coat,next,centre,tips:[...new Set(tips)].slice(0,6)};
 }
 
+/* CHILD MODE */
+export const CHILD_BANDS=['3-5','6-10'];
+/** Parent-question ids and their allowed answers (the server keeps only these). */
+export const CHILD_Q={sq_tv:['yes','no','sometimes'],sq_squint:['yes','no','sometimes'],sq_turn:['yes','no','unsure'],sq_family:['yes','no','unsure']};
+
 /* CHILD MODE: triage for the children's check. VA levels index into VA (0 = 6/60 … 6 = 6/6, -1 = worse than the start level). */
 function childResult(r){
  const band=r.childAge; // '3-5' or '6-10'
@@ -208,6 +215,12 @@ function childResult(r){
  if(pa.sq_turn==='yes')red('Parent reports eye turning in or out — possible strabismus');
  if(pa.sq_tv==='yes')amber('Sits very close to screen');
  if(pa.sq_family==='yes')flags.push('Family history of glasses');
+ if(pa.sq_squint==='sometimes')flags.push('Parent: squints or tilts head sometimes');
+ if(pa.sq_tv==='sometimes')flags.push('Parent: sometimes sits close to the screen');
+ if(pa.sq_turn==='unsure')flags.push('Parent unsure whether an eye turns');
+ const d=[te.va,te.amsler].filter(Boolean);
+ if(d.length&&d.some(x=>x.distChecked===false))flags.push('Test distance not camera-checked (no camera or played without it)');
+ flags.unshift('Children\u2019s check, ages '+(band||'?')+': parent questions + game-based acuity and Amsler');
  const next=tri==='red'?'hospital':tri==='amber'?'camp':'store';
  return{
   tri,reasons,flags,

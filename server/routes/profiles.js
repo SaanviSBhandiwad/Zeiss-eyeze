@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  QMAP, LENS, COAT, NEXT, CMAP, LANGS, TRI_RANK, ST_RANK, computeResult, replyText, t,
+  QMAP, LENS, COAT, NEXT, CMAP, LANGS, TRI_RANK, ST_RANK, computeResult, replyText, t, CHILD_BANDS, CHILD_Q,
 } from '../../client/src/shared/index.js';
 import { requireAuth } from '../services/auth.js';
 import { store } from '../services/store.js';
@@ -24,6 +24,11 @@ function cleanAnswers(a) {
     else if (q.type === 'text') out[k] = str(v, 1000);
     else if (Array.isArray(v)) out[k] = v.slice(0, 12).map(x => str(x, 32));
     else if (typeof v === 'string') out[k] = str(v, 32);
+  }
+  // Children's check: keep the age band marker and the parent questions (fixed ids, fixed values only).
+  if (CHILD_BANDS.includes(a.childAge)) {
+    out.childAge = a.childAge;
+    for (const [k, ok] of Object.entries(CHILD_Q)) if (ok.includes(a[k])) out[k] = a[k];
   }
   return out;
 }

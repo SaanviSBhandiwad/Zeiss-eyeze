@@ -150,3 +150,30 @@ test('testRows: Hindi and Kannada patients see words, not a dash, for "no distor
   const en = Object.fromEntries(testRows({ amsler: { R: 0, L: 0 }, astig: { res: 'none' } }, 'en').map(r => [r.k, r]));
   assert.equal(en.amsler.v, 'No distortion'); assert.equal(en.astig.v, 'Not indicated');
 });
+
+/* CHILD MODE */
+test('child: answers.childAge alone switches to child triage (as the server and portal see the stored record)', () => {
+  const r = computeResult({ answers: { childAge: '6-10', age: 8 }, tests: { va: { R: 4, L: 4 }, amsler: { R: 0, L: 0 } } });
+  assert.equal(r.isChild, true);
+  assert.equal(r.tri, 'green');
+  // 6/12 is normal at 6-10 but would be "attention" under adult rules: confirm the age norm is applied
+  assert.equal(computeResult({ answers: { childAge: '6-10' }, tests: { va: { R: 3, L: 4 } } }).tri, 'amber');
+  assert.equal(computeResult({ answers: { childAge: '3-5' }, tests: { va: { R: 3, L: 3 } } }).tri, 'green');
+});
+
+test('child: 2+ lines between eyes, squint or eye turn is red', () => {
+  assert.equal(computeResult({ answers: { childAge: '6-10' }, tests: { va: { R: 6, L: 4 } } }).tri, 'red');
+  assert.equal(computeResult({ answers: { childAge: '3-5', sq_squint: 'yes' }, tests: {} }).tri, 'red');
+  assert.equal(computeResult({ answers: { childAge: '3-5', sq_turn: 'yes' }, tests: {} }).tri, 'red');
+});
+
+test('child: an adult record without childAge is unaffected', () => {
+  const a = computeResult({ answers: { age: 30 }, tests: { va: { R: 4, L: 4 } } });
+  assert.notEqual(a.isChild, true);
+  assert.equal(computeResult({ answers: { age: 30, childAge: 'bogus' }, tests: {} }).isChild, undefined);
+});
+
+test('child: uncamera-checked distance is flagged for the optometrist', () => {
+  const r = computeResult({ answers: { childAge: '6-10' }, tests: { va: { R: 5, L: 5, distCm: null, distChecked: false } } });
+  assert.ok(r.flags.some(f => f.includes('not camera-checked')));
+});
