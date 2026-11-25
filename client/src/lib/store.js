@@ -16,5 +16,6 @@ export function createStore(initial) {
 }
 
 export function useStore(store, select = s => s) {
-  return useSyncExternalStore(store.subscribe, () => select(store.get()));
+  const get = () => select(store.get());
+  return useSyncExternalStore(store.subscribe, get, get); // 3rd arg: same value for server rendering / tests
 }

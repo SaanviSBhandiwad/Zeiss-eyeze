@@ -16,6 +16,8 @@ const useLang = () => useStore(app, s => s.lang);
 /* ---------------- home ---------------- */
 export function Home() {
   useLang();
+  const signedIn = useStore(app, s => s.signedIn), mine = useStore(app, s => s.mine);
+  const name = mine?.[0]?.name;
   const how = [['mic', 'teal'], ['list', 'indigo'], ['eye', 'gold'], ['file', 'sky'], ['users', 'coral']];
   return (
     <div className="wrap">
@@ -24,6 +26,10 @@ export function Home() {
           <h1 dangerouslySetInnerHTML={{ __html: tt('heroH2') }} />
           <p>{tt('heroP2')}</p>
           <div className="row wr"><button className="btn p big" onClick={() => A.startMode('full')}>{tt('start')} <Icon n="fwd" /></button></div>
+          {signedIn
+            ? <div className="back-card"><b>{tt('welcomeBack', { name: name ? ', ' + name : '' })}</b>
+                <button className="btn sm p" onClick={A.openMyReports}><Icon n="list" c="s" /> {tt('seeMyReports')}</button></div>
+            : <button className="status-lnk" onClick={A.openStatusLogin}>{tt('checkStatus')}</button>}
         </div>
         <svg className="heroart" viewBox="0 0 400 360" aria-hidden="true">
           {/* bg blobs */}
@@ -59,7 +65,7 @@ export function Home() {
         <button className="bc t3" onClick={() => A.startMode('tests')}><span className="ico"><Icon n="mobile" c="l" /></span><b>{tt('card3')}</b><span><Icon n="clock" c="s" /> {tt('mins', { n: 7 })}</span></button>
       </div>
       <div className="how">{how.map(([i, c], k) => <div key={i}><span className={'ico c-' + c}><Icon n={i} /></span><b>{tt('hw' + (k + 1))}</b><span>{tt('hs' + (k + 1))}</span></div>)}</div>
-      <p className="foot">{tt('disclaimer')}<br /><a href="/optometrist">Optometrist login</a></p>
+      <p className="foot">{tt('disclaimer')}<br /><a href="/optometrist">{tt('optLogin')}</a></p>
     </div>
   );
 }

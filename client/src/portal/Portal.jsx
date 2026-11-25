@@ -8,6 +8,7 @@ import { getToken, signInOptometrist, signOut } from '../lib/auth.js';
 import { subscribe } from '../lib/realtime.js';
 import { playUrl } from '../lib/voice.js';
 import { Icon, Mascot, toast, ago, fmtDate, fmtTime, useTick } from '../lib/ui.jsx';
+import { Analytics, Centres } from './Insights.jsx';
 
 /* ---------------- data hook ---------------- */
 function useQueue(signedIn) {
@@ -306,7 +307,7 @@ function MeetBox({ r, reload }) {
 }
 
 /* ---------------- shell ---------------- */
-export default function Portal() {
+export default function Portal({ view = 'queue' }) {
   const [me, setMe] = useState(undefined); // undefined = checking, null = signed out
   const [cfg, setCfg] = useState(null);
   const nav = useNavigate();
@@ -340,7 +341,9 @@ export default function Portal() {
       <div className="portal">
         <aside className="pside">
           <div className="brand"><Mascot s={34} /> Eyeze</div>
-          <button className="nv" aria-current={true} onClick={() => nav('/optometrist')}><Icon n="list" c="s" /> Patient queue{pend ? <span className="cnt">{pend}</span> : null}</button>
+          <button className="nv" aria-current={view === 'queue'} onClick={() => nav('/optometrist')}><Icon n="list" c="s" /> Patient queue{pend ? <span className="cnt">{pend}</span> : null}</button>
+          <button className="nv" aria-current={view === 'analytics'} onClick={() => nav('/optometrist/analytics')}><Icon n="chart" c="s" /> Analytics</button>
+          <button className="nv" aria-current={view === 'centres'} onClick={() => nav('/optometrist/centres')}><Icon n="building" c="s" /> Referral centres</button>
           {cfg?.mode === 'demo' && <button className="nv" onClick={reset}><Icon n="swap" c="s" /> Reset demo data</button>}
           <div className="who">
             <span className="av" style={{ width: 38, height: 38, fontSize: 15 }}>{(me.name || me.email || 'O').split(/\s|@/).filter(w => w && !/^dr\.?$/i.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('')}</span>
@@ -348,7 +351,7 @@ export default function Portal() {
             <button className="lnk" style={{ marginLeft: 'auto', color: '#bcd9d1' }} onClick={logout} aria-label="Sign out"><Icon n="logout" c="s" /></button>
           </div>
         </aside>
-        <div className="pmain">{id ? <Detail list={list} reload={reload} /> : <Queue list={list} />}</div>
+        <div className="pmain">{id ? <Detail list={list} reload={reload} /> : view === 'analytics' ? <Analytics list={list} /> : view === 'centres' ? <Centres list={list} /> : <Queue list={list} />}</div>
       </div>
     </main>
   );
