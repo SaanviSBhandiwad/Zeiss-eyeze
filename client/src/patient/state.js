@@ -27,6 +27,7 @@ export function freshP() {
     parentAnswers: {},    // answers to parent questions (squint, tv distance, etc.)
     practicePass: false,  // whether the child cleared the practice round
     reward: 0,            // stars earned so far (shown between rounds)
+    score: 0,             // game coins (fun only, never used clinically)
   };
 }
 
@@ -466,12 +467,14 @@ export function startChildMode(ageBand, childName) {
   // ageBand: '3-5' or '6-10'
   setP({
     mode: 'child', childAge: ageBand, childName: (childName || '').trim() || 'friend',
-    childTests: {}, parentAnswers: {}, practicePass: false, reward: 0, result: null, cur: null, ts: null,
+    childTests: {}, parentAnswers: {}, practicePass: false, reward: 0, score: 0, result: null, cur: null, ts: null,
   });
   log("Started: children's check (ages " + ageBand + ')');
   if (!P().consented) return go('consent');
   go('childParentQ'); // parent questions first
 }
+
+export const addScore = n => setP(p => ({ score: (p.score || 0) + n }));
 
 export function setParentAnswer(id, val) {
   setP(p => ({ parentAnswers: { ...p.parentAnswers, [id]: val } }));
