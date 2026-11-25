@@ -348,8 +348,8 @@ export default function Portal({ view = 'queue' }) {
           <div className="who">
             <span className="av" style={{ width: 38, height: 38, fontSize: 15 }}>{(me.name || me.email || 'O').split(/\s|@/).filter(w => w && !/^dr\.?$/i.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('')}</span>
             <div><b>{me.name || me.email}</b><span>{cfg?.mode === 'demo' ? 'Demo account' : 'Optometrist'}</span></div>
-            <button className="lnk" style={{ marginLeft: 'auto', color: '#bcd9d1' }} onClick={logout} aria-label="Sign out"><Icon n="logout" c="s" /></button>
           </div>
+          <button className="nv so" onClick={logout}><Icon n="logout" c="s" /> Sign out</button>
         </aside>
         <div className="pmain">{id ? <Detail list={list} reload={reload} /> : view === 'analytics' ? <Analytics list={list} /> : view === 'centres' ? <Centres list={list} /> : <Queue list={list} />}</div>
       </div>

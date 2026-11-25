@@ -39,3 +39,8 @@
 .rc-n b{display:block;font-family:var(--fd);font-size:24px;line-height:1.1}
 .rc-n span{font-size:13px;color:var(--ink-2)}
 .rc-n .u b{color:var(--red)}
+
+/* Sign out: always visible, including on phones where the sidebar collapses into a row */
+.pside .nv.so{color:#fff;border:1px solid rgba(255,255,255,.25);margin-top:6px}
+.pside .nv.so:hover{background:rgba(255,255,255,.1)}
+@media (max-width:640px){.pside .nv.so{margin-top:0;margin-left:auto;flex:none}}

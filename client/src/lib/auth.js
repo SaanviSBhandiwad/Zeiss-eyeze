@@ -5,20 +5,30 @@
 import { createClient } from '@supabase/supabase-js';
 import { api, getConfig } from './api.js';
 
+// Patients stay signed in on their phone (localStorage) so they can check their reports later.
+// Optometrists see patient records, so their session lasts only until the tab is closed (sessionStorage):
+// reopening the portal always asks for email and password, which matters on shared clinic computers.
+const store = role => {
+  try { return role === 'optometrist' ? window.sessionStorage : window.localStorage; } catch { return undefined; }
+};
+
 const clients = {};
 async function supa(role) {
   const cfg = await getConfig();
   if (!cfg.supabase) return null;
   clients[role] ||= createClient(cfg.supabase.url, cfg.supabase.anonKey, {
-    auth: { storageKey: 'eyeze-' + role, persistSession: true, autoRefreshToken: true },
+    auth: { storageKey: 'eyeze-' + role, storage: store(role), persistSession: true, autoRefreshToken: true },
   });
   return clients[role];
 }
 export const supabaseFor = supa;
 
 const KEY = role => 'eyeze_demo_auth_' + role;
-const readDemo = role => { try { return JSON.parse(localStorage.getItem(KEY(role))); } catch { return null; } };
-const writeDemo = (role, v) => { try { v ? localStorage.setItem(KEY(role), JSON.stringify(v)) : localStorage.removeItem(KEY(role)); } catch { /* private mode */ } };
+const readDemo = role => { try { return JSON.parse(store(role).getItem(KEY(role))); } catch { return null; } };
+const writeDemo = (role, v) => { try { v ? store(role).setItem(KEY(role), JSON.stringify(v)) : store(role).removeItem(KEY(role)); } catch { /* private mode */ } };
+
+// Old builds kept the optometrist session in localStorage forever; clear it so the portal asks to sign in.
+try { localStorage.removeItem('eyeze-optometrist'); localStorage.removeItem(KEY('optometrist')); } catch { /* blocked */ }
 
 /** Current access token for role, or null. Supabase refreshes it automatically. */
 export async function getToken(role) {
