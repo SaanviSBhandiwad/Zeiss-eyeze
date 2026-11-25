@@ -6,7 +6,8 @@ import { useStore } from '../lib/store.js';
 import { subscribe } from '../lib/realtime.js';
 import { stopSpeak } from '../lib/voice.js';
 import * as A from './state.js';
-import { Home, Consent, Interview, TestsSoon, Result, Messages } from './screens.jsx';
+import { Home, Consent, Interview, TestsSoon, Result, Messages,
+         ChildParentQ, ChildPractice, ChildTestRunner, ChildReward } from './screens.jsx';
 
 const { app, tt } = A;
 
@@ -141,7 +142,19 @@ export default function PatientApp() {
   useEffect(() => { document.documentElement.lang = s.lang; }, [s.lang]);
   useEffect(() => () => stopSpeak(), []);
 
-  const Screen = { consent: Consent, interview: Interview, testsIntro: TestsSoon, test: TestsSoon, testsDone: Result, result: Result, messages: Messages }[p.screen] || Home;
+  const Screen = {
+    consent: Consent,
+    interview: Interview,
+    testsIntro: TestsSoon,
+    test: TestsSoon,
+    testsDone: Result,
+    result: Result,
+    messages: Messages,
+    childParentQ: ChildParentQ,
+    childPractice: ChildPractice,
+    childTest: ChildTestRunner,
+    childReward: ChildReward,
+  }[p.screen] || Home;
   return (
     <>
       <Header />

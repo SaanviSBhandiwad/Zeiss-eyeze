@@ -101,6 +101,8 @@ export function nearAddFromCm(cm){
 
 export function computeResult(r){
  const a=r.answers||{},te=cleanTests(r.tests),age=+a.age||+r.age||0;
+ // CHILD MODE: age-normed triage for the children's check (ages 3–10). Adult logic below is unchanged.
+ if(r.isChild)return childResult(r);
  const hasProfile=a.work!==undefined;
  const z=zonesOf(a);
  let dom=null,dominant=null;
@@ -183,6 +185,40 @@ export function computeResult(r){
  if(a.cc==='strain'||a.cc==='irrit')tips.push('blink');
  tips.push('rub');
  return{dom,dominant,tri,reasons,flags,lens,why,coat,next,centre,tips:[...new Set(tips)].slice(0,6)};
+}
+
+/* CHILD MODE: triage for the children's check. VA levels index into VA (0 = 6/60 … 6 = 6/6, -1 = worse than the start level). */
+function childResult(r){
+ const band=r.childAge; // '3-5' or '6-10'
+ const te=cleanTests(r.tests);
+ const reasons=[],flags=[];
+ let tri='green';
+ const amber=s=>{if(tri!=='red')tri='amber';reasons.push(s)};
+ const red=s=>{tri='red';reasons.unshift(s)};
+ if(te.va){
+  // Age 3-5: normal is 6/18 or better (index 3); age 6-10: 6/12 or better (index 4)
+  const threshold=band==='3-5'?3:4;
+  if(te.va.R<threshold||te.va.L<threshold)amber('Visual acuity below age-normal in at least one eye (R '+vaStr(te.va.R)+', L '+vaStr(te.va.L)+')');
+  // 2 or more lines between eyes: possible amblyopia
+  if(Math.abs(te.va.R-te.va.L)>=2)red('Significant difference between eyes — possible amblyopia (lazy eye)');
+ }
+ if(te.amsler&&(te.amsler.R>0||te.amsler.L>0))amber('Amsler grid: distortion reported (R '+te.amsler.R+', L '+te.amsler.L+')');
+ const pa=r.answers||{};
+ if(pa.sq_squint==='yes')red('Parent reports squinting or head tilt');
+ if(pa.sq_turn==='yes')red('Parent reports eye turning in or out — possible strabismus');
+ if(pa.sq_tv==='yes')amber('Sits very close to screen');
+ if(pa.sq_family==='yes')flags.push('Family history of glasses');
+ const next=tri==='red'?'hospital':tri==='amber'?'camp':'store';
+ return{
+  tri,reasons,flags,
+  lens:tri==='red'?'defer':'sv_dist',
+  why:reasons.slice(0,2),
+  coat:[],dom:null,dominant:null,
+  next,
+  centre:next==='hospital'?'dist':next==='camp'?'camp':'netra',
+  tips:['r2020','sun','rub'], // existing TIPS keys: 20-20 breaks, outdoor time / sun, no eye rubbing
+  isChild:true,childAge:band,
+ };
 }
 
 /* The agreed pd shape {mm} carries no per-measurement confidence, so the portal shows a fixed value like the other tests. */

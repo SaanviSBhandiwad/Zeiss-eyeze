@@ -20,6 +20,13 @@ export function freshP() {
     text: '', heard: null, voiceAns: {}, listening: 'idle', modal: null, login: null, result: null, pid: null,
     profileId: null, status: null, reply: null, unread: false, info: {}, assisted: false, ackAt: 0, sentAt: null, autoPlayed: false,
     tests: {}, cur: null, ts: null,
+    // CHILD MODE
+    childAge: null,       // '3-5' or '6-10' (age band chosen at start)
+    childName: '',        // first name, used in encouragement messages
+    childTests: {},       // same shape as tests: {va:{R,L}, amsler:{R,L}}
+    parentAnswers: {},    // answers to parent questions (squint, tv distance, etc.)
+    practicePass: false,  // whether the child cleared the practice round
+    reward: 0,            // stars earned so far (shown between rounds)
   };
 }
 
@@ -86,7 +93,7 @@ export function startMode(m) {
   }
   // full / profile: always restart the interview from scratch
   setP({ mode: m, answers: {}, qhist: [], fired: {}, multiSel: null, pick: null, val: null, text: '', voiceAns: {}, result: null });
-  log('Started: ' + (m === 'full' ? 'full eye check' : 'talk with Drishti'));
+  log('Started: ' + ({ full: 'full eye check', profile: 'talk with Drishti', child: "children's check" }[m] || m));
   if (!P().consented) return go('consent');
   afterConsent();
 }
@@ -95,6 +102,7 @@ export function agree() {
   setP({ consented: true });
   log('Consent given by voice/tap');
   if (P().mode === 'tests') { go('testsIntro'); return; }
+  if (P().mode === 'child') { go('childParentQ'); return; } // CHILD MODE
   afterConsent();
 }
 
@@ -275,7 +283,7 @@ function applyVoice(q, val, heard, extra = {}) {
 /* ---------------- sending + login (only when sending) ---------------- */
 export async function openSend() {
   const p = P();
-  if (!p.result) finalize();
+  if (!p.result) { if (p.mode === 'child') finalizeChild(); else finalize(); } // CHILD MODE guard
   const token = await getToken('patient');
   if (token && p.info.name) return sendProfile();
   setP({ modal: 'login', login: { step: 'phone', phone: '', otp: '', name: p.info.name || '', village: p.info.village || '', demoCode: null, busy: false } });
@@ -328,7 +336,10 @@ export async function sendProfile() {
     if (!token) { setP({ info: { ...p.info, name: '' } }); return openSend(); }
     const r = await api('/profiles', {
       method: 'POST', token,
-      body: { pid, name: p.info.name, village: p.info.village, lang: s.lang, answers: p.answers, tests: p.tests, voiceAns: p.voiceAns, assisted: p.assisted },
+      body: p.mode === 'child'
+        // CHILD MODE: same queue, child answers/tests in the usual fields
+        ? { pid, name: p.info.name, village: p.info.village, lang: s.lang, answers: childAnswers(p), tests: p.childTests, voiceAns: {}, assisted: p.assisted, isChild: true, childAge: p.childAge, childName: p.childName }
+        : { pid, name: p.info.name, village: p.info.village, lang: s.lang, answers: p.answers, tests: p.tests, voiceAns: p.voiceAns, assisted: p.assisted },
     });
     setP({ status: 'sent', profileId: r.profile.id });
     toast(tt('sentToast'));
@@ -443,6 +454,86 @@ export function doneTest(id, result) {
 export function retakeTests() {
   setP({ tests: {}, cur: null, ts: null, result: null });
   go('testsIntro');
+}
+
+/* ---------------- CHILD MODE ---------------- */
+// Game-framed screening for ages 3–10. Uses the same VA sizes and 2-correct-per-level rule as the adult tests.
+const CHILD_TESTS = ['va', 'amsler'];
+const childAnswers = p => ({ ...p.parentAnswers, age: p.childAge === '3-5' ? 4 : 8 });
+let childTimer = null; // pending auto-advance from the reward screen
+
+export function startChildMode(ageBand, childName) {
+  // ageBand: '3-5' or '6-10'
+  setP({
+    mode: 'child', childAge: ageBand, childName: (childName || '').trim() || 'friend',
+    childTests: {}, parentAnswers: {}, practicePass: false, reward: 0, result: null, cur: null, ts: null,
+  });
+  log("Started: children's check (ages " + ageBand + ')');
+  if (!P().consented) return go('consent');
+  go('childParentQ'); // parent questions first
+}
+
+export function setParentAnswer(id, val) {
+  setP(p => ({ parentAnswers: { ...p.parentAnswers, [id]: val } }));
+}
+
+export function doneParentQ() {
+  go('childPractice'); // practice round before anything counts
+}
+
+export function passPractice() {
+  setP({ practicePass: true });
+  log('Child cleared the practice round');
+  openChildTest('va');
+}
+
+export function openChildTest(id) {
+  setP({ cur: id, ts: initChildTest(id) });
+  go('childTest');
+}
+
+function initChildTest(id) {
+  switch (id) {
+    case 'va':     return { eye: 'R', level: 2, trial: 0, dir: randDir(), best: -1 }; // start at 6/24, not 6/60
+    case 'amsler': return { eye: 'R', marks: [], R: 0 };
+    default:       return {};
+  }
+}
+
+function scheduleChild(fn) {
+  clearTimeout(childTimer);
+  childTimer = setTimeout(() => { childTimer = null; if (P().screen === 'childReward') fn(); }, 2000);
+}
+
+/** Next step after the reward screen: the next test, or the result. */
+function childAdvance() {
+  const next = CHILD_TESTS.find(k => !P().childTests[k]);
+  if (next) openChildTest(next); else finalizeChild();
+}
+
+/** Reward screen opened with no pending timer (e.g. after a page reload): schedule the advance. */
+export function resumeChild() { if (!childTimer) scheduleChild(childAdvance); }
+
+export function doneChildTest(id, result) {
+  const childTests = { ...P().childTests, [id]: result };
+  const stars = P().reward + 1;
+  setP({ childTests, reward: stars, cur: null, ts: null });
+  log('Child ' + id + ' done: R ' + result.R + ', L ' + result.L);
+  go('childReward'); // show a star between tests
+  scheduleChild(childAdvance);
+}
+
+function finalizeChild() {
+  const p = P();
+  const result = p.result || computeResult({
+    answers: childAnswers(p),
+    tests: p.childTests,
+    isChild: true,
+    childAge: p.childAge,
+  });
+  setP({ result, pid: p.pid || newPid() });
+  log("Children's report: triage " + TRI_EN[result.tri].toUpperCase(), result.tri === 'red' ? 'alert' : 'rule');
+  go('result');
 }
 
 /* ---------------- demo controls ---------------- */

@@ -161,6 +161,21 @@ startNew:['Start a check for a new person','नए व्यक्ति की 
 noVoice:['No {lang} voice on this device, so the text is shown. A full build uses Indian-language speech models.','इस डिवाइस पर {lang} आवाज़ नहीं है, इसलिए लिखा हुआ दिखाया गया है।','ಈ ಸಾಧನದಲ್ಲಿ {lang} ಧ್ವನಿ ಇಲ್ಲ, ಆದ್ದರಿಂದ ಪಠ್ಯ ತೋರಿಸಲಾಗಿದೆ.'],
 home:['Home','होम','ಮುಖಪುಟ'],
 speak:['Speak','बोलें','ಮಾತನಾಡಿ'],
+/* CHILD MODE — English for now; Hindi/Kannada to be translated */
+childMode:["Children's check","Children's check","Children's check"],
+childAgeQ:["How old is the child?","How old is the child?","How old is the child?"],
+childAge35:["3 – 5 years","3 – 5 years","3 – 5 years"],
+childAge610:["6 – 10 years","6 – 10 years","6 – 10 years"],
+childNameQ:["Child's first name (optional)","Child's first name (optional)","Child's first name (optional)"],
+childPracticeTitle:["Let's practise first!","Let's practise first!","Let's practise first!"],
+childPracticeSub:["This doesn't count — just getting used to the game.","This doesn't count — just getting used to the game.","This doesn't count — just getting used to the game."],
+coverLeft:["Cover the LEFT eye 🤚","Cover the LEFT eye 🤚","Cover the LEFT eye 🤚"],
+coverRight:["Cover the RIGHT eye 🤚","Cover the RIGHT eye 🤚","Cover the RIGHT eye 🤚"],
+whichWay:["Which way is the mouth open?","Which way is the mouth open?","Which way is the mouth open?"],
+childStar:["Amazing! {name} got a star! ⭐","Amazing! {name} got a star! ⭐","Amazing! {name} got a star! ⭐"],
+childDone:["All done! Great work! 🎉","All done! Great work! 🎉","All done! Great work! 🎉"],
+childReportTitle:["Vision check for {name}","Vision check for {name}","Vision check for {name}"],
+amblyopiaNote:["Important: a difference between eyes can usually be treated well at this age.","Important: a difference between eyes can usually be treated well at this age.","Important: a difference between eyes can usually be treated well at this age."],
 };
 export const READ_LINES=[
  ['The bus to the market leaves at seven in the morning.','बाज़ार जाने वाली बस सुबह सात बजे निकलती है।','ಮಾರುಕಟ್ಟೆಗೆ ಹೋಗುವ ಬಸ್ ಬೆಳಿಗ್ಗೆ ಏಳು ಗಂಟೆಗೆ ಹೊರಡುತ್ತದೆ.'],
