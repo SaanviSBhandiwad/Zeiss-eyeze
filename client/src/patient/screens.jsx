@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  QMAP, SCENE, SEC_COL, PAL, LENS, COAT, NEXT, CMAP, DOC, TIPS, TIP_IC, visibleQs, ansLabel, tx, replyText, testRows,
+  QMAP, SCENE, SEC_COL, PAL, VA, CHILD_VA_NORM, LENS, COAT, NEXT, CMAP, DOC, TIPS, TIP_IC, visibleQs, ansLabel, tx, replyText, testRows,
 } from '../shared/index.js';
 import { ICO } from '../lib/icons.js';
 import { Icon, Mascot, toast, ago, fmtDate, fmtTime } from '../lib/ui.jsx';
 import { useStore } from '../lib/store.js';
 import * as A from './state.js';
 import { TESTS, TEST_IC } from './tests/constants.js';
-import { ChildModeEntry } from './child/ChildScreens.jsx';
+import { ChildModeEntry, kidName } from './child/ChildScreens.jsx';
 import { AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial, NearPoint, PupilDistance, SetupCalibration, NearReading } from './tests/index.js';
 
 const { app, tt } = A;
@@ -351,6 +351,22 @@ export function TestRunner() {
 // Keep original export name so PatientApp.jsx import doesn't break
 export { TestRunner as TestsSoon };
 
+/* CHILD MODE: the parent-facing findings, in the patient's language. Same rules as the engine's child triage
+   (whose English reasons go to the optometrist). */
+function childFindings(p) {
+  const te = p.childTests || {}, pa = p.parentAnswers || {}, norm = CHILD_VA_NORM[p.childAge] ?? 4, out = [];
+  const va = te.va && Number.isFinite(te.va.R) && Number.isFinite(te.va.L) ? te.va : null;
+  const vs = i => (i < 0 ? '<6/60' : VA[i]);
+  if (va && Math.abs(va.R - va.L) >= 2) out.push(tt('kf_gap'));
+  if (va && (va.R < norm || va.L < norm)) out.push(tt('kf_low', { va: 'R ' + vs(va.R) + ', L ' + vs(va.L) }));
+  if (te.amsler && (te.amsler.R > 0 || te.amsler.L > 0)) out.push(tt('kf_amsler'));
+  if (pa.sq_squint === 'yes') out.push(tt('kf_squint'));
+  if (pa.sq_turn === 'yes') out.push(tt('kf_turn'));
+  if (pa.sq_tv === 'yes') out.push(tt('kf_tv'));
+  if (!out.length) out.push(tt('kf_okEyes'), tt('kf_okParent'));
+  return out;
+}
+
 /* ---------------- result ---------------- */
 export function Result() {
   const p = useP(), lang = useLang();
@@ -366,7 +382,7 @@ export function Result() {
     <div className="wrap">
       <div className="rep-h">
         <div>
-          <h1>{isChild ? tt('childReportTitle', { name: p.childName }) : tt('reportTitle')}</h1>
+          <h1>{isChild ? tt('childReportTitle', { name: kidName(p) }) : tt('reportTitle')}</h1>
           <div className="meta">{p.info.name ? p.info.name + ' · ' : ''}{isChild ? tt(p.childAge === '3-5' ? 'childAge35' : 'childAge610') + ' · ' : p.answers.age ? tt('yearsN', { n: p.answers.age }) + ' · ' : ''}{p.pid || ''} · {fmtDate(null, lang)}</div>
         </div>
         <div className="row">
@@ -376,13 +392,13 @@ export function Result() {
       </div>
       <div className={'signal ' + r.tri}>
         <div className="lights" aria-hidden="true"><i className={'r ' + (r.tri === 'red' ? 'on' : '')} /><i className={'a ' + (r.tri === 'amber' ? 'on' : '')} /><i className={'g ' + (r.tri === 'green' ? 'on' : '')} /></div>
-        <div><b>{tt('tri_' + r.tri)}</b><p>{isChild && r.tri === 'green' ? 'Vision looks normal for age. An optometrist will review the results.' : tt('triD_' + r.tri)}</p></div>
+        <div><b>{tt('tri_' + r.tri)}</b><p>{isChild && r.tri === 'green' ? tt('kNormalForAge') : tt('triD_' + r.tri)}</p></div>
       </div>
       {isChild && r.reasons.some(x => x.includes('amblyopia')) && <div className="instr"><Icon n="heart" /><span>{tt('amblyopiaNote')}</span></div>}
       <div className="rgrid">
         <div>
-          <section className="sec"><h2>{isChild ? 'What we found' : tt('howYou')}</h2>
-            {isChild ? <ul className="muted" style={{ margin: 0, paddingLeft: 18 }}>{(r.reasons.length ? r.reasons : ['Both eyes within the normal range for age', 'No concerns from the parent questions']).map(x => <li key={x}>{x}</li>)}</ul>
+          <section className="sec"><h2>{isChild ? tt('kFound') : tt('howYou')}</h2>
+            {isChild ? <ul className="muted" style={{ margin: 0, paddingLeft: 18 }}>{childFindings(p).map(x => <li key={x}>{x}</li>)}</ul>
             : r.dom ? <div className="use">{['near', 'mid', 'far'].map(z => (
               <div key={z} className={`c-${zc[z][0]} ${r.dominant === z ? 'dom' : ''}`}>
                 {r.dominant === z && <span className="star"><Icon n="star" c="s" /></span>}
@@ -409,8 +425,8 @@ export function Result() {
               </>
               : <p className="muted small">{tt('noTestsYet')}</p>}
             {isChild && <div className="row wr" style={{ marginTop: 10 }}>
-              <button className="btn o" onClick={A.retakeChild}><Icon n="eye" c="s" /> Play the eye game again</button>
-              <button className="lnk small" onClick={A.editParentAnswers}>Change parent answers</button>
+              <button className="btn o" onClick={A.retakeChild}><Icon n="eye" c="s" /> {tt('kRetake')}</button>
+              <button className="lnk small" onClick={A.editParentAnswers}>{tt('kEditPQ')}</button>
             </div>}
             {!isChild && <div style={{ marginTop: 10 }}>
               {Object.keys(p.tests || {}).length > 0

@@ -505,7 +505,7 @@ let childTimer = null; // pending auto-advance from the reward screen
 export function startChildMode(ageBand, childName) {
   // ageBand: '3-5' or '6-10'
   setP({
-    mode: 'child', childAge: ageBand, childName: (childName || '').trim() || 'friend',
+    mode: 'child', childAge: ageBand, childName: (childName || '').trim(), // empty = shown as 'friend' in the current language
     childTests: {}, parentAnswers: {}, practicePass: false, reward: 0, score: 0, hero: null, loot: [], result: null, cur: null, ts: null,
   });
   log("Started: children's check (ages " + ageBand + ')');

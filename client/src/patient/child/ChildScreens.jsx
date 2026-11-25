@@ -23,6 +23,8 @@ import { useKidDistance, TARGET_CM } from './useKidDistance.js';
 const { app, tt } = A;
 const useP = () => useStore(app, s => s.p);
 const useLang = () => useStore(app, s => s.lang);
+/** The child's name, or a friendly word in the current language when none was given. */
+export const kidName = p => (p.childName && p.childName !== 'friend' ? p.childName : tt('kFriend'));
 
 /* ---------------- game content ---------------- */
 const HEROES = [['🦖', 'Rex'], ['🤖', 'Bolt'], ['🦄', 'Sparkle'], ['🐱', 'Whiskers'], ['🐼', 'Bamboo'], ['🐸', 'Hopper']];
@@ -124,20 +126,16 @@ function EyeBanner({ eye }) {
 }
 
 /* ---------------- distance: "power zone" ---------------- */
-const ZONE_MSG = {
-  none: ['👀', 'Show your face to the power cam!'],
-  close: ['🐢', 'Too close! Step back a little'],
-  far: ['🐰', 'Hop a little closer!'],
-  ok: ['⚡', 'POWER ZONE! Stay right there'],
-};
+const ZONE = { none: ['👀', 'kZoneNone'], close: ['🐢', 'kZoneClose'], far: ['🐰', 'kZoneFar'], ok: ['⚡', 'kZoneOk'] };
+const zoneMsg = z => [ZONE[z][0], tt(ZONE[z][1])];
 
 function PowerCam({ d, hidden }) {
   const was = useRef(false);
   useEffect(() => { if (d.ok && !was.current && d.mode === 'camera') sfx.lock(); was.current = d.ok; }, [d.ok, d.mode]);
   const cm = d.mm ? Math.round(d.mm / 10) : null;
   const pos = cm == null ? null : Math.max(0, Math.min(100, ((cm - 20) / 40) * 100)); // 20 cm … 60 cm
-  const [emo, msg] = d.mode === 'manual' ? ['📏', `Hold the phone one forearm away (about ${TARGET_CM} cm)`]
-    : d.loading ? ['📷', 'Powering up the camera…'] : ZONE_MSG[d.zone];
+  const [emo, msg] = d.mode === 'manual' ? ['📏', tt('kZoneManual', { cm: TARGET_CM })]
+    : d.loading ? ['📷', tt('kCamStarting')] : zoneMsg(d.zone);
   return (
     // Always mounted (only hidden), so the camera stream stays attached to this <video> between screens.
     <div className={'kg-power ' + (d.mode === 'camera' && !d.loading ? (d.ok ? 'ok' : 'off') : '')} style={hidden ? { display: 'none' } : undefined}>
@@ -152,7 +150,7 @@ function PowerCam({ d, hidden }) {
             <i className="band" />{pos != null && <b style={{ left: pos + '%' }} />}<small>{cm ? cm + ' cm' : '—'}</small>
           </div>
         )}
-        {d.mode === 'camera' && <button className="lnk xs" onClick={d.playWithoutCamera}>Play without camera</button>}
+        {d.mode === 'camera' && <button className="lnk xs" onClick={d.playWithoutCamera}>{tt('kNoCam')}</button>}
       </div>
     </div>
   );
@@ -160,10 +158,10 @@ function PowerCam({ d, hidden }) {
 
 /* Replaces the test card while the child is out of range: no answer is ever taken at the wrong distance. */
 function Paused({ d }) {
-  const [emo, msg] = d.loading ? ['📷', 'Powering up…'] : ZONE_MSG[d.zone];
+  const [emo, msg] = d.loading ? ['📷', tt('kCamStarting')] : zoneMsg(d.zone);
   return (
     <div className="kid-paused" role="status">
-      <span className="kid-paused-emo">{emo}</span><b>{msg}</b><small>Game paused until you’re in the power zone</small>
+      <span className="kid-paused-emo">{emo}</span><b>{msg}</b><small>{tt('kPaused')}</small>
     </div>
   );
 }
@@ -209,8 +207,8 @@ function ChompArena({ dir, size, label, d, fb, food, onAns, cant, disabled }) {
         </div>
         {btn('down')}
       </div>
-      <p className="kg-hint">👆 Swipe {food} into the open mouth!</p>
-      {cant && <div className="center"><button className="kg-btn ghost" disabled={!live} onClick={() => onAns('cant')}>🙈 I can&apos;t see it</button></div>}
+      <p className="kg-hint">{tt('kSwipe', { food })}</p>
+      {cant && <div className="center"><button className="kg-btn ghost" disabled={!live} onClick={() => onAns('cant')}>{tt('kCant')}</button></div>}
     </>
   );
 }
@@ -221,11 +219,11 @@ function ChompFeedback({ fb }) {
     return (
       <div className="kg-fb">
         <span className="kg-fly" style={{ '--x': x * -120 + 'px', '--y': y * -120 + 'px' }}>{fb.food}</span>
-        <b className="kg-fb-big">CHOMP! 😋</b>
+        <b className="kg-fb-big">{tt('kChompHit')}</b>
       </div>
     );
   }
-  return <div className="kg-fb"><b className="kg-fb-big soft">💨 Whoosh!</b></div>;
+  return <div className="kg-fb"><b className="kg-fb-big soft">{tt('kWhoosh')}</b></div>;
 }
 
 /* ---------------- Egg Island (ages 3–5, LEA symbols) ----------------
@@ -239,7 +237,7 @@ function EggArena({ sym, size, label, d, fb, opts, onAns, cant, disabled }) {
           : fb ? <EggFeedback fb={fb} />
           : <>{label && <span className="lv">{label}</span>}<LeaSym k={sym} size={size} /></>}
       </div>
-      <p className="kg-hint">🥚 Tap the egg with the same picture!</p>
+      <p className="kg-hint">{tt('kEggTap')}</p>
       <div className="kg-eggs">
         {opts.map((k, i) => (
           <button key={k} className="kg-egg" style={{ '--c': EGG_COL[i % EGG_COL.length] }} aria-label={LEA_NAME[k]} disabled={!live} onClick={() => onAns(k)}>
@@ -247,14 +245,14 @@ function EggArena({ sym, size, label, d, fb, opts, onAns, cant, disabled }) {
           </button>
         ))}
       </div>
-      {cant && <div className="center"><button className="kg-btn ghost" disabled={!live} onClick={() => onAns('cant')}>🙈 I can&apos;t see it</button></div>}
+      {cant && <div className="center"><button className="kg-btn ghost" disabled={!live} onClick={() => onAns('cant')}>{tt('kCant')}</button></div>}
     </>
   );
 }
 
 function EggFeedback({ fb }) {
-  if (fb.kind === 'hit') return <div className="kg-fb"><span className="kg-hatch">{fb.creature}</span><b className="kg-fb-big">HATCHED!</b></div>;
-  return <div className="kg-fb"><b className="kg-fb-big soft">🫧 Pop!</b></div>;
+  if (fb.kind === 'hit') return <div className="kg-fb"><span className="kg-hatch">{fb.creature}</span><b className="kg-fb-big">{tt('kHatched')}</b></div>;
+  return <div className="kg-fb"><b className="kg-fb-big soft">{tt('kPop')}</b></div>;
 }
 
 /* ---------------- entry overlay (parent, from the home card) ---------------- */
@@ -271,18 +269,18 @@ export function ChildModeEntry({ onClose }) {
         </div>
         <span className="kid-float" style={{ fontSize: 64 }}>🎮</span>
         <h2 className="h2" id="kidt" style={{ marginTop: 6 }}>{tt('childMode')}</h2>
-        <p className="muted small">A 5-minute eye adventure game. Uses the phone’s front camera to check distance.</p>
+        <p className="muted small">{tt('kEntrySub')}</p>
         <label className="fld" style={{ textAlign: 'left', marginTop: 12 }}>
           <span>{tt('childNameQ')}</span>
-          <input className="kid-name" value={name} maxLength={40} placeholder="What's their name?" onChange={e => setName(e.target.value)} />
+          <input className="kid-name" value={name} maxLength={40} placeholder={tt('kNamePh')} onChange={e => setName(e.target.value)} />
         </label>
         <p style={{ marginTop: 16, fontWeight: 700 }}>{tt('childAgeQ')}</p>
         <div className="kid-age">
-          <button aria-pressed={band === '3-5'} onClick={() => { sfx.pick(); setBand('3-5'); }}><span>🥚</span>{tt('childAge35')}<small>Egg Island</small></button>
-          <button aria-pressed={band === '6-10'} onClick={() => { sfx.pick(); setBand('6-10'); }}><span>🦖</span>{tt('childAge610')}<small>Chomp Canyon</small></button>
+          <button aria-pressed={band === '3-5'} onClick={() => { sfx.pick(); setBand('3-5'); }}><span>🥚</span>{tt('childAge35')}<small>{tt('kEggIsland')}</small></button>
+          <button aria-pressed={band === '6-10'} onClick={() => { sfx.pick(); setBand('6-10'); }}><span>🦖</span>{tt('childAge610')}<small>{tt('kChomp')}</small></button>
         </div>
         <button className="btn p big w" style={{ marginTop: 18 }} disabled={!band} onClick={() => { onClose?.(); A.startChildMode(band, name); }}>
-          Let&apos;s go! <Icon n="fwd" />
+          {tt('kLetsGo')} <Icon n="fwd" />
         </button>
       </div>
     </div>
@@ -290,12 +288,14 @@ export function ChildModeEntry({ onClose }) {
 }
 
 /* ---------------- parent questions (unchanged content) ---------------- */
+// Question text is T['kQ_' + id]; answer labels are kYes / kNo / kSometimes / kUnsure.
 const PARENT_Q = [
-  { id: 'sq_tv', t: 'Does your child sit very close to the TV or screen?', o: [['yes', 'Yes'], ['no', 'No'], ['sometimes', 'Sometimes']] },
-  { id: 'sq_squint', t: 'Do they squint or tilt their head to see?', o: [['yes', 'Yes'], ['no', 'No'], ['sometimes', 'Sometimes']] },
-  { id: 'sq_turn', t: 'Has anyone noticed an eye turning in or out?', o: [['yes', 'Yes'], ['no', 'No'], ['unsure', 'Not sure']] },
-  { id: 'sq_family', t: 'Does anyone in the family wear glasses?', o: [['yes', 'Yes'], ['no', 'No'], ['unsure', 'Not sure']] },
+  { id: 'sq_tv', o: ['yes', 'no', 'sometimes'] },
+  { id: 'sq_squint', o: ['yes', 'no', 'sometimes'] },
+  { id: 'sq_turn', o: ['yes', 'no', 'unsure'] },
+  { id: 'sq_family', o: ['yes', 'no', 'unsure'] },
 ];
+const ANS_KEY = { yes: 'kYes', no: 'kNo', sometimes: 'kSometimes', unsure: 'kUnsure' };
 
 export function ChildParentQ() {
   const p = useP(); useLang();
@@ -307,14 +307,14 @@ export function ChildParentQ() {
       <div className="talk">
         <Mascot s={64} />
         <div className="bubble">
-          <div className="lead">Before we start — a few quick questions for you about {p.childName}.</div>
-          <h2>{q.t}</h2>
+          <div className="lead">{tt('kPQLead', { name: kidName(p) })}</div>
+          <h2>{tt('kQ_' + q.id)}</h2>
         </div>
       </div>
       <div className="tiles">
-        {q.o.map(([v, l], k) => (
+        {q.o.map((v, k) => (
           <button key={v} className="tile" aria-pressed={val === v} onClick={() => A.setParentAnswer(q.id, v)}>
-            <span className="tick"><Icon n="check" /></span><span className={'blob c-' + PAL[k % PAL.length]}><Icon n={v === 'yes' ? 'check' : v === 'no' ? 'x' : 'list'} /></span>{l}
+            <span className="tick"><Icon n="check" /></span><span className={'blob c-' + PAL[k % PAL.length]}><Icon n={v === 'yes' ? 'check' : v === 'no' ? 'x' : 'list'} /></span>{tt(ANS_KEY[v])}
           </button>
         ))}
       </div>
@@ -322,7 +322,7 @@ export function ChildParentQ() {
         {i > 0 ? <button className="btn" aria-label={tt('back')} onClick={() => setI(i - 1)}><Icon n="back" /></button> : <span style={{ width: 52 }} />}
         <span />
         {last
-          ? <button className="btn p" disabled={!val} onClick={A.doneParentQ}>Hand the phone to {p.childName} <Icon n="fwd" c="s" /></button>
+          ? <button className="btn p" disabled={!val} onClick={A.doneParentQ}>{tt('kHandOver', { name: kidName(p) })} <Icon n="fwd" c="s" /></button>
           : <button className="btn p" disabled={!val} onClick={() => setI(i + 1)}>{tt('next')} <Icon n="fwd" c="s" /></button>}
       </div>
     </div>
@@ -361,8 +361,8 @@ export function ChildPractice() {
     <Shell theme="sky">
       <PowerCam d={d} hidden={phase === 'hero'} />
       {phase === 'hero' ? <>
-        <div className="kg-title">CHOOSE YOUR HERO</div>
-        <p className="kg-sub">Hi {p.childName}! Who will go on the adventure?</p>
+        <div className="kg-title">{tt('kChooseHero')}</div>
+        <p className="kg-sub">{tt('kHeroSub', { name: kidName(p) })}</p>
         <div className="kg-heroes">
           {HEROES.map(([h, n]) => (
             <button key={h} className={'kg-hero ' + (p.hero === h ? 'on' : '')} onClick={() => { sfx.pick(); A.setHero(h); }}>
@@ -371,17 +371,17 @@ export function ChildPractice() {
           ))}
         </div>
         <div className="center" style={{ marginTop: 18 }}>
-          <button className="kg-btn go" disabled={!p.hero} onClick={() => { sfx.go(); setPhase('train'); }}>▶ PLAY</button>
+          <button className="kg-btn go" disabled={!p.hero} onClick={() => { sfx.go(); setPhase('train'); }}>{tt('kPlay')}</button>
         </div>
       </> : <>
-      <Hud title="🏕️ Training camp" beat={hits} fx={pops} />
+      <Hud title={'🏕️ ' + tt('kTraining')} beat={hits} fx={pops} />
       <div className="kg-quest">
-        <span>📜 QUEST</span>
-        {young ? 'Hatch 2 eggs to finish training!' : 'Feed the chomper 2 times!'}
+        <span>{tt('kQuest')}</span>
+        {tt(young ? 'kQuestEgg' : 'kQuestChomp')}
         <b>{hits}/2</b>
       </div>
       {won ? (
-        <div className="tcard kg-card kid-reward"><Confetti /><div className="kid-banner">TRAINING COMPLETE!</div></div>
+        <div className="tcard kg-card kid-reward"><Confetti /><div className="kid-banner">{tt('kTrainDone')}</div></div>
       ) : young
         ? <EggArena sym={target} size={110} d={d} fb={fb} opts={['house', 'circle', 'apple', 'star']} onAns={onAns} />
         : <ChompArena dir={target} size={80} d={d} fb={fb} food={food} onAns={onAns} />}
@@ -446,7 +446,7 @@ function ChildVA({ state, young, d, onDone }) {
     if (hit) {
       const s = streak + 1, coins = 10 * Math.min(s, 3);
       setStreak(s); setBeat(x => x + 1); A.addScore(coins);
-      pop(`+${coins} 🪙`); if (s >= 3) setTimeout(() => pop(`COMBO x${Math.min(s, 3)}!`, 'combo'), 150);
+      pop(`+${coins} 🪙`); if (s >= 3) setTimeout(() => pop(tt('kCombo', { n: Math.min(s, 3) }), 'combo'), 150);
       if (young) { const c = rnd(CREATURES); A.addLoot(c); sfx.hatch(); setFb({ kind: 'hit', creature: c }); }
       else { sfx.chomp(); setFb({ kind: 'hit', dir: a, food }); }
     } else { setStreak(0); sfx.whoosh(); setFb({ kind: 'miss' }); }
@@ -454,17 +454,17 @@ function ChildVA({ state, young, d, onDone }) {
     setTimeout(() => { setFb(null); setFood(rnd(FOODS)); judge(a); busy.current = false; }, FB_MS);
   }
 
-  const world = young ? '🥚 Egg Island' : '🦖 Chomp Canyon';
+  const world = young ? '🥚 ' + tt('kEggIsland') : '🦖 ' + tt('kChomp');
   return (
     <Shell theme={young ? 'island' : 'canyon'}>
       <Hud title={`${world} · ${eye === 'R' ? '1' : '2'}-${stage}`} beat={beat}
-        fx={<>{pops}{levelUp > 0 && <div key={levelUp} className="kid-levelup" aria-hidden="true">STAGE {stage}! ⬆️</div>}</>} />
+        fx={<>{pops}{levelUp > 0 && <div key={levelUp} className="kid-levelup" aria-hidden="true">{tt('kStage', { n: stage })}</div>}</>} />
       <PowerCam d={d} hidden={between} />
       {between ? (
         <div className="tcard kg-card kid-reward">
           <Confetti />
-          <div className="kid-banner">WORLD {eye === 'R' ? 1 : 2} CLEAR!</div>
-          <p className="kg-sub" style={{ color: '#333' }}>Switch hands — cover the other eye 🙈</p>
+          <div className="kid-banner">{tt('kWorldClear', { n: eye === 'R' ? 1 : 2 })}</div>
+          <p className="kg-sub" style={{ color: '#333' }}>{tt('kSwitchHands')}</p>
         </div>
       ) : <>
         <EyeBanner eye={eye} />
@@ -504,16 +504,16 @@ function ChildAmsler({ state, d, onDone }) {
   const staring = count > 0;
   return (
     <Shell theme="glitch">
-      <Hud title={`👾 Glitch Grid · ${eye === 'R' ? 1 : 2}`} fx={pops} />
+      <Hud title={`👾 ${tt('kGlitch')} · ${eye === 'R' ? 1 : 2}`} fx={pops} />
       <PowerCam d={d} hidden={between} />
       {between ? (
-        <div className="tcard kg-card kid-reward"><Confetti /><div className="kid-banner">GRID {eye === 'R' ? 1 : 2} SCANNED!</div><p className="kg-sub" style={{ color: '#333' }}>Now cover the other eye 🙈</p></div>
+        <div className="tcard kg-card kid-reward"><Confetti /><div className="kid-banner">{tt('kGridScanned', { n: eye === 'R' ? 1 : 2 })}</div><p className="kg-sub" style={{ color: '#333' }}>{tt('kOtherEye')}</p></div>
       ) : <>
         <EyeBanner eye={eye} />
         <div className={'kg-quest ' + (staring ? 'stare' : '')}>
           {staring
-            ? <><span>👁️ STARE CHALLENGE</span>Keep your eye on the black dot… <b className="kg-count">{count}</b></>
-            : <><span>🚩 FLAG IT</span>Still looking at the dot, tap any blocks that look wobbly, bent or missing.</>}
+            ? <><span>{tt('kStareTag')}</span>{tt('kStare')} <b className="kg-count">{count}</b></>
+            : <><span>{tt('kFlagTag')}</span>{tt('kFlag')}</>}
         </div>
         <div className="tcard kg-card">
           {!d.ok ? <Paused d={d} /> : (
@@ -523,8 +523,8 @@ function ChildAmsler({ state, d, onDone }) {
           )}
         </div>
         <div className="kg-choice">
-          <button className="kg-btn green" disabled={!d.ok || staring || marks.length > 0} onClick={() => finishEye(0)}>✅ All straight!</button>
-          <button className="kg-btn orange" disabled={!d.ok || staring || marks.length === 0} onClick={() => finishEye(marks.length)}>🚩 Done flagging</button>
+          <button className="kg-btn green" disabled={!d.ok || staring || marks.length > 0} onClick={() => finishEye(0)}>{tt('kAllStraight')}</button>
+          <button className="kg-btn orange" disabled={!d.ok || staring || marks.length === 0} onClick={() => finishEye(marks.length)}>{tt('kDoneFlag')}</button>
         </div>
       </>}
     </Shell>
@@ -554,7 +554,7 @@ export function ChildReward() {
   const young = p.childAge === '3-5';
   const done = CHILD_SEQ.filter(k => p.childTests?.[k]).length;
   const allDone = done === CHILD_SEQ.length;
-  const nodes = [['🏕️', 'Training'], young ? ['🥚', 'Egg Island'] : ['🦖', 'Chomp Canyon'], ['👾', 'Glitch Grid'], ['🎁', 'Treasure']];
+  const nodes = [['🏕️', tt('kTraining')], young ? ['🥚', tt('kEggIsland')] : ['🦖', tt('kChomp')], ['👾', tt('kGlitch')], ['🎁', tt('kTreasure')]];
   const [at, setAt] = useState(done);        // hero starts on the mission just finished…
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -567,7 +567,7 @@ export function ChildReward() {
   const pct = n => 13 + (n / (nodes.length - 1)) * 74;
   return (
     <Shell theme="sky">
-      <div className="kg-title">{allDone ? 'YOU BEAT THE GAME!' : 'MISSION COMPLETE!'}</div>
+      <div className="kg-title">{tt(allDone ? 'kBeatGame' : 'kMissionDone')}</div>
       <div className="kg-map">
         <div className="kg-path" />
         {nodes.map(([e, n], i) => (
@@ -581,8 +581,8 @@ export function ChildReward() {
         <div className="kg-chest-wrap">
           {open && <Confetti n={70} />}
           <span className={'kg-chest ' + (open ? 'open' : '')}>{open ? '🏆' : '🎁'}</span>
-          {open && <div className="kg-badge">🦅 EAGLE EYE BADGE</div>}
-          <h2 className="kg-sub big">{tt('childStar', { name: p.childName || 'friend' })}</h2>
+          {open && <div className="kg-badge">{tt('kBadge')}</div>}
+          <h2 className="kg-sub big">{tt('childStar', { name: kidName(p) })}</h2>
           <div className="kg-loot">
             <span className="kg-coin big">🪙 {p.score || 0}</span>
             {young && (p.loot || []).length > 0 && <span className="kg-zoo">{(p.loot || []).slice(-8).join(' ')}</span>}
@@ -591,9 +591,9 @@ export function ChildReward() {
       ) : (
         <div className="center" style={{ marginTop: 10 }}>
           <span className="kid-star" aria-hidden="true">⭐</span>
-          <h2 className="kg-sub big">{tt('childStar', { name: p.childName || 'friend' })}</h2>
+          <h2 className="kg-sub big">{tt('childStar', { name: kidName(p) })}</h2>
           <span className="kg-coin big">🪙 {p.score || 0}</span>
-          <p className="kg-sub">Next up: {nodes[done + 1][1]} {nodes[done + 1][0]}</p>
+          <p className="kg-sub">{tt('kNextUp', { x: nodes[done + 1][1] + ' ' + nodes[done + 1][0] })}</p>
         </div>
       )}
     </Shell>
