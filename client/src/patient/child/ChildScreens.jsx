@@ -18,13 +18,35 @@ import * as A from '../state.js';
 import { VA, VA_PX } from '../tests/constants.js';
 import { LandoltRing, randDir } from '../tests/utils.jsx';
 import { sfx } from './sfx.js';
+import { voiceState } from '../../lib/voice.js';
 import { useKidDistance, TARGET_CM } from './useKidDistance.js';
 
 const { app, tt } = A;
 const useP = () => useStore(app, s => s.p);
 const useLang = () => useStore(app, s => s.lang);
+/* ---------------- Drishti's voice ----------------
+   Says `text` once per `key`, in the current language, as soon as `ready` is true (e.g. only once the child is
+   at the right distance). Uses the app's normal voice (Sarvam when configured, else the browser) and the
+   header speaker button mutes it. Taps are never narrated; the sound effects cover those. */
+function useSay(key, text, ready = true) {
+  const lang = useLang(), on = useStore(app, s => s.voiceOn);
+  const said = useRef(null);
+  useEffect(() => {
+    if (!key || !text || !ready || !on) return;
+    const k = key + '|' + lang;
+    if (said.current === k) return;
+    said.current = k;
+    A.say(text);
+  }, [key, ready, lang, on]); // eslint-disable-line react-hooks/exhaustive-deps
+}
+/** Without the camera, every instruction starts with the distance reminder. */
+const distHint = d => (d.mode === 'manual' ? tt('kZoneManual', { cm: TARGET_CM }) + ' ' : '');
+
 /** The child's name, or a friendly word in the current language when none was given. */
-export const kidName = p => (p.childName && p.childName !== 'friend' ? p.childName : tt('kFriend'));
+export const hasName = p => !!p.childName && p.childName !== 'friend';
+export const kidName = p => (hasName(p) ? p.childName : tt('kFriend'));
+/** Use `key` with the name, or `anonKey` (worded for no name) when the parent skipped it. */
+export const named = (p, key, anonKey, vars = {}) => (hasName(p) ? tt(key, { ...vars, name: p.childName }) : tt(anonKey, vars));
 
 /* ---------------- game content ---------------- */
 const HEROES = [['🦖', 'Rex'], ['🤖', 'Bolt'], ['🦄', 'Sparkle'], ['🐱', 'Whiskers'], ['🐼', 'Bamboo'], ['🐸', 'Hopper']];
@@ -132,6 +154,18 @@ const zoneMsg = z => [ZONE[z][0], tt(ZONE[z][1])];
 function PowerCam({ d, hidden }) {
   const was = useRef(false);
   useEffect(() => { if (d.ok && !was.current && d.mode === 'camera') sfx.lock(); was.current = d.ok; }, [d.ok, d.mode]);
+  // Voice coaching while out of range. Getting back in range only plays the lock chime, so it never talks over
+  // the game instruction that starts at that moment.
+  const zoneKey = hidden || d.mode !== 'camera' || d.loading || d.ok ? null : d.zone;
+  const [held, setHeld] = useState(null);
+  useEffect(() => { const t = setTimeout(() => setHeld(zoneKey), 700); return () => clearTimeout(t); }, [zoneKey]);
+  const lastZone = useRef(null);
+  const voiceOn = useStore(app, s => s.voiceOn);
+  useEffect(() => {
+    if (held === lastZone.current) return;
+    lastZone.current = held;
+    if (held && voiceOn) A.say(tt(ZONE[held][1]));
+  }, [held, voiceOn]);
   const cm = d.mm ? Math.round(d.mm / 10) : null;
   const pos = cm == null ? null : Math.max(0, Math.min(100, ((cm - 20) / 40) * 100)); // 20 cm … 60 cm
   const [emo, msg] = d.mode === 'manual' ? ['📏', tt('kZoneManual', { cm: TARGET_CM })]
@@ -301,14 +335,17 @@ export function ChildParentQ() {
   const p = useP(); useLang();
   const [i, setI] = useState(0);
   const q = PARENT_Q[i], val = p.parentAnswers[q.id], last = i === PARENT_Q.length - 1;
+  const spoken = (i === 0 ? named(p, 'kPQLead', 'kPQLeadAnon') + ' ' : '') + tt('kQ_' + q.id);
+  useSay('pq' + i, spoken);
   return (
     <div className="wrap n">
       <div className="kid-dots" aria-label={`Question ${i + 1} of ${PARENT_Q.length}`}>{PARENT_Q.map((x, k) => <i key={x.id} className={k <= i ? 'on' : ''} />)}</div>
       <div className="talk">
         <Mascot s={64} />
         <div className="bubble">
-          <div className="lead">{tt('kPQLead', { name: kidName(p) })}</div>
+          <div className="lead">{named(p, 'kPQLead', 'kPQLeadAnon')}</div>
           <h2>{tt('kQ_' + q.id)}</h2>
+          <button className="spk" aria-label={tt('listen')} onClick={() => A.say(spoken)}><Icon n="spk" /></button>
         </div>
       </div>
       <div className="tiles">
@@ -322,7 +359,7 @@ export function ChildParentQ() {
         {i > 0 ? <button className="btn" aria-label={tt('back')} onClick={() => setI(i - 1)}><Icon n="back" /></button> : <span style={{ width: 52 }} />}
         <span />
         {last
-          ? <button className="btn p" disabled={!val} onClick={A.doneParentQ}>{tt('kHandOver', { name: kidName(p) })} <Icon n="fwd" c="s" /></button>
+          ? <button className="btn p" disabled={!val} onClick={A.doneParentQ}>{named(p, 'kHandOver', 'kHandOverAnon')} <Icon n="fwd" c="s" /></button>
           : <button className="btn p" disabled={!val} onClick={() => setI(i + 1)}>{tt('next')} <Icon n="fwd" c="s" /></button>}
       </div>
     </div>
@@ -355,6 +392,10 @@ export function ChildPractice() {
       setTarget(young ? pick(['house', 'circle', 'apple'], target) : randDir(target));
     }, FB_MS);
   };
+
+  useSay('hero', tt('ks_hero', { name: kidName(p) }), phase === 'hero');
+  useSay('train', distHint(d) + tt(young ? 'ks_trainEgg' : 'ks_trainChomp'), phase === 'train' && d.ok && !won);
+  useSay('won', tt('ks_trainDone'), won);
 
   // PowerCam keeps the same place in the tree in both phases, so its <video> (and the camera stream) survives.
   return (
@@ -455,6 +496,9 @@ function ChildVA({ state, young, d, onDone }) {
   }
 
   const world = young ? '🥚 ' + tt('kEggIsland') : '🦖 ' + tt('kChomp');
+  useSay('va-' + eye, distHint(d) + tt(eye === 'R' ? 'ks_coverL' : 'ks_coverR') + ' ' + tt(young ? 'ks_vaEgg' : 'ks_vaChomp'), !between && d.ok);
+  useSay('va-between', tt('ks_worldClear', { n: 1 }), between);
+  useSay('stage-' + eye + stage, tt('ks_stage', { n: stage }), stage > 1 && !between && d.ok);
   return (
     <Shell theme={young ? 'island' : 'canyon'}>
       <Hud title={`${world} · ${eye === 'R' ? '1' : '2'}-${stage}`} beat={beat}
@@ -485,13 +529,18 @@ function ChildAmsler({ state, d, onDone }) {
   const [between, setBetween] = useState(false);
   const [count, setCount] = useState(3);
   const [pops, pop] = usePops();
+  const speaking = useStore(voiceState, s => s.speaking);
+  const staring = count > 0;
+  useSay('am-stare-' + eye, distHint(d) + tt(eye === 'R' ? 'ks_coverL' : 'ks_coverR') + ' ' + tt('ks_stare'), !between && staring && d.ok);
+  useSay('am-flag-' + eye, tt('ks_flag'), !between && !staring && d.ok);
+  useSay('am-between', tt('ks_gridDone', { n: 1 }), between);
 
-  // Countdown only runs while the child is in the power zone.
+  // Countdown only runs while the child is in the power zone, and starts once Drishti has finished talking.
   useEffect(() => {
-    if (between || count <= 0 || !d.ok) return undefined;
+    if (between || count <= 0 || !d.ok || speaking) return undefined;
     const t = setTimeout(() => { setCount(c => c - 1); if (count === 1) sfx.go(); else sfx.tick(); }, 900);
     return () => clearTimeout(t);
-  }, [count, between, d.ok]);
+  }, [count, between, d.ok, speaking]);
 
   const toggle = i => { sfx.boop(); setMarks(m => (m.includes(i) ? m.filter(x => x !== i) : [...m, i])); };
   function finishEye(n) {
@@ -501,7 +550,6 @@ function ChildAmsler({ state, d, onDone }) {
       setTimeout(() => { setEye('L'); setMarks([]); setCount(3); setBetween(false); }, 2200);
     } else onDone({ R: rCount, L: n, ...dist(d) });
   }
-  const staring = count > 0;
   return (
     <Shell theme="glitch">
       <Hud title={`👾 ${tt('kGlitch')} · ${eye === 'R' ? 1 : 2}`} fx={pops} />
@@ -565,6 +613,7 @@ export function ChildReward() {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const pct = n => 13 + (n / (nodes.length - 1)) * 74;
+  useSay('reward-' + done, allDone ? tt('ks_beat', { name: kidName(p) }) : tt('ks_mission', { x: nodes[done + 1][1] }));
   return (
     <Shell theme="sky">
       <div className="kg-title">{tt(allDone ? 'kBeatGame' : 'kMissionDone')}</div>
@@ -582,7 +631,7 @@ export function ChildReward() {
           {open && <Confetti n={70} />}
           <span className={'kg-chest ' + (open ? 'open' : '')}>{open ? '🏆' : '🎁'}</span>
           {open && <div className="kg-badge">{tt('kBadge')}</div>}
-          <h2 className="kg-sub big">{tt('childStar', { name: kidName(p) })}</h2>
+          <h2 className="kg-sub big">{named(p, 'childStar', 'kStarAnon')}</h2>
           <div className="kg-loot">
             <span className="kg-coin big">🪙 {p.score || 0}</span>
             {young && (p.loot || []).length > 0 && <span className="kg-zoo">{(p.loot || []).slice(-8).join(' ')}</span>}
@@ -591,7 +640,7 @@ export function ChildReward() {
       ) : (
         <div className="center" style={{ marginTop: 10 }}>
           <span className="kid-star" aria-hidden="true">⭐</span>
-          <h2 className="kg-sub big">{tt('childStar', { name: kidName(p) })}</h2>
+          <h2 className="kg-sub big">{named(p, 'childStar', 'kStarAnon')}</h2>
           <span className="kg-coin big">🪙 {p.score || 0}</span>
           <p className="kg-sub">{tt('kNextUp', { x: nodes[done + 1][1] + ' ' + nodes[done + 1][0] })}</p>
         </div>

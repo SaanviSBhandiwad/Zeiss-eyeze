@@ -7,7 +7,7 @@ import { Icon, Mascot, toast, ago, fmtDate, fmtTime } from '../lib/ui.jsx';
 import { useStore } from '../lib/store.js';
 import * as A from './state.js';
 import { TESTS, TEST_IC } from './tests/constants.js';
-import { ChildModeEntry, kidName } from './child/ChildScreens.jsx';
+import { ChildModeEntry, named } from './child/ChildScreens.jsx';
 import { AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial, NearPoint, PupilDistance, SetupCalibration, NearReading } from './tests/index.js';
 
 const { app, tt } = A;
@@ -382,7 +382,7 @@ export function Result() {
     <div className="wrap">
       <div className="rep-h">
         <div>
-          <h1>{isChild ? tt('childReportTitle', { name: kidName(p) }) : tt('reportTitle')}</h1>
+          <h1>{isChild ? named(p, 'childReportTitle', 'kReportAnon') : tt('reportTitle')}</h1>
           <div className="meta">{p.info.name ? p.info.name + ' · ' : ''}{isChild ? tt(p.childAge === '3-5' ? 'childAge35' : 'childAge610') + ' · ' : p.answers.age ? tt('yearsN', { n: p.answers.age }) + ' · ' : ''}{p.pid || ''} · {fmtDate(null, lang)}</div>
         </div>
         <div className="row">

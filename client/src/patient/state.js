@@ -449,6 +449,10 @@ export function speakKey(s) {
     case 'testsIntro': return ['ti', t('testsSoon', s.lang)];
     case 'result': {
       const r = p.result; if (!r || p.status) return null;
+      if (r.isChild) { // CHILD MODE: no "you likely need glasses" for a child with normal vision
+        const gap = r.reasons.some(x => x.includes('amblyopia'));
+        return ['res', (r.tri === 'green' ? t('kNormalForAge', s.lang) : t('triD_' + r.tri, s.lang)) + (gap ? ' ' + t('amblyopiaNote', s.lang) : '')];
+      }
       return ['res', (r.dominant ? t('mostly', s.lang, { z: t('za_' + r.dominant, s.lang) }) + ' ' : '') + t('triD_' + r.tri, s.lang)];
     }
   }
