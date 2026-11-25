@@ -92,7 +92,7 @@ function Queue({ list }) {
           return (
             <tr key={r.id} className={'rw ' + (isNew ? 'live' : '')} tabIndex={0} onClick={() => open(r.id)} onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), open(r.id))}>
               <td><span className={'tri ' + res.tri}>{TRI_EN[res.tri]}</span></td>
-              <td className="nm"><b>{r.name}{isNew && <span className="newtag">NEW</span>}</b><span>{r.pid || ''} · {r.age}{r.gender === 'female' ? ' F' : r.gender === 'male' ? ' M' : ''}{r.assisted ? ' · assisted' : ''}</span></td>
+              <td className="nm"><b>{r.name}{isNew && <span className="newtag">NEW</span>}</b><span>{r.pid || ''} · {r.age}{r.gender === 'female' ? ' F' : r.gender === 'male' ? ' M' : ''}{r.assisted ? ' · assisted' : ''}{r.answers?.channel === 'whatsapp' ? ' · WhatsApp' : ''}</span></td>
               <td>{r.village || '—'}</td>
               <td>{LANGS[r.lang]?.name}</td>
               <td>{res.dominant ? ZN[res.dominant] + ' ' + res.dom[res.dominant] + '%' : '—'}</td>
@@ -175,7 +175,7 @@ function Detail({ list, reload }) {
     <button className="lnk" onClick={() => nav('/optometrist')}><Icon n="back" c="s" /> Patient queue</button>
     <div className="rep-h" style={{ marginTop: 12 }}>
       <div><h1 style={{ fontSize: 30 }}>{r.name}</h1>
-        <div className="meta">{r.pid || ''} · {r.age} years · {r.village || '—'} · {LANGS[r.lang].name} · {r.phone || ''} · received {ago(r.ts)}{r.assisted ? ' · ' + r.assisted : ''}</div></div>
+        <div className="meta">{r.pid || ''} · {r.age} years · {r.village || '—'} · {LANGS[r.lang].name} · {r.phone || ''} · received {ago(r.ts)}{r.assisted ? ' · ' + r.assisted : ''}{r.answers?.channel === 'whatsapp' ? ' · via WhatsApp (reply is sent there)' : ''}</div></div>
       <span className={'tri ' + res.tri} style={{ fontSize: 16, padding: '7px 16px' }}>{TRI_EN[res.tri]}</span>
     </div>
     <div className="pgrid">

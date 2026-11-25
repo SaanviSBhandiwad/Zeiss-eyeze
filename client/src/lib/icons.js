@@ -1,5 +1,6 @@
 // Icon path data from the prototype.
 export const ICO={
+ whatsapp:'<path d="M3.5 20.5l1.3-4.3A8.6 8.6 0 1 1 7.9 19.3z"/><path d="M9.2 8.2c-.3 2.9 3.2 6.6 6.3 6.6l1-1.3-1.9-1.2-.9.8c-1-.4-2.3-1.6-2.7-2.6l.8-.9-1.1-1.9z"/>',
  sprout:'<path d="M12 21v-9"/><path d="M12 12c0-4.4 3-7.5 7.5-7.5 0 4.4-3 7.5-7.5 7.5z"/><path d="M12 14.5c0-3.3-2.6-5.8-6.5-5.8 0 3.6 2.6 5.8 6.5 5.8z"/><path d="M6 21h12"/>',
  store:'<path d="M3 9l1.6-5h14.8L21 9"/><path d="M3 9h18v1.5a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M5 13.5V21h14v-7.5M10 21v-5h4v5"/>',
  monitor:'<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/>',

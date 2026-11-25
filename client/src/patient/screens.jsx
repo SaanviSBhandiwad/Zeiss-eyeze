@@ -8,6 +8,7 @@ import { useStore } from '../lib/store.js';
 import * as A from './state.js';
 import { TESTS, TEST_IC } from './tests/constants.js';
 import { ChildModeEntry, named } from './child/ChildScreens.jsx';
+import { useWhatsApp } from './whatsapp.js';
 import { AcuityRings, ContrastTest, ColourPlates, AmslerGrid, AstigmatismDial, NearPoint, PupilDistance, SetupCalibration, NearReading } from './tests/index.js';
 
 const { app, tt } = A;
@@ -18,6 +19,7 @@ const useLang = () => useStore(app, s => s.lang);
 export function Home() {
   useLang();
   const [showChildEntry, setShowChildEntry] = useState(false);
+  const wa = useWhatsApp();
   const signedIn = useStore(app, s => s.signedIn), mine = useStore(app, s => s.mine);
   const name = mine?.[0]?.name;
   const how = [['mic', 'teal'], ['list', 'indigo'], ['eye', 'gold'], ['file', 'sky'], ['users', 'coral']];
@@ -72,6 +74,11 @@ export function Home() {
         </button>
       </div>
       {showChildEntry && <ChildModeEntry onClose={() => setShowChildEntry(false)} />}
+      {wa && <a className="wa-home" href={wa.href} target="_blank" rel="noopener noreferrer">
+        <span className="wa-ic"><Icon n="whatsapp" /></span>
+        <span><b>{tt('waChat')}</b><small>{tt('waHome')}{wa.sandbox ? ' ' + tt('waJoinHint') : ''}</small></span>
+        <Icon n="fwd" c="s" />
+      </a>}
       <div className="how">{how.map(([i, c], k) => <div key={i}><span className={'ico c-' + c}><Icon n={i} /></span><b>{tt('hw' + (k + 1))}</b><span>{tt('hs' + (k + 1))}</span></div>)}</div>
       <p className="foot">{tt('disclaimer')}<br /><a href="/optometrist">{tt('optLogin')}</a></p>
     </div>

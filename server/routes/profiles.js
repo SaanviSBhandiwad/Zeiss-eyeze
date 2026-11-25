@@ -1,20 +1,21 @@
 import { Router } from 'express';
 import {
-  QMAP, LENS, COAT, NEXT, CMAP, LANGS, TRI_RANK, ST_RANK, computeResult, replyText, t, CHILD_BANDS, CHILD_Q,
+  QMAP, LENS, COAT, NEXT, CMAP, LANGS, TRI_RANK, ST_RANK, computeResult, replyText, t, CHILD_BANDS, CHILD_Q, CHANNEL_WHATSAPP,
 } from '../../client/src/shared/index.js';
 import { requireAuth } from '../services/auth.js';
 import { store } from '../services/store.js';
 import { translate, textToSpeech } from '../services/sarvam.js';
 import { useSarvam } from '../config.js';
 import { putObject, readUrl, safeKey } from '../services/s3.js';
+import { sendWhatsAppReply } from '../services/whatsapp.js';
 
 export const profilesRouter = Router();
 
 const str = (v, n = 120) => String(v ?? '').trim().slice(0, n);
 const isLang = l => Object.hasOwn(LANGS, l);
 
-/** Keep only known question ids with sensibly typed values. */
-function cleanAnswers(a) {
+/** Keep only known question ids with sensibly typed values. `channel` is set by the server only (never from the app). */
+export function cleanAnswers(a, { channel } = {}) {
   const out = {};
   if (!a || typeof a !== 'object') return out;
   for (const [k, v] of Object.entries(a)) {
@@ -30,6 +31,7 @@ function cleanAnswers(a) {
     out.childAge = a.childAge;
     for (const [k, ok] of Object.entries(CHILD_Q)) if (ok.includes(a[k])) out[k] = a[k];
   }
+  if (channel === CHANNEL_WHATSAPP) out.channel = channel;
   return out;
 }
 
@@ -130,6 +132,11 @@ profilesRouter.post('/:id/reply', requireAuth('optometrist'), async (req, res, n
       } catch (e) { warnings.push('Voice message failed: ' + e.message); audioKey = null; }
     }
     await store.addReply(p.id, { ...rep, notesTranslated, text, audioKey }, req.user.id);
+    // WhatsApp patients: also send the reply on WhatsApp (text + voice note, via the bot).
+    if (p.answers?.channel === CHANNEL_WHATSAPP) {
+      const wa = await sendWhatsAppReply(p, text);
+      if (!wa.ok) warnings.push('WhatsApp: ' + wa.error);
+    }
     res.json({ profile: await store.getProfile(p.id), warnings });
   } catch (e) { next(e); }
 });

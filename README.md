@@ -132,3 +132,10 @@ Set the secret environment variables in the Render dashboard. Set `CLIENT_ORIGIN
 - `client/src/shared/engine.js`: `computeResult` (dominance, triage, lens suggestion, tips), lens and next-step vocabulary, referral centres.
 - `client/src/shared/i18n.js`: all English, Hindi and Kannada text.
 - `client/src/shared/seed.js`: mock patients and the guided-demo persona.
+
+## WhatsApp bot
+
+`whatsapp/` is a separate Node service (Twilio WhatsApp + Google speech): patients answer the eye questions by chat
+or voice notes in English, Hindi or Kannada. Finished chats go into the same optometrist queue (tagged WhatsApp,
+same triage), and portal replies go back on WhatsApp. The app shows a "Chat on WhatsApp" button once
+`WHATSAPP_NUMBER` is set on the API. Setup: `whatsapp/README.md`.

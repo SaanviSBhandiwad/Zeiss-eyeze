@@ -41,6 +41,18 @@ export const config = {
     redirectUri: env.GOOGLE_REDIRECT_URI || '',
   },
 
+  /** WhatsApp bot (whatsapp/ folder, its own service). All optional. */
+  whatsapp: {
+    /** Shared secret: the bot sends finished profiles with it, and this server forwards replies with it. */
+    bridgeKey: env.WHATSAPP_BRIDGE_KEY || '',
+    /** The bot's public URL, e.g. https://eyeze-whatsapp.onrender.com (for sending portal replies on WhatsApp). */
+    botUrl: (env.WHATSAPP_BOT_URL || '').replace(/\/$/, ''),
+    /** The WhatsApp number patients message, e.g. +14155238886 (Twilio sandbox). Shows the WhatsApp button. */
+    number: (env.WHATSAPP_NUMBER || '').replace(/[^\d+]/g, ''),
+    /** Twilio sandbox only: the "join <two-words>" code, pre-filled so the first message joins the sandbox. */
+    joinCode: (env.WHATSAPP_JOIN_CODE || '').trim(),
+  },
+
   demo: {
     /** Signs demo-mode tokens and local audio URLs. Random per boot if unset. */
     secret: env.DEMO_SECRET || crypto.randomBytes(32).toString('hex'),
@@ -53,4 +65,5 @@ export const useSupabase = !!(config.supabase.url && config.supabase.serviceKey)
 export const useSarvam = !!config.sarvam.key;
 export const useS3 = !!config.aws.bucket;
 export const useGoogle = !!(config.google.clientId && config.google.clientSecret && config.google.redirectUri);
+export const useWhatsApp = !!config.whatsapp.bridgeKey;
 export const mode = useSupabase ? 'supabase' : 'demo';

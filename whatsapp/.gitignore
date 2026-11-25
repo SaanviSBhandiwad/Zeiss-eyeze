@@ -1,0 +1,7 @@
+node_modules
+.env
+# runtime data: chat sessions, finished profiles (personal data) and the TTS audio cache
+data/
+# Google service-account key: never commit it
+google-credentials.json
+*-credentials.json

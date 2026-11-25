@@ -9,6 +9,7 @@ import * as A from './state.js';
 import { Home, Consent, Interview, TestsSoon, Result, Messages,
          ChildParentQ, ChildPractice, ChildTestRunner, ChildReward } from './screens.jsx';
 import { MyReports } from './MyReports.jsx';
+import { useWhatsApp } from './whatsapp.js';
 
 const { app, tt } = A;
 
@@ -16,6 +17,7 @@ function Header() {
   const lang = useStore(app, s => s.lang), voiceOn = useStore(app, s => s.voiceOn), off = useStore(app, s => s.simOffline);
   const p = useStore(app, s => s.p);
   const signedIn = useStore(app, s => s.signedIn);
+  const wa = useWhatsApp();
   return (
     <header className="hdr"><div className="hdr-in">
       <button className="logo" onClick={A.goHome}><img src="/logo.png" alt="Eyeze" style={{ height: 38, width: 'auto' }} /></button>
@@ -27,6 +29,7 @@ function Header() {
         {signedIn && <button className="ib" aria-label={tt('myReports')} title={tt('myReports')} onClick={A.openMyReports}><Icon n="list" /></button>}
         {p.result && <button className="ib" aria-label={tt('myReport')} title={tt('myReport')} onClick={() => A.go('result')}><Icon n="file" /></button>}
         {(p.reply || p.invite) && <button className="ib" aria-label={tt('messages')} onClick={() => { A.setP({ unread: false }); A.go('messages'); }}><Icon n="bell" />{p.unread && <span className="dot" />}</button>}
+        {wa && <a className="ib wa" href={wa.href} target="_blank" rel="noopener noreferrer" aria-label={tt('waChat')} title={tt('waChat')}><Icon n="whatsapp" /></a>}
         <Link className="optl" to="/optometrist" title={tt('optLogin')} aria-label={tt('optLogin')}><Icon n="lock" c="s" /><span>{tt('optShort')}</span></Link>
         <button className="ib" aria-label={'Voice ' + (voiceOn ? 'on' : 'off')} onClick={() => { app.set({ voiceOn: !voiceOn }); if (voiceOn) stopSpeak(); }}><Icon n={voiceOn ? 'spk' : 'mute'} /></button>
       </div>

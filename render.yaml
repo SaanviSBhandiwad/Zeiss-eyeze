@@ -38,6 +38,15 @@ services:
         sync: false
       - key: DEMO_SECRET
         generateValue: true
+      # WhatsApp bot bridge (see whatsapp/README.md). The key is shared with eyeze-whatsapp automatically.
+      - key: WHATSAPP_BRIDGE_KEY
+        generateValue: true
+      - key: WHATSAPP_BOT_URL       # https://eyeze-whatsapp.onrender.com
+        sync: false
+      - key: WHATSAPP_NUMBER        # number patients message, e.g. +14155238886 (Twilio sandbox)
+        sync: false
+      - key: WHATSAPP_JOIN_CODE     # Twilio sandbox only: the two words after "join"
+        sync: false
 
   - type: web
     name: eyeze
@@ -51,3 +60,36 @@ services:
       - type: rewrite            # React Router: /optometrist etc. serve index.html
         source: /*
         destination: /index.html
+
+  # WhatsApp bot: Twilio webhook (POST /whatsapp) + Google speech. Finished chats go to eyeze-api's queue.
+  - type: web
+    name: eyeze-whatsapp
+    runtime: node
+    region: singapore
+    plan: free
+    rootDir: whatsapp
+    buildCommand: npm ci
+    startCommand: node src/server.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM   # whatsapp:+14155238886 for the sandbox
+        sync: false
+      - key: VALIDATE_TWILIO        # only accept requests signed by Twilio
+        value: "true"
+      - key: OPTOMETRIST_API_KEY
+        generateValue: true
+      - key: EYEZE_API_URL          # https://eyeze-api.onrender.com
+        sync: false
+      - key: WHATSAPP_BRIDGE_KEY
+        fromService:
+          type: web
+          name: eyeze-api
+          envVarKey: WHATSAPP_BRIDGE_KEY
+      - key: GOOGLE_APPLICATION_CREDENTIALS   # add the key file as a Render Secret File named google-credentials.json
+        value: /etc/secrets/google-credentials.json
