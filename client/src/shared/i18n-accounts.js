@@ -22,4 +22,7 @@ loading: ['Loading…', 'लोड हो रहा है…', 'ಲೋಡ್ �
 loadFail: ['Could not load your reports. Check your connection.', 'रिपोर्ट लोड नहीं हो सकीं। इंटरनेट जाँचें।', 'ವರದಿಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ. ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ.'],
 optLogin: ['Optometrist login', 'ऑप्टोमेट्रिस्ट लॉगिन', 'ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್ ಲಾಗಿನ್'],
 optShort: ['Optometrist', 'ऑप्टोमेट्रिस्ट', 'ಆಪ್ಟೋಮೆಟ್ರಿಸ್ಟ್'],
+demoPhone: ['Demo: use the number {p}', 'डेमो: यह नंबर इस्तेमाल करें {p}', 'ಡೆಮೊ: ಈ ಸಂಖ್ಯೆ ಬಳಸಿ {p}'],
+useDemoPhone: ['Use demo number', 'डेमो नंबर डालें', 'ಡೆಮೊ ಸಂಖ್ಯೆ ಬಳಸಿ'],
+demoOtpIs: ['Demo OTP: {c}', 'डेमो OTP: {c}', 'ಡೆಮೊ OTP: {c}'],
 });

@@ -53,6 +53,10 @@ function UrgentModal() {
   );
 }
 
+// Demo login for judges and optometrists trying the app: a Supabase test phone number with a fixed code
+// (Authentication → Providers → Phone → test numbers: 917899654321=234567). No SMS is sent for it.
+const DEMO_PHONE = '7899654321', DEMO_OTP = '234567';
+
 function LoginModal() {
   const Lg = useStore(app, s => s.p.login), assisted = useStore(app, s => s.p.assisted);
   const ref = useRef(null);
@@ -70,6 +74,8 @@ function LoginModal() {
     <label className="fld"><span>{tt('phone')}</span><div className="phonef"><span>+91</span>
       <input ref={ref} type="tel" inputMode="numeric" maxLength={11} placeholder="98450 12345" value={Lg.phone} autoComplete="tel" onKeyDown={onKey} onChange={e => A.updateLogin({ phone: e.target.value })} /></div></label>
     <label className="check"><input type="checkbox" checked={assisted} onChange={e => A.setP({ assisted: e.target.checked })} /><span>{tt('helpL')}</span></label>
+    <p className="hint">{tt('demoPhone', { p: '+91 ' + DEMO_PHONE.slice(0, 5) + ' ' + DEMO_PHONE.slice(5) })}{' '}
+      <button type="button" className="lnk" onClick={() => A.updateLogin({ phone: DEMO_PHONE })}>{tt('useDemoPhone')}</button></p>
     {btns(tt('sendOtp'))}
   </>;
   else if (Lg.step === 'otp') b = <>
@@ -77,6 +83,7 @@ function LoginModal() {
     <div className="otp"><input ref={ref} inputMode="numeric" autoComplete="one-time-code" maxLength={6} style={{ width: 230, letterSpacing: 14 }} value={Lg.otp} aria-label="OTP" onKeyDown={onKey}
       onChange={e => { const v = e.target.value.replace(/\D/g, ''); A.updateLogin({ otp: v }); if (v.length === 6) setTimeout(A.loginNext, 200); }} /></div>
     {Lg.demoCode && <p className="hint">{tt('demoOtp', { c: Lg.demoCode })}</p>}
+    {!Lg.demoCode && Lg.phone === DEMO_PHONE && <p className="hint"><b>{tt('demoOtpIs', { c: DEMO_OTP })}</b></p>}
     {btns(tt('verify'))}
   </>;
   else b = <>
